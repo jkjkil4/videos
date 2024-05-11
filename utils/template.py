@@ -3,7 +3,7 @@ from janim.imports import *
 
 class Template(Timeline):
     CONFIG = Config(
-        font=['Consolas', 'LXGW WenKai Lite'],
+        font=['Consolas', 'Noto Sans S Chinese Medium'],
         asset_dir=[
             'assets',
             'audios'
@@ -20,7 +20,7 @@ class TitleTemplate(Template):
     background_color = '#222222'
 
     CONFIG = Config(
-        font=['Consolas', 'LXGW WenKai Lite']
+        font=['Consolas', 'Noto Sans S Chinese Medium']
     )
 
     def construct(self) -> None:
