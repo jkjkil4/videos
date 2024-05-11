@@ -62,6 +62,9 @@ opening_typ = '''
 #set text(font: "Noto Sans S Chinese", fill: luma(70%))
 #set page(width: 40em, height: auto)
 
+#let empty-par = par[#box()]
+#let fake-par = context empty-par + v(-measure(empty-par + empty-par).height)
+
 = 写在前面
 #fake-par
 原 Learn-OpenGL 教程在 C++ 中进行 OpenGL 开发教学，本教程使用 Python 的 ModernGL 进行教学，
