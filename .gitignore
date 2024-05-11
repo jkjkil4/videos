@@ -1,0 +1,9 @@
+*.pdf
+*.mp4
+*.mp3
+*.bat
+*.kdenlive
+*.psd
+2024/Bezier
+__pycache__
+result.json
