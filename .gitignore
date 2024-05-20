@@ -4,8 +4,12 @@
 *.bat
 *.kdenlive
 *.psd
+
 /env_osbpy
 /2024/Bezier
 /osu
+/logo.png
+
 __pycache__
 result.json
+
