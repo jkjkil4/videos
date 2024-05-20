@@ -4,6 +4,8 @@
 *.bat
 *.kdenlive
 *.psd
-2024/Bezier
+/env_osbpy
+/2024/Bezier
+/osu
 __pycache__
 result.json
