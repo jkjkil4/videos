@@ -17,6 +17,8 @@ class TitleTemplate(Template):
     str2 = 'Topic'
     str1_color = GREY_A
     str2_color = GREY_B
+    str1_font_size = 28
+    str2_font_size = 32
     background_color = '#222222'
 
     CONFIG = Config(
@@ -24,8 +26,14 @@ class TitleTemplate(Template):
     )
 
     def construct(self) -> None:
-        txt1 = Text(self.str1, color=self.str1_color, font_size=28, format=Text.Format.RichText)
-        txt2 = Text(self.str2, color=self.str2_color, font_size=32, format=Text.Format.RichText)
+        txt1 = Text(self.str1,
+                    color=self.str1_color,
+                    font_size=self.str1_font_size,
+                    format=Text.Format.RichText)
+        txt2 = Text(self.str2,
+                    color=self.str2_color,
+                    font_size=self.str2_font_size,
+                    format=Text.Format.RichText)
         txt = Group(txt1, txt2)
         txt.points.arrange(DOWN)
 
@@ -37,9 +45,24 @@ class TitleTemplate(Template):
 
 class SubtitleTemplate(Template):
     name = 'Subtitle'
+    stay_duration = 2
 
     def construct(self) -> None:
-        txt = Text(self.name, font_size=32, format=Text.Format.RichText)
+        self.txt = Text(self.name, font_size=32, format=Text.Format.RichText)
 
-        txt.show()
-        self.forward(2)
+        self.txt.show()
+        self.forward(self.stay_duration)
+
+
+class SubtitleTemplate2(SubtitleTemplate):
+    stay_duration = 1
+    title_kwargs = {}
+
+    def construct(self) -> None:
+        super().construct()
+
+        self.title = Title(self.name, **self.title_kwargs)
+        self.play(
+            Transform(self.txt, self.title.txt),
+            FadeIn(self.title.underline, at=0.5, duration=0.5)
+        )

@@ -63,9 +63,9 @@ class OsbPlayer(Timeline):
                 offset += img.points.box.width / 2 * LEFT
 
             if obj.origin in (Origin.TopLeft, Origin.TopCentre, Origin.TopRight):
-                offset += img.points.box.height / 2 * UP
-            elif obj.origin in (Origin.BottomLeft, Origin.BottomCentre, Origin.BottomRight):
                 offset += img.points.box.height / 2 * DOWN
+            elif obj.origin in (Origin.BottomLeft, Origin.BottomCentre, Origin.BottomRight):
+                offset += img.points.box.height / 2 * UP
 
             offset *= factor
             img.points.shift(offset)

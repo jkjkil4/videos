@@ -4,6 +4,7 @@
 *.bat
 *.kdenlive
 *.psd
+*.mov
 
 /env_osbpy
 /2024/Bezier
