@@ -23,23 +23,13 @@ class WhatIsJAnim(SubtitleTemplate2):
 
         self.forward()
 
-        t = self.play_audio(
-            Audio('1.mp3'),
-            begin=0.6,
-            end=2.9
-        )
-        self.subtitle('不少人可能听说过 manim，一个数学动画库', t)
+        t = self.aas('1.mp3', '不少人可能听说过 manim，一个数学动画库')
 
         self.prepare(FadeIn(manim, scale=1.2), at=0.8)
 
         self.forward_to(t.end + 0.6)
 
-        t = self.play_audio(
-            Audio('3.mp3'),
-            begin=0.7,
-            end=3.0
-        )
-        self.subtitle('我之前的这几期视频就是用 manim 做的', t)
+        t = self.aas('3.mp3', '我之前的这几期视频就是用 manim 做的')
 
         videos = Group(*[ImageItem(f'video{i+1}.png') for i in range(4)])
         videos.points.arrange()
@@ -56,21 +46,11 @@ class WhatIsJAnim(SubtitleTemplate2):
 
         self.forward_to(t.end + 1)
 
-        t = self.play_audio(
-            Audio('4.mp3'),
-            begin=0.4,
-            end=3.0
-        )
-        self.subtitle('但是，manim(gl) 毕竟偏向于是个人项目', t)
+        t = self.aas('4.mp3', '但是，manim(gl) 毕竟偏向于是个人项目')
 
         self.forward_to(t.end + 0.3)
 
-        t = self.play_audio(
-            Audio('5.mp3'),
-            begin=0.6,
-            end=3.5
-        )
-        self.subtitle('所以在使用的时候经常会遇到不太顺手的地方', t)
+        t = self.aas('5.mp3', '所以在使用的时候经常会遇到不太顺手的地方')
 
         loading = SVGItem(
             'Loading.svg',
@@ -101,30 +81,15 @@ class WhatIsJAnim(SubtitleTemplate2):
 
         self.forward(0.3)
 
-        t = self.play_audio(
-            Audio('6.mp3'),
-            begin=0.4,
-            end=3.3
-        )
-        self.subtitle('于是，对 manim 的源码进行了细致的挖掘后', t)
+        t = self.aas('6.mp3', '于是，对 manim 的源码进行了细致的挖掘后')
 
         self.forward_to(t.end + 0.2)
 
-        t = self.play_audio(
-            Audio('7.mp3'),
-            begin=0.4,
-            end=2.3
-        )
-        self.subtitle('我决定编写一个自己的动画库', t)
+        t = self.aas('7.mp3', '我决定编写一个自己的动画库')
 
         self.forward_to(t.end + 0.2)
 
-        t = self.play_audio(
-            Audio('8.mp3'),
-            begin=0.6,
-            end=1.6
-        )
-        self.subtitle('便有了 JAnim', t)
+        t = self.aas('8.mp3', '便有了 JAnim')
 
         janim = ImageItem('janim.png', height=1.2)
         janim.points.next_to(manim, DOWN)
@@ -144,21 +109,11 @@ class Comparison(SubtitleTemplate2):
 
         self.forward()
 
-        t = self.play_audio(
-            Audio('9.mp3'),
-            begin=0.7,
-            end=2.3
-        )
-        self.subtitle('在进行详细的介绍之前', t)
+        t = self.aas('9.mp3', '在进行详细的介绍之前')
 
         self.forward_to(t.end + 0.4)
 
-        t = self.play_audio(
-            Audio('10.mp3'),
-            begin=0.5,
-            end=3.9
-        )
-        self.subtitle('我会将 JAnim 与其它 “类 manim” 工具进行横向对比', t)
+        t = self.aas('10.mp3', '我会将 JAnim 与其它 “类 manim” 工具进行横向对比')
 
         self.forward_to(t.end)
 
@@ -288,26 +243,17 @@ class Comparison(SubtitleTemplate2):
 
         self.forward()
 
-        t = self.play_audio(
-            Audio('29.mp3'),
-            begin=0.8,
-            end=3.2
-        )
-        self.subtitle('接下来，我们主要谈 JAnim 功能的优缺点', t)
+        t = self.aas('29.mp3', '接下来，我们主要谈 JAnim 功能的优缺点',
+                     clip=(0.8, 3.2))
 
         self.forward_to(t.end + 0.4)
 
-        t = self.play_audio(
-            Audio('30.mp3'),
-            begin=0.5,
-            end=2.3
-        )
-        self.subtitle(
+        t = self.aas(
+            '30.mp3',
             [
                 '因此不涉及入门教程的部分',
                 '（你可以在文档中看到目前较为简略的入门教程和样例）'
             ],
-            t,
             scale=(1, 0.7)
         )
 
@@ -338,30 +284,16 @@ class Functions(SubtitleTemplate2):
     def construct(self) -> None:
         super().construct()
 
-        t = self.play_audio(
-            Audio('31.mp3'),
-            begin=0.9,
-            end=3.4
-        )
-        self.subtitle('JAnim 在很大程度上受到 manim 的启发', t)
+        t = self.aas('31.mp3', 'JAnim 在很大程度上受到 manim 的启发')
 
         self.forward_to(t.end + 0.4)
 
-        t = self.play_audio(
-            Audio('32.mp3'),
-            begin=0.5,
-            end=2.2
-        )
-        self.subtitle('因此，大部分的基础功能', t)
+        t = self.aas('32.mp3', '因此，大部分的基础功能',
+                     clip=(0.5, 2.2))
 
         self.forward_to(t.end + 0.3)
 
-        t = self.play_audio(
-            Audio('33.mp3'),
-            begin=0.1,
-            end=3.6
-        )
-        self.subtitle('例如几何形状插值、文字书写等效果都是足够完善的', t)
+        t = self.aas('33.mp3', '例如几何形状插值、文字书写等效果都是足够完善的')
 
         self.forward_to(t.end)
 
@@ -386,21 +318,13 @@ class Functions(SubtitleTemplate2):
         self.forward()
         self.play(FadeOut(code1_text))
 
-        t = self.play_audio(
-            Audio('34.mp3').mul(1.3),
-            begin=1.1,
-            end=3.7
-        )
-        self.subtitle('并且 JAnim 也解决了 manim 中的一些痛点', t)
+        t = self.aas('34.mp3', '并且 JAnim 也解决了 manim 中的一些痛点',
+                     mul=1.3)
 
         self.forward_to(t.end + 1)
 
-        t = self.play_audio(
-            Audio('35.mp3').mul(1.5),
-            begin=0.6,
-            end=5.0
-        )
-        # self.subtitle('在 JAnim 中，你可以使用 depth 指定绘制的优先级，保证层级关系', t)
+        t = self.aas('35.mp3', '在 JAnim 中，你可以使用 depth 指定绘制的优先级，保证层级关系',
+                     mul=1.5, clip=(0.6, 5.0))
 
         circle = Circle(color=RED, depth=0, fill_alpha=0.9)
         circle.points.shift(LEFT * 1.4)
@@ -461,21 +385,12 @@ class Functions(SubtitleTemplate2):
 
         self.forward()
 
-        t = self.play_audio(
-            Audio('36.mp3').mul(1.7),
-            begin=0.8,
-            end=2.9
-        )
-        self.subtitle('在 JAnim 中，你可以使用 prepare', t)
+        t = self.aas('36.mp3', '在 JAnim 中，你可以使用 prepare',
+                     mul=1.7)
 
         self.forward_to(t.end + 0.2)
 
-        t = self.play_audio(
-            Audio('37.mp3'),
-            begin=0.4,
-            end=3.8
-        )
-        self.subtitle('预先设置之后会进行的动画，而不在时间上前进', t)
+        t = self.aas('37.mp3', '预先设置之后会进行的动画，而不在时间上前进')
 
         txt = Text('TEXT')
         txt.points.shift(LEFT * 0.5 + DOWN)
@@ -563,12 +478,8 @@ class Functions(SubtitleTemplate2):
 
         self.forward(0.5)
 
-        t = self.play_audio(
-            Audio('38.mp3').mul([0.6, 1, 1]),
-            begin=0.6,
-            end=3.8
-        )
-        self.subtitle('这样给了你在这段时间上创建其它动画的机会', t)
+        t = self.aas('38.mp3', '这样给了你在这段时间上创建其它动画的机会',
+                     mul=[0.6, 1, 1])
 
         self.forward_to(t.end + 0.5)
 
@@ -578,21 +489,12 @@ class Functions(SubtitleTemplate2):
 
         self.forward()
 
-        t = self.play_audio(
-            Audio('39.mp3'),
-            begin=0.9,
-            end=4.5
-        )
-        self.subtitle('在 manim 中，许多动画方法会直接改动原物件的属性', t)
+        t = self.aas('39.mp3', '在 manim 中，许多动画方法会直接改动原物件的属性')
 
         self.forward_to(t.end + 0.7)
 
-        t = self.play_audio(
-            Audio('40.mp3'),
-            begin=0.6,
-            end=5.6
-        )
-        self.subtitle(
+        t = self.aas(
+            '40.mp3',
             '''
             #set text(font: ("Consolas", "Noto Sans S Chinese"))
             #stack(dir: ltr)[
@@ -607,7 +509,6 @@ class Functions(SubtitleTemplate2):
                 ) 的运作原理是在动画过程中
             ]
             ''',
-            t,
             use_typst_text=True
         )
 
@@ -631,12 +532,8 @@ class Functions(SubtitleTemplate2):
         self.play(*map(FadeIn, (circle, square_bg, manim)))
         self.forward_to(t.end + 0.3)
 
-        t = self.play_audio(
-            Audio('41.mp3'),
-            begin=0.4,
-            end=5.9
-        )
-        self.subtitle(
+        t = self.aas(
+            '41.mp3',
             '''
             #set text(font: ("Consolas", "Noto Sans S Chinese"))
             #stack(dir: ltr, spacing: 2pt)[
@@ -651,7 +548,7 @@ class Functions(SubtitleTemplate2):
                 来呈现插值的效果
             ]
             ''',
-            t,
+            clip=(0.4, 5.9),
             use_typst_text=True
         )
 
@@ -665,12 +562,7 @@ class Functions(SubtitleTemplate2):
         )
         self.forward()
 
-        t = self.play_audio(
-            Audio('42.mp3'),
-            begin=0.9,
-            end=3.8
-        )
-        self.subtitle('JAnim 中的动画方法不会改动原物件的属性', t)
+        t = self.aas('42.mp3', 'JAnim 中的动画方法不会改动原物件的属性')
 
         self.hide(arrow, tip, square, manim)
 
@@ -687,12 +579,7 @@ class Functions(SubtitleTemplate2):
 
         self.forward_to(t.end + 0.3)
 
-        t = self.play_audio(
-            Audio('43.mp3'),
-            begin=0.9,
-            end=4.0
-        )
-        self.subtitle('它完全只是在这个区段中显示插值的效果', t)
+        t = self.aas('43.mp3', '它完全只是在这个区段中显示插值的效果')
 
         arrow.points.shift(LEFT * 4)
         arrow.show()
@@ -703,12 +590,8 @@ class Functions(SubtitleTemplate2):
 
         self.forward(0.4)
 
-        t = self.play_audio(
-            Audio('44.mp3'),
-            begin=0.4,
-            end=2.6
-        )
-        self.subtitle(
+        t = self.aas(
+            '44.mp3',
             '''
             #set text(font: ("Consolas", "Noto Sans S Chinese"))
             #stack(dir: ltr, spacing: 2pt)[
@@ -719,7 +602,6 @@ class Functions(SubtitleTemplate2):
                 的属性产生影响
             ]
             ''',
-            t,
             use_typst_text=True
         )
 
@@ -730,76 +612,29 @@ class Functions(SubtitleTemplate2):
         )
         self.forward(0.5)
 
-        t = self.play_audio(
-            Audio('101.mp3'),
-            begin=0.6,
-            end=3.6
-        )
-        self.subtitle('JAnim 的预览窗口下方提供了时间轴控件', t)
-
+        t = self.aas('101.mp3', 'JAnim 的预览窗口下方提供了时间轴控件')
         self.forward_to(t.end + 0.3)
 
-        t = self.play_audio(
-            Audio('102.mp3'),
-            begin=0.6,
-            end=2.4
-        )
-        self.subtitle('你不仅可以前后调整进度', t)
-
+        t = self.aas('102.mp3', '你不仅可以前后调整进度')
         self.forward_to(t.end + 0.2)
 
-        t = self.play_audio(
-            Audio('103.mp3'),
-            begin=0.5,
-            end=3.3
-        )
-        self.subtitle('而且可以看到标注的动画起止时间', t)
-
+        t = self.aas('103.mp3', '而且可以看到标注的动画起止时间')
         self.forward_to(t.end + 1)
 
-        t = self.play_audio(
-            Audio('104.mp3'),
-            begin=0.7,
-            end=2.1
-        )
-        self.subtitle('并且，在 JAnim 中', t)
-
+        t = self.aas('104.mp3', '并且，在 JAnim 中')
         self.forward_to(t.end + 0.2)
 
-        t = self.play_audio(
-            Audio('105.mp3'),
-            begin=0.8,
-            end=2.3
-        )
-        self.subtitle('可以一键载入新的内容', t)
-
+        t = self.aas('105.mp3', '可以一键载入新的内容')
         self.forward_to(t.end + 0.5)
 
-        t = self.play_audio(
-            Audio('106.mp3'),
-            begin=0.6,
-            end=2.5
-        )
-        self.subtitle('而不必关掉窗口再次开启', t)
-
+        t = self.aas('106.mp3', '而不必关掉窗口再次开启')
         self.forward_to(t.end + 1.5)
 
-        t = self.play_audio(
-            Audio('107.mp3'),
-            begin=0.9,
-            end=3.5
-        )
-        self.subtitle('你应该也看到了，可以直接插入音频和字幕', t)
-
+        t = self.aas('107.mp3', '你应该也看到了，可以直接插入音频和字幕')
         self.forward_to(t.end + 0.4)
 
-        t = self.play_audio(
-            Audio('108.mp3'),
-            begin=0.4,
-            end=3.3
-        )
-        self.subtitle('这样你就可以把配音的工作流整合到动画制作中', t)
-
+        t = self.aas('108.mp3', '这样你就可以把配音的工作流整合到动画制作中',
+                     clip=(0.4, 3.3))
         self.forward_to(t.end + 1.5)
 
 
@@ -868,31 +703,23 @@ class Limits(SubtitleTemplate2):
 
 class Examples(Template):
     def construct(self) -> None:
-        t = self.play_audio(
-            Audio('201.mp3'),
-        )
-        self.subtitle('虽然说目前没有足够的项目积累', t)
+        t = self.aas('201.mp3', '虽然说目前没有足够的项目积累',
+                     clip=None)
 
         self.forward_to(t.end + 1)
 
-        t = self.play_audio(
-            Audio('202.mp3'),
-        )
-        self.subtitle('但是也有一些可供参考的实例', t)
+        t = self.aas('202.mp3', '但是也有一些可供参考的实例',
+                     clip=None)
 
         self.forward_to(t.end + 1)
 
-        t = self.play_audio(
-            Audio('203.mp3'),
-        )
-        self.subtitle('我也整了点活', t)
+        t = self.aas('203.mp3', '我也整了点活',
+                     clip=None)
 
         self.forward_to(t.end + 1)
 
-        t = self.play_audio(
-            Audio('204.mp3'),
-        )
-        self.subtitle('以上就是对 JAnim 特性的介绍，如果你有兴趣，欢迎来提 issue 和 PR', t)
+        t = self.aas('204.mp3', '以上就是对 JAnim 特性的介绍，如果你有兴趣，欢迎来提 issue 和 PR',
+                     clip=None)
 
         self.forward_to(t.end + 1)
 
