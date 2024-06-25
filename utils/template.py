@@ -8,7 +8,7 @@ class Template(Timeline):
             'assets',
             'audios'
         ],
-        output_dir=':/kdenlive/manim_src'
+        output_dir=':/kdenlive/janim_src'
     )
 
 
@@ -66,3 +66,12 @@ class SubtitleTemplate2(SubtitleTemplate):
             Transform(self.txt, self.title.txt),
             FadeIn(self.title.underline, at=0.5, duration=0.5)
         )
+
+
+class SubtitlesTemplate(Template):
+    subtitles: list[tuple[str, str]] = []
+
+    def construct(self) -> None:
+        for audio, subtitle in self.subtitles:
+            t = self.aas(audio, subtitle)
+            self.forward_to(t.end + 0.3)
