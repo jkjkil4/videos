@@ -939,12 +939,7 @@ class Prerequisite(Template):
     def construct(self) -> None:
         self.forward()
 
-        t = self.play_audio(
-            Voice('100.mp3').mul(1.2),
-            begin=1.6,
-            end=3.6
-        )
-        self.subtitle('由于 OpenGL 是一个图形 API', t)
+        t = self.aas('100.mp3', '由于 OpenGL 是一个图形 API')
 
         opengl = ImageItem('opengl.png', height=1.5)
         python = ImageItem('python.png', height=1.5)
@@ -958,30 +953,16 @@ class Prerequisite(Template):
 
         self.forward_to(t.end + 0.1)
 
-        t = self.play_audio(
-            Voice('101.mp3').mul(1.1),
-            begin=0.6,
-            end=2.2
-        )
-        self.subtitle('并不是一个独立的平台', t)
+        t = self.aas('101.mp3', '并不是一个独立的平台')
 
         self.forward_to(t.end + 0.2)
 
-        t = self.play_audio(
-            Audio('102.mp3').mul(1.5),
-            begin=1.1,
-            end=2.8
-        )
-        self.subtitle('它需要一个编程语言来工作', t)
+        t = self.aas('102.mp3', '它需要一个编程语言来工作')
 
         self.forward_to(t.end + 0.1)
 
-        t = self.play_audio(
-            Audio('103.mp3').mul(1.5),
-            begin=0.7,
-            end=2.3
-        )
-        self.subtitle('在这里我们使用的是 Python', t)
+        t = self.aas('103.mp3', '在这里我们使用的是 Python',
+                     clip=(0.9, 2.6))
 
         self.prepare(
             FadeIn(python),
@@ -990,12 +971,7 @@ class Prerequisite(Template):
 
         self.forward_to(t.end + 0.5)
 
-        t = self.play_audio(
-            Audio('104.mp3').mul(1.6),
-            begin=0.5,
-            end=4.5
-        )
-        self.subtitle('所以，有一定的 Python 基础在学习这个教程中是必不可少的', t)
+        t = self.aas('104.mp3', '所以，有一定的 Python 基础在学习这个教程中是必不可少的')
 
         self.prepare(
             Flash(python, flash_radius=1),
@@ -1004,40 +980,20 @@ class Prerequisite(Template):
 
         self.forward_to(t.end + 0.4)
 
-        t = self.play_audio(
-            Audio('105.mp3').mul(1.6),
-            begin=0.6,
-            end=3.8
-        )
-        self.subtitle('当然，我仍将尝试解释大部分用到的概念', t)
+        t = self.aas('105.mp3', '当然，我仍将尝试解释大部分用到的概念')
 
-        self.forward_to(t.end + 0.1)
+        self.forward_to(t.end + 0.3)
 
-        t = self.play_audio(
-            Voice('106.mp3'),
-            begin=0.5,
-            end=3.7
-        )
-        self.subtitle('所以，你并不一定要是一个 Python 专家才能来学习', t)
+        t = self.aas('106.mp3', '所以，你并不一定要是一个 Python 专家才能来学习')
 
         self.forward_to(t.end + 0.4)
 
-        t = self.play_audio(
-            Audio('107.mp3').mul(1.6),
-            begin=0.5,
-            end=4.1
-        )
-        self.subtitle('不过，请确保你至少应该能写个比 Hello World 复杂的程序', t)
+        t = self.aas('107.mp3', '不过，请确保你至少应该能写个比 Hello World 复杂的程序')
 
         self.forward_to(t.end)
         self.play(FadeOut(g))
 
-        t = self.play_audio(
-            Audio('108.mp3').mul(1.7),
-            begin=1.1,
-            end=3.5
-        )
-        self.subtitle('除此之外，我们也将用到一些数学知识', t)
+        t = self.aas('108.mp3', '除此之外，我们也将用到一些数学知识')
 
         square = Square(fill_alpha=1, stroke_alpha=0, color=GREY)
         arrow1 = Arrow(ORIGIN, RIGHT, buff=0, color=RED)
@@ -1068,66 +1024,31 @@ class Prerequisite(Template):
 
         self.forward_to(t.end + 0.7)
 
-        t = self.play_audio(
-            Audio('109.mp3'),
-            begin=0.9,
-            end=2.9
-        )
-        self.subtitle('同样我也会尝试解释这些概念', t)
+        t = self.aas('109.mp3', '同样我也会尝试解释这些概念')
 
-        self.forward_to(t.end + 0.4)
+        self.forward_to(t.end + 0.6)
 
-        t = self.play_audio(
-            Audio('112.mp3').mul(1.4),
-            begin=1,
-            end=2.1
-        )
-        self.subtitle('在必须的时候', t)
+        t = self.aas('112.mp3', '在必须的时候')
 
         self.forward_to(t.end + 0.1)
 
-        t = self.play_audio(
-            Audio('113.mp3').mul(1.4),
-            begin=0.7,
-            end=2.3
-        )
-        self.subtitle('我会链接一些不错的资料', t)
+        t = self.aas('113.mp3', '我会链接一些不错的资料')
 
         self.forward_to(t.end + 0.2)
 
-        t = self.play_audio(
-            Audio('114.mp3').mul(1.4),
-            begin=0.4,
-            end=2.6
-        )
-        self.subtitle('他们会将这些概念解释地更加全面', t)
+        t = self.aas('114.mp3', '他们会将这些概念解释地更加全面')
 
         self.forward_to(t.end + 0.5)
 
-        t = self.play_audio(
-            Audio('115.mp3').mul(1.4),
-            begin=0.7,
-            end=2.7
-        )
-        self.subtitle('不要被必须的数学知识吓到了', t)
+        t = self.aas('115.mp3', '不要被必须的数学知识吓到了')
 
         self.forward_to(t.end + 0.2)
 
-        t = self.play_audio(
-            Audio('116.mp3').mul(1.4),
-            begin=0.6,
-            end=4.0
-        )
-        self.subtitle('几乎所有的概念只要有基础的数学背景都可以理解', t)
+        t = self.aas('116.mp3', '几乎所有的概念只要有基础的数学背景都可以理解')
 
-        self.forward_to(t.end + 0.2)
+        self.forward_to(t.end + 0.5)
 
-        t = self.play_audio(
-            Audio('117.mp3').mul(1.4),
-            begin=0.7,
-            end=2.8
-        )
-        self.subtitle('我也会将数学的内容压缩至极限', t)
+        t = self.aas('117.mp3', '我也会将数学的内容压缩至极限')
 
         self.play(
             g.anim(rate_func=rush_into).points.scale(0),
@@ -1136,52 +1057,27 @@ class Prerequisite(Template):
         g.hide()
         self.forward(0.1)
 
-        t = self.play_audio(
-            Audio('118.mp3').mul(1.4),
-            begin=0.5,
-            end=3.7
-        )
-        self.subtitle('大部分的功能甚至都不需要你理解所有的数学知识', t)
+        t = self.aas('118.mp3', '大部分的功能甚至都不需要你理解所有的数学知识')
 
-        self.forward_to(t.end + 0.2)
+        self.forward_to(t.end + 0.5)
 
-        t = self.play_audio(
-            Audio('119.mp3').mul(1.4),
-            begin=0.8,
-            end=2.3
-        )
-        self.subtitle('因为数学是底层原理', t)
+        t = self.aas('119.mp3', '因为数学是底层原理')
 
         self.forward_to(t.end + 0.1)
 
-        t = self.play_audio(
-            Audio('120.mp3').mul(1.4),
-            begin=1.05,
-            end=3.9
-        )
-        self.subtitle('大多数情况下已经有别人替我们完成了这部分', t)
+        t = self.aas('120.mp3', '大多数情况下已经有别人替我们完成了这部分')
 
         gsvg = SVGItem('g.svg', color=GREEN)
         gsvg.points.scale(0.4)
 
         self.prepare(SpinInFromNothing(gsvg), at=0.2, duration=4)
-        self.forward_to(t.end + 0.1)
+        self.forward_to(t.end + 0.2)
 
-        t = self.play_audio(
-            Audio('121.mp3').mul(1.2),
-            begin=0.5,
-            end=1.7
-        )
-        self.subtitle('只要你会使用就行', t)
+        t = self.aas('121.mp3', '只要你会使用就行')
 
         self.forward_to(t.end + 0.2)
 
-        t = self.play_audio(
-            Audio('122.mp3').mul(1.4),
-            begin=0.6,
-            end=2.8
-        )
-        self.subtitle('但是知道它的原理也不是一件坏事', t)
+        t = self.aas('122.mp3', '但是知道它的原理也不是一件坏事')
 
         self.prepare(FadeOut(gsvg), at=1)
 
