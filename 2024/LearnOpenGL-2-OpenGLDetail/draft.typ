@@ -42,11 +42,11 @@
 
 = OpenGL 具体介绍
 
-这一节，我们会对 OpenGL 的一些背景知识进行介绍，虽然主要是一些文字内容，但是这对你理解 OpenGL 是什么、怎么用有一定的帮助。
+这一节，我们会对 OpenGL 的一些基本知识进行介绍，虽然主要是一些文字内容，但是这对你理解 OpenGL 是什么、怎么用有一定的帮助。
 
 == OpenGL 背景知识
 
-在前一节中，我们提到，可以使用 OpenGL 与显卡进行交互，进行快速的大批量图形渲染#pin(1)。所以说，一般而言，OpenGL 被认为是一个 API（Application Programming Interface，应用程序编程接口），包含了一系列可以操作图形、图像的函数#pin(2)。然而，OpenGL 本身其实并不是一个 API，它仅仅是一个由 #link("www.khronos.org")[Khronos 组织] 制定并维护的规范（Specification）#pin(3)。
+在前一节中我们提到，可以使用 OpenGL 与显卡进行交互，进行快速的大批量图形渲染#pin(1)。所以说一般而言，OpenGL 被认为是一个 API（Application Programming Interface，应用程序编程接口），包含了一系列可以操作图形、图像的函数#pin(2)。然而，OpenGL 本身其实并不是一个 API，它仅仅是一个由 #link("www.khronos.org")[Khronos 组织] 制定并维护的规范（Specification）#pin(3)。
 
 #p(1)[
   左边的框里放一些基本的 OpenGL 函数，右边放一个显卡，中间用一些线路表示数据交换

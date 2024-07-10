@@ -75,3 +75,12 @@ class SubtitlesTemplate(Template):
         for audio, subtitle in self.subtitles:
             t = self.aas(audio, subtitle)
             self.forward_to(t.end + 0.3)
+
+
+class SubtitlesTemplate2(Template):
+    subtitles: list[tuple[str, str, float, dict]] = []
+
+    def construct(self) -> None:
+        for audio, subtitle, delay, kw in self.subtitles:
+            t = self.aas(audio, subtitle, **kw)
+            self.forward_to(t.end + delay)
