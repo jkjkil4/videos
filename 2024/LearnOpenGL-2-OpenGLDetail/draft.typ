@@ -89,7 +89,7 @@ OpenGL 规范严格规定了每个函数该如何执行，以及它们的输出�
 
 #pagebreak()
 
-== OpenGL 核心模式立即渲染模式
+== OpenGL 核心模式与立即渲染模式
 
 早期的 OpenGL 使用#highlight[立即渲染模式]（Immediate Mode，也就是固定渲染管线），这个模式下绘制图形很方便，但是由于 OpenGL 的大多数功能都被库隐藏起来，开发者很少有控制 OpenGL 如何进行计算的自由。#pin(1)
 
@@ -145,7 +145,7 @@ OpenGL 规范严格规定了每个函数该如何执行，以及它们的输出�
 
 OpenGL 自身是一个巨大的状态机（State Machine）：一系列的变量描述 OpenGL 此刻应当如何运行。
 
-假设当我们想告诉 OpenGL 去画线段而不是三角形的时候，我们通过改变一些上下文变量来改变 OpenGL 状态，从而告诉 OpenGL 如何去绘图。一旦我们改变了 OpenGL 的状态为绘制线段，下一个绘制命令就会画出线段而不是三角形。
+假设我们想告诉 OpenGL 去画线段而不是三角形，我们通过改变一些上下文变量来改变 OpenGL 状态，从而告诉 OpenGL 如何去绘图。一旦我们改变了 OpenGL 的状态为绘制线段，下一个绘制命令就会画出线段而不是三角形。
 
 当使用 OpenGL 的时候，我们会遇到一些#highlight[状态设置函数]（State-changing Function），这类函数将会改变上下文。以及#highlight[状态使用函数]（State-using Function），这类函数会根据当前 OpenGL 的状态执行一些操作。
 

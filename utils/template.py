@@ -84,3 +84,32 @@ class SubtitlesTemplate2(Template):
         for audio, subtitle, delay, kw in self.subtitles:
             t = self.aas(audio, subtitle, **kw)
             self.forward_to(t.end + delay)
+
+
+class TextDisplayTemplate(Template):
+    typ_src = ''
+    write_duration = None
+    stay_duration = 2.5
+
+    def construct(self) -> None:
+        txt1 = TypstDoc(self.typ_src)
+        txt1.points.to_center()
+
+        rect = Rect(
+            Config.get.frame_width, 0.2,
+            stroke_alpha=0,
+            fill_alpha=1,
+            fill_color=RED_E
+        )
+        rect.points.to_border(UP, buff=0)
+        rect.points.shift(LEFT * Config.get.frame_width)
+
+        self.play(Write(txt1, duration=self.write_duration))
+        self.play(
+            rect.anim(rate_func=linear)
+            .points.shift(RIGHT * Config.get.frame_width),
+
+            duration=self.stay_duration
+        )
+        self.play(FadeOut(txt1), FadeOut(rect))
+        self.forward(0.5)
