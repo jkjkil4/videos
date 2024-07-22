@@ -276,3 +276,348 @@ class ModernGLAndGLFW(SubtitleTemplate2):
         self.prepare(Write(txt_glfw), at=1)
 
         self.forward_to(t.end + 1)
+
+
+typ1_src = '''
+#set text(font: "LXGW WenKai Lite")
+- 使用 anaconda 等工具创建更高版本的虚拟环境（推荐）
+- 卸载并安装更高版本（不推荐）
+'''
+
+
+class UpgradeMethods(Template):
+    def construct(self) -> None:
+        txt = TypstText(typ1_src)
+        sur = SurroundingRect(
+            txt,
+            buff=LARGE_BUFF,
+            color=None,
+            fill_color=BLACK,
+            fill_alpha=0.5,
+            stroke_alpha=0,
+            depth=1
+        )
+
+        self.show(sur)
+        self.play(Write(txt), FadeIn(sur, duration=0.3))
+        self.forward(2)
+
+
+class CreateWindowParams(Template):
+    def construct(self) -> None:
+        window = ImageItem('window-col.png', height=5).show()
+        width = window.points.box.width
+        height = window.points.box.height
+        woffset = RIGHT * width / 2
+        hoffset = DOWN * (height / 2 - 0.18)
+
+        hline = Group(
+            g := Group(
+                Line(-woffset + DOWN * 0.2, -woffset + UP * 0.2),
+                DoubleArrow(-woffset, woffset),
+                Line(woffset + DOWN * 0.2, woffset + UP * 0.2)
+            ),
+            Text('800').points.next_to(g[1], UP, buff=SMALL_BUFF).r
+        )
+        hline.points.next_to(window, UP, buff=SMALL_BUFF)
+
+        vline = Group(
+            g := Group(
+                Line(-hoffset + LEFT * 0.2, -hoffset + RIGHT * 0.2),
+                DoubleArrow(-hoffset, hoffset),
+                Line(hoffset + LEFT * 0.2, hoffset + RIGHT * 0.2)
+            ),
+            Text('600').points.rotate(PI / 2).next_to(g[1], LEFT, buff=SMALL_BUFF).r
+        )
+        vline.points.next_to(window, LEFT, buff=SMALL_BUFF, aligned_edge=DOWN)
+
+        rect = Rect(1.2, 0.5, color=YELLOW)
+        rect.points.shift(LEFT * 2.5 + UP * 2.35)
+
+        def growline(line):
+            direction = normalize(line[0][1].points.start_direction)
+            return AnimGroup(
+                GrowDoubleArrow(line[0][1]),
+                FadeIn(line[0][0], -direction, at=0.3, duration=0.7),
+                FadeIn(line[0][2], direction, at=0.3, duration=0.7),
+                Write(line[1], at=0.2, duration=0.8)
+            )
+
+        self.play(FadeIn(window, scale=1.2))
+        self.forward()
+        self.play(
+            growline(hline),
+            growline(vline),
+            lag_ratio=0.5
+        )
+        self.forward()
+        self.play(
+            ShowCreationThenFadeOut(
+                rect,
+                create_kwargs=dict(
+                    auto_close_path=False
+                )
+            )
+        )
+        self.forward()
+
+
+code1_template = '<fc #9cdcfe>ctx</fc><fc #cccccc>.</fc><fc #9cdcfe>viewport</fc>' \
+                 ' <fc #d4d4d4>=</fc><fc #cccccc> ' \
+                 '(</fc><fc #b5cea8>{:<3.0f}</fc><fc #cccccc>, </fc><fc #b5cea8>{:<3.0f}</fc><fc #cccccc>, </fc><fc #b5cea8>{:<3.0f}</fc><fc #cccccc>, </fc><fc #b5cea8>{:<3.0f}</fc><fc #cccccc>)</fc>'
+
+code1_src = code1_template.format(0, 0, 800, 600)
+
+class Viewport(Template):
+    def construct(self) -> None:
+        #########################################################
+
+        title = Title('Viewport').show()
+
+        window = ImageItem('window-col.png', width=6.5)
+        window.points.shift(LEFT * 2.5)
+
+        content = ImageItem('window-content.png', width=6.5)
+        content.points.next_to(window.points.box.bottom, UP, buff=0)
+
+        content_rect = Rect(content.points.box.get(DL), content.points.box.get(UR))
+
+        code1 = Text(code1_src, format=Text.Format.RichText)
+        code1.points.scale(0.8).next_to(content, aligned_edge=UP)
+
+        udl1 = Underline(code1[0][16:25], color=BLUE)
+        udl1.points.close_path()
+        udl2 = Underline(code1[0][26:34], color=GREEN)
+
+        dl = Circle(
+            0.1,
+            fill_alpha=1,
+            fill_color=BLACK,
+            stroke_color=BLUE,
+            depth=-1
+        )
+
+        wline = Line(color=GREEN, stroke_radius=0.05)
+        hline = Line(DOWN, UP, color=GREEN, stroke_radius=0.05)
+
+        xtracker = ValueTracker(0)
+        ytracker = ValueTracker(0)
+        wtracker = ValueTracker(800)
+        htracker = ValueTracker(600)
+
+        def code_updater(p: UpdaterParams) -> Text:
+            txt = Text(
+                code1_template.format(xtracker.current().data.get(),
+                                      ytracker.current().data.get(),
+                                      wtracker.current().data.get(),
+                                      htracker.current().data.get()),
+                format=Text.Format.RichText
+            )
+            txt.points.replace(code1)
+            return txt
+
+        def content_updater(data: ImageItem, p: UpdaterParams):
+            box = content_rect.points.box
+            data.points.set_size(
+                box.width * wtracker.current().data.get() / 800,
+                box.height * htracker.current().data.get() / 600
+            )
+            xoffset = box.width * xtracker.current().data.get() / 800
+            yoffset = box.height * ytracker.current().data.get() / 600
+            data.points.next_to(box.get(DL) + RIGHT * xoffset + UP * yoffset, UR, buff=0)
+
+        def dl_updater(data: Circle, p: UpdaterParams):
+            data.points.move_to(content.current().points.box.get(DL))
+
+        def wline_updater(data: Line, p: UpdaterParams):
+            box = content.current().points.box
+            data.points.set_width(box.width - 0.2)
+            data.points.next_to(box.get(DR), DOWN, buff=0, aligned_edge=RIGHT)
+
+        def hline_updater(data: Line, p: UpdaterParams):
+            box = content.current().points.box
+            data.points.set_height(box.height - 0.2)
+            data.points.next_to(box.get(UL), LEFT, buff=0, aligned_edge=UP)
+
+        dl_updater(dl, None)
+        wline_updater(wline, None)
+        hline_updater(hline, None)
+
+        #########################################################
+
+        window.show()
+
+        self.forward()
+        t = self.aas('24.mp3', '在我们开始渲染之前还有一件重要的事情要做')
+        self.forward_to(t.end + 0.6)
+        t = self.aas('25.mp3', '我们必须告诉 OpenGL 渲染区域的尺寸大小')
+
+        self.prepare(
+            FadeIn(content),
+            at=2
+        )
+
+        self.forward_to(t.end + 0.4)
+        t = self.aas('26.mp3', '即视口（Viewport）')
+
+        self.prepare(FadeIn(code1), duration=t.duration)
+
+        self.forward_to(t.end + 0.5)
+        t = self.aas('27.mp3', '这样 OpenGL 才只能知道怎样根据窗口大小显示数据和坐标')
+        self.forward_to(t.end + 0.7)
+        t = self.aas('28.mp3', '在这四个参数中')
+
+        self.prepare(
+            ShowCreationThenDestruction(
+                Underline(code1[0][16:34], color=YELLOW)
+            )
+        )
+
+        self.forward_to(t.end + 0.4)
+        t = self.aas('29.mp3', '前两个参数控制视口左下角的位置')
+
+        self.play(
+            Succession(
+                Create(udl1),
+                Transform(
+                    udl1, dl,
+                    hide_src=False,
+                    path_arc=-PI / 2,
+                    duration=1.3
+                ),
+                Wait(0.5),
+                AnimGroup(*[
+                    CircleIndicate(
+                        item,
+                        scale=2,
+                        rate_func=there_and_back_with_pause,
+                        duration=1.6
+                    )
+                    for item in [dl, code1[0][16:25]]
+                ])
+            )
+        )
+
+        # self.forward_to(t.end + 0.4)
+        self.forward(0.6)
+
+        t = self.aas('30.mp3', '第三个和第四个参数控制渲染视口的宽度和高度（像素）')
+
+        self.prepare(
+            Succession(
+                Create(udl2),
+                Wait(0.9),
+                Transform(udl2, wline, hide_src=False),
+                Transform(udl2, hline, hide_src=False)
+            )
+        )
+
+        self.forward_to(t.end + 0.8)
+
+        t = self.aas('30_2.mp3', '我们看看调整这些数值会有怎样的效果')
+        self.forward_to(t.end + 0.8)
+
+        def updater_anims():
+            return AnimGroup(
+                ItemUpdater(
+                    code1,
+                    code_updater,
+                    show_at_end=False
+                ),
+                DataUpdater(
+                    content,
+                    content_updater
+                ),
+                DataUpdater(
+                    dl,
+                    dl_updater
+                ),
+                DataUpdater(
+                    wline,
+                    wline_updater
+                ),
+                DataUpdater(
+                    hline,
+                    hline_updater
+                )
+            )
+
+        self.play(
+            Aligned(
+                Succession(
+                    wtracker.anim.data.set(600),
+                    htracker.anim.data.set(450),
+                    AnimGroup(
+                        xtracker.anim.data.set(100),
+                        ytracker.anim.data.set(50)
+                    )
+                ),
+                updater_anims()
+            )
+        )
+        code1 = code_updater(None).show()
+
+        self.forward()
+
+        t = self.aas('31.mp3', '（如果）我们将视口的大小设置得比 GLFW 窗口的小')
+        self.forward_to(t.end + 0.4)
+        t = self.aas('32.mp3', '这样子之后所有的 OpenGL 渲染将会在一个更小的区域中显示')
+
+        inrect = Rect(
+            stroke_alpha=0,
+            fill_color=YELLOW,
+            fill_alpha=0.6,
+            depth=-2
+        )
+        inrect.points.replace(content, stretch=True)
+
+        exrect = boolean_ops.Difference(
+            content_rect,
+            inrect,
+            stroke_alpha=0,
+            fill_color=YELLOW,
+            fill_alpha=0.6,
+            depth=-2
+        )
+
+        self.prepare(
+            FadeIn(
+                inrect,
+                show_at_end=False,
+                rate_func=there_and_back_with_pause,
+                duration=2,
+            ),
+            at=2.7
+        )
+
+        self.forward_to(t.end + 0.8)
+        t = self.aas('33.mp3', '这样子的话我们也可以将一些其它元素显示在 OpenGL 视口之外')
+
+        self.prepare(
+            FadeIn(
+                exrect,
+                show_at_end=False,
+                rate_func=there_and_back_with_pause,
+                duration=3,
+            ),
+            at=1.5
+        )
+
+        self.forward_to(t.end + 1)
+        t = self.aas('34.mp3', '一般来说我们设置成全范围就好了')
+
+        self.play(
+            Aligned(
+                AnimGroup(
+                    wtracker.anim.data.set(800),
+                    htracker.anim.data.set(600),
+                    xtracker.anim.data.set(0),
+                    ytracker.anim.data.set(0),
+                ),
+                updater_anims()
+            ),
+            at=1.2
+        )
+        code1 = code_updater(None).show()
+
+        self.forward_to(t.end + 2)
