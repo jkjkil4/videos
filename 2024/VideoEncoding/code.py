@@ -1,5 +1,6 @@
 # flake8: noqa
 import sys
+import random
 
 sys.path.append('.')
 
@@ -31,15 +32,6 @@ class OpenVideoFile(Template):
 
         video = Video('pb_crop.mp4', height=6)
 
-        rect = boolean_ops.Difference(
-            FrameRect(),
-            Rect(2, 1)
-                .points.shift(DOWN * 1.8 + RIGHT * 0.55).r,
-            stroke_alpha=0,
-            fill_alpha=0.5,
-            fill_color=BLACK
-        )
-
         #########################################################
 
         self.forward()
@@ -62,39 +54,87 @@ class OpenVideoFile(Template):
             FadeIn(video, scale=3, rate_func=rush_from),
             duration=0.5
         )
+        self.hide(file, cursor)
         video.start()
-        self.forward(1.5)
-        video.stop()
-        self.play(
-            video.anim.points.scale(3, about_edge=DOWN)
-        )
-        self.play(FadeIn(rect))
-        self.forward()
-        self.play(FadeOut(rect))
-        cursor.hide()
-        self.play(
-            video.anim.points.scale(1 / 3, about_edge=DOWN).shift(RIGHT * 3),
-            file.anim.points.shift(LEFT * 3)
-        )
-        self.forward()
+        self.forward(2)
 
         #########################################################
 
-        arrow = DoubleArrow(file, video, color=PURPLE)
-        rect2 = FrameRect(
+        circle = Circle(
+            depth=100,
             stroke_alpha=0,
-            fill_alpha=0.5,
-            fill_color=BLACK
-        )
-        invent = SVGItem('invent.svg', height=3)
+            fill_alpha=0.2,
+            color=PURPLE
+        ).show()
+
+        video_files = [
+            (RIGHT * 5, 'R_VID_20240807_172601.mp4'),
+            (DL * 5, 'R_VID_20240807_172609.mp4'),
+            (LEFT * 4.5 + UP * 4, 'R_VID_20240807_172622.mp4'),
+            (DOWN * 9 + RIGHT * 0.5, 'R_VID_20240807_172634.mp4'),
+            (UP * 9 + RIGHT * 2, 'R_VID_20240807_172645.mp4'),
+            (LEFT * 10 + DOWN * 3, 'R_VID_20240807_172700.mp4'),
+            (RIGHT * 10 + DOWN * 7.5, 'R_VID_20240807_172711.mp4'),
+            (LEFT * 11 + UP * 5, 'R_VID_20240807_172736.mp4'),
+            (RIGHT * 11 + UP * 1.5, 'R_VID_20240807_172745.mp4'),
+            (RIGHT * 8 + UP * 9, 'R_VID_20240807_172753.mp4'),
+            (LEFT * 5 + UP * 12, 'R_VID_20240807_172802.mp4'),
+            (LEFT * 6.5 + DOWN * 13.5, 'R_VID_20240807_172817.mp4'),
+            (RIGHT * 6 + DOWN * 10, 'R_VID_20240807_172827.mp4'),
+        ]
+
+        random.seed(114514)
+
+        videos = Group(*[
+            Video(file, width=4)
+                .points.shift(shift).scale(0.2 * random.random() + 0.9).r
+            for shift, file in video_files
+        ]).show()
+
+        for v in videos:
+            v.start(speed=0.5)
+        videos[2].start(speed=0.25)
+        videos[3].start(speed=0.25)
 
         #########################################################
 
-        self.play(GrowDoubleArrow(arrow))
-        self.forward()
         self.play(
-            FadeIn(rect2),
-            DrawBorderThenFill(invent, at=0.5)
+            Aligned(
+                circle.anim.points.scale(17),
+                self.camera.anim.points.scale(3),
+                FadeIn(
+                    videos,
+                    lag_ratio=0.5
+                )
+            ),
+            duration=3
+        )
+        self.forward()
+
+        #########################################################
+
+        hcircle = circle.copy()
+        hcircle.depth.set(-10)
+        hcircle.color.set(YELLOW_A, 1)
+
+        #########################################################
+
+        self.play(
+            FadeIn(hcircle, rate_func=linear),
+            rate_func=rush_into,
+            duration=0.3
+        )
+        self.hide(videos, circle, video)
+        self.play(
+            hcircle.anim.points.scale(0.02).r.color.set(alpha=0),
+            self.camera.anim.points.scale(1 / 3),
+            FadeIn(file, at=0.7, duration=0.3),
+            duration=0.8
+        )
+        self.forward()
+        file.depth.set(-10)
+        self.play(
+            Flash(file, color=[PURPLE, PURPLE_A], flash_radius=1, line_length=0.5)
         )
         self.forward()
 
@@ -131,16 +171,6 @@ class Title(Template):
         self.forward()
 
 
-typ1_src = '''
-#{
-    set text(fill: gray, size: 0.7em)
-    [
-        (yuv420p)
-    ]
-}
-#v(-0.5em)
-$1920 times 1080 times 1.5 = 3110400$
-'''
 
 
 class SimpleSolution(Template):
@@ -221,9 +251,31 @@ class SimpleSolution(Template):
         )
         self.forward()
 
+        self.play(frames[1:].anim.digest_styles(color=GREY))
+        self.forward()
+        self.play(frames[1:].anim.digest_styles(color=WHITE))
+        self.forward(2)
+
+        self.play(
+            ItemUpdater(
+                None,
+                lambda p: Sector(radius=9,
+                                 start_angle=PI / 2,
+                                 angle=-(1 - p.alpha) * TAU,
+                                 stroke_alpha=0,
+                                 fill_alpha=rush_from(p.alpha * 6) * 0.5 if p.alpha < 1/6 else 0.5,
+                                 color=PURPLE,
+                                 depth=100),
+                rate_func=linear
+            ),
+            duration=3
+        )
+        self.forward()
+
         #########################################################
 
         frame0_stat.points.scale(0.8).shift(LEFT * 2)
+        # frame0_stat[0].image.set(min_mag_filter=(mgl.LINEAR_MIPMAP_LINEAR, mgl.LINEAR))
 
         width = frame0_stat.points.box.width
         height = frame0_stat.points.box.height
@@ -275,26 +327,95 @@ class SimpleSolution(Template):
 
         #########################################################
 
-        typ1 = TypstDoc(typ1_src)
-        txt = Text('2.97 MB')
-        typtxt = Group(typ1, txt)
-        typtxt.points.arrange(DOWN, buff=MED_LARGE_BUFF, aligned_edge=LEFT)
-        typtxt.points.next_to(frame0_stat, aligned_edge=UP)
+        frame0R = frame0_stat.copy()
+        frame0R.digest_styles(color=RED)
+        frame0G = frame0_stat.copy()
+        frame0G.digest_styles(color=GREEN)
+        frame0B = frame0_stat.copy()
+        frame0B.digest_styles(color=BLUE)
+
+        frame0RGB = Group(frame0R, frame0G, frame0B).show()
+        frame0RGB.depth.arrange(10)
+        frame0RGB.points.scale(0.25).arrange(DOWN) \
+            .next_to(frame0_stat, buff=-0.2)
+
+        #########################################################
+
+        self.play(FadeIn(frame0RGB, RIGHT))
+        self.forward()
+
+        #########################################################
+
+        typ = Typst('1920 times 1080 times 3 times 8 "bit"')
+        txts = Group(
+            Text('= 49,766,400 bit'),
+            Text('= 6,220,800 B'),
+            Text('= 6075 KiB'),
+            Text('= 5.93 MiB')
+        )
+        for txt in txts[1:]:
+            txt.points.align_to(txts[0], LEFT)
+            txt.points.shift(UP * (txts[0][0].get_mark_orig() - txt[0].get_mark_orig()))
+        typtxt = Group(typ, txts)
+        typtxt.points.arrange(DOWN, buff=LARGE_BUFF, aligned_edge=LEFT)
+        typtxt.points.next_to(frame0_stat, aligned_edge=UP, buff=LARGE_BUFF)
+        typtxt.points.shift(DOWN * 0.2)
 
         frames.points.scale(1.2, about_edge=LEFT).shift(DOWN * 0.6)
+
+        desc1 = Text('像素尺寸', font_size=16, color=PURPLE_B)
+        desc1.points.next_to(typ[:9], DOWN)
+
+        desc2 = Text(
+            '[<c RED>R</c><c GREEN>G</c><c BLUE>B</c>]',
+            font_size=16,
+            color=PURPLE_B,
+            format=Text.Format.RichText
+        )
+        desc2.points.next_to(typ[9:11], DOWN)
+
+        desc3 = Text('每种颜色使用\n8bit 二进制位的空间存储', font_size=16, color=PURPLE_B)
+        desc3.points.next_to(typ[12:], DOWN, aligned_edge=LEFT)
 
         #########################################################
 
         self.play(
-            FadeIn(typ1[:9]),
-            Write(typ1[9:])
+            Write(typ[:9]),
+            Transform(
+                Group(hline[1], vline[1]),
+                Group(desc1),
+                hide_src=False,
+                path_arc=50 * DEGREES,
+                at=0.5
+            )
         )
         self.forward()
-        self.play(FadeIn(txt, scale=0.5))
+        self.play(
+            Write(typ[9:11]),
+            FadeTransform(frame0RGB, desc2, at=0.5)
+        )
         self.forward()
         self.play(
-            FadeOut(Group(hline, vline), duration=0.6),
-            typtxt.anim.points.align_to(frames, LEFT),
+            Write(typ[11:]),
+            FadeIn(desc3, at=0.5),
+        )
+        self.forward()
+        self.play(Write(txts[0]))
+        self.forward()
+        for txtp, txt in it.pairwise(txts):
+            self.play(
+                Uncreate(txtp),
+                Create(txt),
+                lag_ratio=0.5,
+                duration=0.4
+            )
+        self.forward()
+
+        typtxt = Group(typ, txts[-1])
+        self.play(
+            FadeOut(Group(hline, vline, desc1, desc2, desc3), duration=0.6),
+            typtxt.anim.points.arrange(DOWN, buff=MED_LARGE_BUFF, aligned_edge=LEFT)
+                .next_to(frames, UP, aligned_edge=LEFT),
             Transform(frame0_stat, frames[0]),
             FadeIn(frames[1:])
         )
@@ -302,7 +423,7 @@ class SimpleSolution(Template):
 
         #########################################################
 
-        txt30fps = Text('每秒 30 张')
+        txt30fps = Text('每秒 30 帧')
         txt30fps.points.next_to(txt, buff=LARGE_BUFF)
 
         txt1min = Text('1 分钟')
@@ -311,7 +432,7 @@ class SimpleSolution(Template):
         arrow = Arrow(ORIGIN, RIGHT * 5.7, color=GREY, depth=1)
         arrow.points.next_to(txt)
 
-        txtGB = Text('5.2 GB')
+        txtGB = Text('10.4 GiB')
         txtGB.points.next_to(arrow)
 
         #########################################################
@@ -349,34 +470,34 @@ class SimpleSolution(Template):
         self.forward(2)
 
 
-class TooLarge(Template):
+class CompareToWechat(Template):
     def construct(self) -> None:
         #########################################################
 
         bg = Group(
-            Circle(5),
-            Circle(3),
+            Circle(6, color='#1e1322', depth=100),
+            Circle(3, color='#33213a', depth=5),
             stroke_alpha=0,
-            fill_alpha=0.3,
-            fill_color=PURPLE_E,
-            depth=100
+            fill_alpha=1
         ).show()
 
-        txtGB = Text('5.2 GB', font_size=60).show()
-        qq = SVGItem('QQ.svg', height=1)
-        txt_cnt = Text('x28', font_size=40)
+        txtGB = Text('10.4 GiB', font_size=56).show()
+        wechat = SVGItem('wechat-fill.svg', height=1)
+        txt_cnt = Text('x40', font_size=40)
 
-        bottom = Group(qq, txt_cnt)
+        bottom = Group(wechat, txt_cnt)
         bottom.points.arrange()
 
         group = Group(txtGB, bottom)
-        group.points.arrange(DOWN, buff=LARGE_BUFF).shift(UP * 0.1)
-
-        tip = Text('（对于 186MB 的 PC 安装包而言）', font_size=12, color=GREY)
-        tip.points.next_to(bottom, DOWN)
+        group.points.arrange(DOWN, buff=LARGE_BUFF).shift(DOWN * 0.2)
 
         txtGB_stat = txtGB.copy()
         txtGB.points.to_center()
+
+        info = ImageItem('wechat-info.png', height=2, depth=100).show()
+
+        Group(bg, txtGB, txtGB_stat, wechat, txt_cnt, bottom, info) \
+            .points.shift(LEFT * 3)
 
         #########################################################
 
@@ -384,9 +505,25 @@ class TooLarge(Template):
         self.play(
             txtGB.anim.become(txtGB_stat),
             Write(bottom, at=0.4),
-            FadeIn(tip, at=0.9, duration=0.5)
+            info.anim(rate_func=rush_from)
+                .points.shift(RIGHT * 6)
         )
         self.forward()
+
+
+class TooLarge(Template):
+    def construct(self) -> None:
+        c = Circle(
+            3,
+            stroke_alpha=0,
+            fill_alpha=0.3,
+            fill_color=PURPLE_E
+        ).show()
+        g = Group(
+            ImageItem('computer.png'),
+            Text(': 请打开麦克风交流')
+        ).show()
+        g.points.arrange()
 
 
 class Difference(Template):
@@ -426,9 +563,9 @@ class Difference(Template):
         comp = Group(frame0, arrow, frame1)
         comp.points.arrange()
 
-        txt0 = Text('前一张', color=PURPLE_E, depth=-20)
+        txt0 = Text('前一帧', color=PURPLE_E, depth=-20)
         txt0.points.next_to(frame0.points.box.get(DL), UR, buff=SMALL_BUFF)
-        txt1 = Text('后一张', color=PURPLE_E, depth=-10)
+        txt1 = Text('后一帧', color=PURPLE_E, depth=-10)
         txt1.points.next_to(frame1.points.box.get(DL), UR, buff=SMALL_BUFF)
 
         think = ImageItem('think.png', width=1.5)
