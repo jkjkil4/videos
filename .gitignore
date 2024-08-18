@@ -6,6 +6,7 @@
 *.psd
 *.mov
 
+/.VSCodeCounter
 /env_osbpy
 /2024/Bezier
 /osu
