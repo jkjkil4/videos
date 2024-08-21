@@ -938,6 +938,40 @@ class VertexInput(Template):
         self.forward()
 
 
+code4_src = '''
+<fc #569cd6>#version</fc> <fc #b5cea8>330</fc><fc #cccccc> core</fc>
+
+<fc #569cd6>in</fc> <fc #569cd6>vec3</fc><fc #cccccc> in_vert;</fc>
+
+<fc #569cd6>void</fc><fc #cccccc> main()</fc>
+<fc #cccccc>{</fc>
+    <fc #9cdcfe>gl_Position</fc> <fc #d4d4d4>=</fc> <fc #569cd6>vec4</fc><fc #cccccc>(in_vert.x, in_vert.y, in_vert.z, </fc><fc #b5cea8>1.0</fc><fc #cccccc>);</fc>
+<fc #cccccc>}</fc>
+'''
+
+typ1_src = '''
+#align(center)[
+    #set text(font: "Consolas")
+    GLSL 330 $<=>$ OpenGL 3.3
+
+    GLSL 420 $<=>$ OpenGL 4.2
+
+    ......
+]
+'''
+
+typ2_src = '''
+#show raw: set text(font: ("Consolas", "LXGW WenKai Lite"))
+
+```glsl
+float
+vec2 // 由 2 个 float 组成
+vec3 // 由 3 个 float 组成
+vec4 // 由 4 个 float 组成
+```
+'''
+
+
 class VertexShader(Template):
     def construct(self) -> None:
         #########################################################
@@ -953,12 +987,177 @@ class VertexShader(Template):
         g = Group(pipeline, cover, depth=10000).fix_in_frame()
         g_stat = g.copy()
 
+        glsl = Text(
+            'GLSL\n<fs 0.7><c GREY>OpenGL Shading Language</c></fs>',
+            font_size=30,
+            format=Text.Format.RichText
+        )
+        glsl.points.arrange(DOWN)
+
+        code4 = Text(code4_src, font_size=18, format=Text.Format.RichText)
+
+        sur_config = dict(
+            stroke_radius=0.01,
+            fill_alpha=0.2,
+            color=YELLOW,
+            depth=10
+        )
+        psur = partial(SurroundingRect, **sur_config)
+
+        rect = psur(code4[1])
+
+        typ1 = TypstDoc(typ1_src)
+        typ1.points.shift(DOWN * 1.8 + RIGHT)
+
+        typ2 = TypstDoc(typ2_src)
+        typ2.points.shift(DOWN * 2.3 + RIGHT * 5.5)
+
+        vec4_var = Text('vec4', color='#569cd6')
+        vec4_coords = Text('.x\n.y\n.z\n.w')
+        vec4 = Group(vec4_var, Brace(vec4_coords, LEFT, color='#569cd6'), vec4_coords)
+        vec4.points.arrange().shift(UP * 0.7)
+
         #########################################################
 
         self.forward()
         self.play(FadeIn(cover))
         self.play(g.anim.points.shift(LEFT * 4.5 + DOWN * 3.8))
         self.forward()
+        self.play(Write(glsl))
+        self.forward()
+        self.play(
+            FadeOut(glsl),
+            Write(code4)
+        )
+        self.forward()
+        self.play(Write(rect))
+        self.forward()
+        self.play(
+            rect.anim.become(psur(code4[1][9:12])),
+            FadeIn(typ1)
+        )
+        self.forward()
+        self.play(
+            rect.anim.become(psur(code4[1][-4:])),
+            FadeOut(typ1, duration=0.6)
+        )
+        self.forward()
+        self.play(
+            rect.anim.become(psur(code4[3]))
+        )
+        self.forward()
+        self.play(FadeIn(typ2))
+        self.forward()
+        self.play(FadeOut(typ2))
+        self.forward()
+        self.play(
+            rect.anim.become(psur(code4[3][8:15]))
+        )
+        self.forward()
+        self.play(
+            rect.anim.become(psur(code4[3][3:7]))
+        )
+        self.forward()
+        self.play(
+            rect.anim.become(psur(code4[3][3:15]))
+        )
+        self.forward()
+
+        arrow = Arrow(rect, code4[7][30:32])
+        arrow.show()
+
+        self.forward()
+        self.play(
+            Transform(
+                arrow,
+                arrow := Arrow(rect, code4[7][41:43])
+            )
+        )
+        self.forward()
+        self.play(
+            Transform(
+                arrow,
+                arrow := Arrow(rect, code4[7][52:54])
+            )
+        )
+        self.forward()
+        arrow.hide()
+        self.forward()
+        self.play(Write(vec4))
+        self.forward()
+        self.play(
+            vec4_coords[-1].anim
+                .points.scale(1.5)
+                .r.color.set(YELLOW)
+        )
+        self.forward()
+        self.play(Uncreate(vec4))
+        self.forward()
+        self.play(
+            rect.anim.become(psur(code4[5:]))
+        )
+        self.forward()
+        self.play(
+            rect.anim.become(psur(code4[7]))
+        )
+        self.forward()
+
+        ########################################################
+
+        vec4 = Text('vec4', color='#569cd6')
+        vec4.points.next_to(code4[7][4:15], DOWN, buff=LARGE_BUFF).shift(RIGHT * 0.3)
+        arrow = Arrow(vec4, code4[7][4:15], color='#569cd6')
+
+        vec3sur = psur(code4[3][3:7])
+
+        vec3_args_udl = Underline(code4[7][23:54], color=YELLOW)
+        vec3_1d0_udl = Underline(code4[7][56:59], color=YELLOW)
+        vec3_1d0_udl.points.shift(DOWN * 0.06)
+
+        arrow_inout = Arrow()
+
+        ########################################################
+
+        self.play(
+            Write(vec4),
+            GrowArrow(arrow, rate_func=rush_from),
+            lag_ratio=0.5
+        )
+        self.forward()
+        self.play(
+            FadeOut(Group(vec4, arrow)),
+            rect.anim.color.fade(0.7)
+        )
+        self.forward()
+        self.play(
+            Write(vec3sur)
+        )
+        self.forward()
+        self.play(
+            Create(vec3_args_udl)
+        )
+        self.forward()
+        self.play(
+            Create(vec3_1d0_udl)
+        )
+        self.forward()
+        self.play(
+            FadeOut(Group(rect, vec3sur, vec3_args_udl, vec3_1d0_udl))
+        )
+        self.forward()
+        self.play(
+            FadeOut(code4),
+            g.anim.become(g_stat)
+        )
+        self.play(
+            FadeOut(cover)
+        )
+        self.forward()
+
+
+class FragmentShader(Template):
+    def construct(self) -> None:
+        pass
 
 
 class Notes(Template):
@@ -971,6 +1170,7 @@ class Notes(Template):
             '顶点数据 <fs 0.8>(Vertex Data)</fs>',
             '标准化设备坐标 <fs 0.8>(Normalized Device Coordinates)</fs>',
             '顶点缓冲对象 <fs 0.8>(Vertex Buffer Object, VBO)</fs>',
+            '顶点着色器 <fs 0.8>(Vertex Shader)</fs>',
         ]
 
         txts = Group(*[
