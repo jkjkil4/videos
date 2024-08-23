@@ -8,7 +8,8 @@ class Template(Timeline):
             'assets',
             'audios'
         ],
-        output_dir=':/kdenlive/janim_src'
+        output_dir=':/kdenlive/janim_src',
+        audio_channels=2
     )
 
 
