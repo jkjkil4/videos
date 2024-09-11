@@ -45,8 +45,6 @@ code4_src = '''<fc #9cdcfe>vao</fc><fc #d4d4d4> = </fc><fc #9cdcfe>ctx</fc><fc #
 
 
 class Intro(Template):
-    def timeout(self, delay, *args, **kwargs):
-        self.schedule(self.current_time + delay, *args, **kwargs)
     def construct(self) -> None:
         #########################################################
 
