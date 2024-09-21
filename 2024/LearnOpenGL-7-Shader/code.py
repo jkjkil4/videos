@@ -948,8 +948,370 @@ class InputAndOutput(SubtitleTemplate2):
         self.forward(2)
 
 
-class Uniform(SubtitleTemplate2):
+class Uniform1(SubtitleTemplate2):
     name = 'Uniform'
 
     def construct(self) -> None:
-        return super().construct()
+        super().construct()
+        self.title.fix_in_frame()
+        self.forward()
+
+        #########################################################
+
+        pipeline = ImageItem('pipeline.png').show()
+        arrow = Arrow(UL * 2.2, UL * 1.2, color=YELLOW)
+        # arrow2 = Arrow(UR * 2.2 + RIGHT, UR * 1.2 + RIGHT, color=YELLOW)
+        # arrow3 = Arrow(DR * 2.2 + RIGHT, DR * 1.2 + RIGHT, color=YELLOW)
+        # arrow4 = Arrow(DL * 2.2, DL * 1.2, color=YELLOW)
+        # arrows = Group(arrow1, arrow2, arrow3, arrow4)
+
+        #########################################################
+
+        # self.play(
+        #     *[
+        #         Transform(a, b, path_arc=-40 * DEGREES)
+        #         for a, b in it.pairwise(arrows)
+        #     ],
+        #     lag_ratio=1
+        # )
+        self.play(FadeIn(pipeline, scale=1.2))
+        self.forward()
+        self.play(Rotate(arrow, about_point=RIGHT * 0.5, angle=-280 * DEGREES))
+        self.forward()
+
+        #########################################################
+
+        def create_g(text: str):
+            g = Group(
+                Rect(
+                    1.2, 0.4,
+                    fill_alpha=1,
+                    fill_color=GOLD_E,
+                    stroke_color=GOLD
+                ),
+                Text(text)
+            )
+            g.points.next_to(arrow, DL)
+            return g
+
+        g1 = create_g('1.322')
+        g2 = create_g('0.721')
+
+        arrow_line = VItem(*arrow.points.get(), stroke_radius=0.04)
+
+        #########################################################
+
+        self.play(FadeIn(g1, DR))
+        self.forward()
+        self.play(
+            *[
+                ShowPassingFlash(arrow_line, time_width=0.2, rate_func=linear, duration=0.5)
+                for _ in range(5)
+            ],
+            lag_ratio=0.4
+        )
+        self.play(FadeIn(g2, DR), FadeOut(g1, DR))
+        self.play(
+            *[
+                ShowPassingFlash(arrow_line, time_width=0.2, rate_func=linear, duration=0.5)
+                for _ in range(5)
+            ],
+            lag_ratio=0.4
+        )
+        self.forward()
+
+        self.play(FadeOut(Group(g2, arrow, pipeline)))
+        self.forward()
+
+
+code9_src = '''
+<fc #569cd6>#version</fc> <fc #b5cea8>330</fc><fc #d4d4d4> core</fc>
+
+<fc #569cd6>uniform</fc> <fc #569cd6>vec4</fc><fc #d4d4d4> ourColor;   </fc><fc #6a9955>// 在 Python 代码中设定这个变量</fc>
+
+<fc #569cd6>out</fc> <fc #569cd6>vec4</fc><fc #d4d4d4> FragColor;</fc>
+
+<fc #569cd6>void</fc><fc #d4d4d4> main()</fc>
+<fc #d4d4d4>{</fc>
+<fc #d4d4d4>    FragColor = ourColor;</fc>
+<fc #d4d4d4>}</fc>
+'''
+
+code10_src = '''<fc #9cdcfe>prog</fc><fc #d4d4d4>[</fc><fc #ce9178>'ourColor'</fc><fc #d4d4d4>] = (</fc><fc #b5cea8>0.5</fc><fc #d4d4d4>, </fc><fc #b5cea8>0.0</fc><fc #d4d4d4>, </fc><fc #b5cea8>0.0</fc><fc #d4d4d4>, </fc><fc #b5cea8>1.0</fc><fc #d4d4d4>)</fc>'''
+
+code11_src = '''
+<fc #9cdcfe>time_value</fc><fc #d4d4d4> = </fc><fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>get_time</fc><fc #d4d4d4>()</fc>
+<fc #9cdcfe>green_value</fc><fc #d4d4d4> = (</fc><fc #4ec9b0>math</fc><fc #d4d4d4>.</fc><fc #dcdcaa>sin</fc><fc #d4d4d4>(</fc><fc #9cdcfe>time_value</fc><fc #d4d4d4>) / </fc><fc #b5cea8>2.0</fc><fc #d4d4d4>) + </fc><fc #b5cea8>0.5</fc>
+<fc #9cdcfe>prog</fc><fc #d4d4d4>[</fc><fc #ce9178>'ourColor'</fc><fc #d4d4d4>] = (</fc><fc #b5cea8>0.0</fc><fc #d4d4d4>, </fc><fc #9cdcfe>green_value</fc><fc #d4d4d4>, </fc><fc #b5cea8>0.0</fc><fc #d4d4d4>, </fc><fc #b5cea8>1.0</fc><fc #d4d4d4>)</fc>
+'''
+
+code12_src = '''
+<fc #6a9955># 导入需要的库</fc>
+<fc #c586c0>import</fc> <fc #4ec9b0>math</fc>
+
+<fc #c586c0>import</fc> <fc #4ec9b0>glfw</fc>
+<fc #c586c0>import</fc> <fc #4ec9b0>moderngl</fc> <fc #c586c0>as</fc> <fc #4ec9b0>mgl</fc>
+<fc #c586c0>import</fc> <fc #4ec9b0>numpy</fc> <fc #c586c0>as</fc> <fc #4ec9b0>np</fc>
+
+<fc #6a9955># 初始化 GLFW</fc>
+<fc #c586c0>if</fc> <fc #569cd6>not</fc> <fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>init</fc><fc #d4d4d4>():</fc>
+    <fc #c586c0>raise</fc> <fc #4ec9b0>Exception</fc><fc #d4d4d4>(</fc><fc #ce9178>'GLFW出错'</fc><fc #d4d4d4>)</fc>
+
+<fc #6a9955># 创建窗口</fc>
+<fc #9cdcfe>window</fc><fc #d4d4d4> = </fc><fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>create_window</fc><fc #d4d4d4>(</fc><fc #b5cea8>800</fc><fc #d4d4d4>, </fc><fc #b5cea8>600</fc><fc #d4d4d4>, </fc><fc #ce9178>'LearnOpenGL'</fc><fc #d4d4d4>, </fc><fc #569cd6>None</fc><fc #d4d4d4>, </fc><fc #569cd6>None</fc><fc #d4d4d4>)</fc>
+<fc #c586c0>if</fc> <fc #569cd6>not</fc> <fc #9cdcfe>window</fc><fc #d4d4d4>:</fc>
+    <fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>terminate</fc><fc #d4d4d4>()</fc>
+    <fc #c586c0>raise</fc> <fc #4ec9b0>Exception</fc><fc #d4d4d4>(</fc><fc #ce9178>'window出错'</fc><fc #d4d4d4>)</fc>
+
+<fc #6a9955># 获得上下文</fc>
+<fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>make_context_current</fc><fc #d4d4d4>(</fc><fc #9cdcfe>window</fc><fc #d4d4d4>)</fc>
+<fc #9cdcfe>ctx</fc><fc #d4d4d4> = </fc><fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #dcdcaa>create_context</fc><fc #d4d4d4>()</fc>
+
+<fc #6a9955># 视口</fc>
+<fc #569cd6>def</fc> <fc #dcdcaa>framebuffer_size_callback</fc><fc #d4d4d4>(</fc><fc #9cdcfe>window</fc><fc #d4d4d4>, </fc><fc #9cdcfe>width</fc><fc #d4d4d4>, </fc><fc #9cdcfe>height</fc><fc #d4d4d4>):</fc>
+    <fc #9cdcfe>ctx</fc><fc #d4d4d4>.</fc><fc #9cdcfe>viewport</fc><fc #d4d4d4> = (</fc><fc #b5cea8>0</fc><fc #d4d4d4>, </fc><fc #b5cea8>0</fc><fc #d4d4d4>, </fc><fc #9cdcfe>width</fc><fc #d4d4d4>, </fc><fc #9cdcfe>height</fc><fc #d4d4d4>)</fc>
+
+<fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>set_framebuffer_size_callback</fc><fc #d4d4d4>(</fc><fc #9cdcfe>window</fc><fc #d4d4d4>, </fc><fc #dcdcaa>framebuffer_size_callback</fc><fc #d4d4d4>)</fc>
+
+<fc #6a9955># 处理输入</fc>
+<fc #569cd6>def</fc> <fc #dcdcaa>process_input</fc><fc #d4d4d4>(</fc><fc #9cdcfe>window</fc><fc #d4d4d4>):</fc>
+    <fc #c586c0>if</fc> <fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>get_key</fc><fc #d4d4d4>(</fc><fc #9cdcfe>window</fc><fc #d4d4d4>, </fc><fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #9cdcfe>KEY_ESCAPE</fc><fc #d4d4d4>) == </fc><fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #9cdcfe>PRESS</fc><fc #d4d4d4>:</fc>
+        <fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>set_window_should_close</fc><fc #d4d4d4>(</fc><fc #9cdcfe>window</fc><fc #d4d4d4>, </fc><fc #569cd6>True</fc><fc #d4d4d4>)</fc>
+
+<fc #6a9955># 着色器程序</fc>
+<fc #9cdcfe>vertex_shader</fc><fc #d4d4d4> = </fc><fc #ce9178>\'''</fc>
+<fc #ce9178>#version 330 core</fc>
+
+<fc #ce9178>in vec3 in_vert;</fc>
+
+<fc #ce9178>void main()</fc>
+<fc #ce9178>{</fc>
+<fc #ce9178>    gl_Position = vec4(in_vert, 1.0);</fc>
+<fc #ce9178>}</fc>
+<fc #ce9178>\'''</fc>
+
+<fc #9cdcfe>fragment_shader</fc><fc #d4d4d4> = </fc><fc #ce9178>\'''</fc>
+<fc #ce9178>#version 330 core</fc>
+
+<fc #ce9178>uniform vec4 ourColor;   // 在OpenGL程序代码中设定这个变量</fc>
+
+<fc #ce9178>out vec4 FragColor;</fc>
+
+<fc #ce9178>void main()</fc>
+<fc #ce9178>{</fc>
+<fc #ce9178>    FragColor = ourColor;</fc>
+<fc #ce9178>}</fc>
+<fc #ce9178>\'''</fc>
+
+<fc #9cdcfe>prog</fc><fc #d4d4d4> = </fc><fc #9cdcfe>ctx</fc><fc #d4d4d4>.</fc><fc #dcdcaa>program</fc><fc #d4d4d4>(</fc><fc #9cdcfe>vertex_shader</fc><fc #d4d4d4>, </fc><fc #9cdcfe>fragment_shader</fc><fc #d4d4d4>)</fc>
+
+<fc #6a9955># 顶点数据</fc>
+<fc #9cdcfe>vertices</fc><fc #d4d4d4> = </fc><fc #4ec9b0>np</fc><fc #d4d4d4>.</fc><fc #dcdcaa>array</fc><fc #d4d4d4>([</fc>
+<fc #d4d4d4>    -</fc><fc #b5cea8>0.5</fc><fc #d4d4d4>, -</fc><fc #b5cea8>0.5</fc><fc #d4d4d4>, </fc><fc #b5cea8>0.0</fc><fc #d4d4d4>,</fc>
+     <fc #b5cea8>0.5</fc><fc #d4d4d4>, -</fc><fc #b5cea8>0.5</fc><fc #d4d4d4>, </fc><fc #b5cea8>0.0</fc><fc #d4d4d4>,</fc>
+     <fc #b5cea8>0.0</fc><fc #d4d4d4>,  </fc><fc #b5cea8>0.5</fc><fc #d4d4d4>, </fc><fc #b5cea8>0.0</fc>
+<fc #d4d4d4>], </fc><fc #9cdcfe>dtype</fc><fc #d4d4d4>=</fc><fc #ce9178>'f4'</fc><fc #d4d4d4>)</fc>
+
+<fc #9cdcfe>vbo</fc><fc #d4d4d4> = </fc><fc #9cdcfe>ctx</fc><fc #d4d4d4>.</fc><fc #dcdcaa>buffer</fc><fc #d4d4d4>(</fc><fc #9cdcfe>vertices</fc><fc #d4d4d4>.</fc><fc #dcdcaa>tobytes</fc><fc #d4d4d4>())</fc>
+
+<fc #6a9955># 顶点数组对象</fc>
+<fc #9cdcfe>vao</fc><fc #d4d4d4> = </fc><fc #9cdcfe>ctx</fc><fc #d4d4d4>.</fc><fc #dcdcaa>vertex_array</fc><fc #d4d4d4>(</fc><fc #9cdcfe>prog</fc><fc #d4d4d4>, </fc><fc #9cdcfe>vbo</fc><fc #d4d4d4>, </fc><fc #ce9178>'in_vert'</fc><fc #d4d4d4>)</fc>
+
+<fc #6a9955># 渲染循环</fc>
+<fc #c586c0>while</fc> <fc #569cd6>not</fc> <fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>window_should_close</fc><fc #d4d4d4>(</fc><fc #9cdcfe>window</fc><fc #d4d4d4>):</fc>
+    <fc #6a9955># 输入</fc>
+    <fc #dcdcaa>process_input</fc><fc #d4d4d4>(</fc><fc #9cdcfe>window</fc><fc #d4d4d4>)</fc>
+
+    <fc #6a9955># 渲染指令</fc>
+    <fc #9cdcfe>ctx</fc><fc #d4d4d4>.</fc><fc #dcdcaa>clear</fc><fc #d4d4d4>(</fc><fc #b5cea8>0.2</fc><fc #d4d4d4>, </fc><fc #b5cea8>0.3</fc><fc #d4d4d4>, </fc><fc #b5cea8>0.3</fc><fc #d4d4d4>)</fc>
+
+    <fc #9cdcfe>time_value</fc><fc #d4d4d4> = </fc><fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>get_time</fc><fc #d4d4d4>()</fc>
+    <fc #9cdcfe>green_value</fc><fc #d4d4d4> = (</fc><fc #4ec9b0>math</fc><fc #d4d4d4>.</fc><fc #dcdcaa>sin</fc><fc #d4d4d4>(</fc><fc #9cdcfe>time_value</fc><fc #d4d4d4>) / </fc><fc #b5cea8>2.0</fc><fc #d4d4d4>) + </fc><fc #b5cea8>0.5</fc>
+    <fc #9cdcfe>prog</fc><fc #d4d4d4>[</fc><fc #ce9178>'ourColor'</fc><fc #d4d4d4>] = (</fc><fc #b5cea8>0.0</fc><fc #d4d4d4>, </fc><fc #9cdcfe>green_value</fc><fc #d4d4d4>, </fc><fc #b5cea8>0.0</fc><fc #d4d4d4>, </fc><fc #b5cea8>1.0</fc><fc #d4d4d4>)</fc>
+    <fc #9cdcfe>vao</fc><fc #d4d4d4>.</fc><fc #dcdcaa>render</fc><fc #d4d4d4>(</fc><fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>TRIANGLES</fc><fc #d4d4d4>)</fc>
+
+    <fc #6a9955># 处理事件、交换缓冲</fc>
+    <fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>poll_events</fc><fc #d4d4d4>()</fc>
+    <fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>swap_buffers</fc><fc #d4d4d4>(</fc><fc #9cdcfe>window</fc><fc #d4d4d4>)</fc>
+
+<fc #6a9955># 终止 GLFW</fc>
+<fc #4ec9b0>glfw</fc><fc #d4d4d4>.</fc><fc #dcdcaa>terminate</fc><fc #d4d4d4>()</fc>
+'''
+
+
+class Uniform2(Template):
+    def construct(self) -> None:
+        title = Title('Uniform').show()
+
+        ########################################################
+
+        uniform_decl1 = Text(
+            '<fc #569cd6>uniform</fc> <fc #569cd6>类型</fc><fc #d4d4d4> 名称;</fc>',
+            format=Text.Format.RichText
+        )
+        uniform_decl2 = Text(
+            '<fc #569cd6>uniform</fc> <fc #569cd6>vec4</fc><fc #d4d4d4> ourColor;</fc>',
+            format=Text.Format.RichText
+        )
+
+        code9 = Text(
+            code9_src,
+            format=Text.Format.RichText,
+            font_size=16
+        )
+
+        sur_config = dict(
+            stroke_radius=0.01,
+            fill_alpha=0.2,
+            color=YELLOW,
+            depth=10
+        )
+        psur = partial(SurroundingRect, **sur_config)
+
+        uniform_sur = psur(code9[3][:22])
+
+        fragcolor_sur = psur(code9[9])
+
+        ########################################################
+
+        self.forward()
+        self.play(Write(uniform_decl1[0][:7]))
+        self.forward()
+        uniform_decl1.show()
+        self.forward()
+        self.play(
+            TransformInSegments(
+                uniform_decl1[0], [(0,7),(8,10),(11,14)],
+                uniform_decl2[0], [(0,7),(8,12),(13,22)]
+            )
+        )
+        self.forward()
+        # self.show(code9)
+        self.play(
+            Transform(uniform_decl2[0][:], code9[3][:22]),
+            FadeIn(Group(*[
+                line[22:]
+                if line is code9[3]
+                else line
+
+                for line in code9
+            ]))
+        )
+        self.forward()
+        self.play(FadeIn(uniform_sur))
+        self.forward()
+        self.play(Transform(uniform_sur, fragcolor_sur))
+        self.forward()
+        fadeout = code9[3][22:]
+        code9[3].remove(*code9[3][22:])
+
+        ########################################################
+
+        glslsur = partial(
+            SurroundingRect,
+            color=BLUE,
+            buff=0.2
+        )
+        shift = RIGHT * 5
+
+        fragsur = glslsur(code9)
+        fragsur.points.shift(shift)
+        fragtxt = Text('片段着色器', color=BLUE, font_size=18)
+        fragtxt.points.next_to(fragsur, DOWN, aligned_edge=LEFT, buff=SMALL_BUFF)
+        fragg = Group(fragsur, fragtxt)
+
+        pysur = Rect(6, fragsur.points.box.height, color=BLUE)
+        pysur.points.shift(LEFT * 2.3)
+        pytxt = Text('Python', color=BLUE, font_size=18)
+        pytxt.points.next_to(pysur, DOWN, aligned_edge=LEFT, buff=SMALL_BUFF)
+        pyg = Group(pysur, pytxt)
+
+        code10 = Text(
+            code10_src,
+            format=Text.Format.RichText,
+            font_size=16
+        )
+        code11 = Text(
+            code11_src,
+            format=Text.Format.RichText,
+            font_size=14
+        )
+
+        Group(code10, code11).points.move_to(pysur)
+
+        sur_config = dict(
+            stroke_radius=0.01,
+            fill_alpha=0.2,
+            color=YELLOW,
+            buff=0.05,
+            depth=10
+        )
+        psur = partial(SurroundingRect, **sur_config)
+
+        gettime_sur = psur(code11[1][13:])
+        sin_sur = psur(code11[2][14:])
+        grv_sur = psur(code11[3][19:])
+
+        code12 = Text(
+            code12_src,
+            format=Text.Format.RichText,
+            font_size=16
+        )
+        code12.points.shift(UP * 10)
+
+        ########################################################
+
+        self.play(
+            FadeOut(fadeout, duration=0.2),
+            FadeOut(fragcolor_sur, duration=0.2),
+            code9.anim.points.shift(shift),
+            FadeIn(fragg, RIGHT * 1.3, at=0.6, duration=0.4, rate_func=rush_from)
+        )
+        self.forward()
+        self.play(
+            FadeIn(pyg),
+            Write(code10)
+        )
+        self.forward()
+        self.play(
+            Transform(code10[:], code11[1:-1])
+        )
+        self.forward()
+        self.play(FadeIn(gettime_sur))
+        self.forward()
+        self.play(
+            Transform(gettime_sur, sin_sur),
+            code11[1][:10](VItem).anim.set_stroke_background() \
+                .stroke.set(YELLOW_E, 1),
+            code11[2][24:34](VItem).anim.set_stroke_background() \
+                .stroke.set(YELLOW_E, 1)
+        )
+        self.forward()
+        self.play(
+            Transform(sin_sur, grv_sur),
+            code11[2][:11](VItem).anim.set_stroke_background() \
+                .stroke.set(GREEN_E, 1),
+            code11[3][25:36](VItem).anim.set_stroke_background() \
+                .stroke.set(GREEN_E, 1)
+        )
+        self.forward()
+        self.play(FadeOut(grv_sur))
+        self.forward()
+        self.play(
+            FadeOut(Group(pysur, pytxt, fragsur, fragtxt, code9, title))
+        )
+        self.forward()
+        self.play(
+            FadeTransform(code11[1:-1], code12[80:83]),
+            FadeIn(code12[:80]),
+            FadeIn(code12[83:])
+        )
+        self.forward()
+        self.play(self.camera.anim.points.shift(UP * 20))
+        self.forward()
+        self.play(ShowCreationThenFadeAround(code12[2]))
+        self.forward()
+        self.play(self.camera.anim.points.shift(DOWN * 20))
+        self.forward()
+        self.play(ShowCreationThenFadeAround(code12[80:83]))
+        self.forward()
