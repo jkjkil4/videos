@@ -63,14 +63,32 @@ class Intro(Template):
         #########################################################
 
         self.forward()
-        self.play(FadeIn(dc))
-        self.play(Create(tri, auto_close_path=False))
-        self.forward()
+
+        t = self.aas('1.mp3', '在上一节我们使用三个顶点渲染了一个三角形')
+
         self.play(
-            FadeOut(dc),
-            tri.anim.digest_styles(**orange_config)
+            FadeIn(dc),
+            Create(tri, auto_close_path=False),
+            lag_ratio=1
         )
-        self.forward()
+        self.prepare(
+            FadeOut(dc),
+            tri.anim.digest_styles(**orange_config),
+            duration=1.6
+        )
+
+        self.forward_to(t.end + 1)
+
+        t = self.aas('2.mp3', '在渲染顶点这一话题上我们还有最后一个',
+                     clip=(0.6, 3.17))
+        self.forward_to(t.end)
+        t = self.aas('3.mp3', '需要讨论的东西——索引缓冲对象',
+                     clip=(0.22, 2.5))
+        self.forward_to(t.end + 0.3)
+        t = self.aas('4.mp3', '也叫元素缓冲对象')
+        self.forward_to(t.end + 0.6)
+        t = self.aas('5.mp3', '要解释索引缓冲对象的工作方式最好还是举个例子')
+        self.forward_to(t.end + 1)
 
         #########################################################
 
@@ -91,14 +109,34 @@ class Intro(Template):
 
         #########################################################
 
-        self.play(Transform(tri, rect))
-        self.forward()
-        self.play(
-            FadeIn(tri1, DL),
-            FadeIn(tri2, UR)
+        self.prepare(
+            Transform(tri, rect),
+            at=1.6
         )
-        self.forward()
-        self.play(Write(code1[1]), duration=1)
+
+        t = self.aas('6.mp3', '假设我们不再绘制一个三角形而是绘制一个矩形')
+        self.forward_to(t.end + 0.5)
+        t = self.aas('7.mp3', '由于 OpenGL 主要处理三角形')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
+            FadeIn(tri1, DL),
+            FadeIn(tri2, UR),
+            at=1
+        )
+
+        t = self.aas('8.mp3', '我们可以绘制两个三角形来组成一个矩形')
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(
+            Write(code1[1]),
+            duration=1,
+            at=0.7
+        )
+
+        t = self.aas('9.mp3', '这会生成下面的顶点的集合')
+        self.forward_to(t.end)
+
         tri1.depth.set(-1)
         self.play(
             Write(code1[2]),
@@ -107,7 +145,7 @@ class Intro(Template):
 
         def show_vert(v, line):
             dot = Dot(v, radius=0.2, color=YELLOW)
-            self.timeout(0.1, line.show)
+            self.timeout(0.15, line.show)
             self.play(FadeIn(dot, scale=0.5), duration=0.5)
             self.forward(0.2)
             self.hide(dot)
@@ -134,7 +172,10 @@ class Intro(Template):
             tri2.anim.color.set(WHITE)
         )
 
-        self.forward()
+        t = self.aas('10.mp3', '由于使用 mgl.TRIANGLES 的选项渲染时', delay=-0.4)
+        self.forward_to(t.end + 0.1)
+        t = self.aas('11.mp3', '会将每三个顶点渲染为一个三角形')
+        self.forward_to(t.end + 0.5)
 
         #########################################################
 
@@ -154,7 +195,7 @@ class Intro(Template):
 
         #########################################################
 
-        self.play(
+        self.prepare(
             AnimGroup(
                 Create(sur1),
                 tri1.anim(duration=0.7).fill.set(PURPLE, 1)
@@ -165,14 +206,23 @@ class Intro(Template):
                 tri2.anim(duration=0.7).fill.set(MAROON, 1)
                     .r.stroke.set(alpha=0)
             ),
-            lag_ratio=0.5
+            lag_ratio=0.5,
+            at=1
         )
-        self.forward()
-        self.play(FadeOut(Group(tris, sur1, sur2)))
-        self.forward()
+
+        t = self.aas('12.mp3', '所以这六个顶点就会绘制出两个三角形')
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(
+            FadeOut(Group(tris, sur1, sur2)),
+            at=1
+        )
+
+        t = self.aas('13.mp3', '在这里也就构成了一个矩形')
+        self.forward_to(t.end + 0.5)
+
         tris.become(tris_stat)
         self.play(FadeIn(tris))
-        self.forward()
 
         #########################################################
 
@@ -212,56 +262,86 @@ class Intro(Template):
 
         #########################################################
 
-        self.play(
+        t = self.aas('14.mp3', '可以发现，有几个顶点叠加了')
+        self.forward_to(t.end + 0.5)
+
+        self.prepare(
             FadeIn(dr_sur[:2]),
-            FadeIn(dr_sur[2], scale=0.5)
+            FadeIn(dr_sur[2], scale=0.5),
+            at=0.5
         )
-        self.forward()
-        self.play(
+
+        t = self.aas('15.mp3', '我们指定了右下角两次')
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(
             FadeOut(dr_sur),
             FadeIn(ul_sur[:2], at=0.3),
-            FadeIn(ul_sur[2], scale=0.5, at=0.3)
+            FadeIn(ul_sur[2], scale=0.5, at=0.3),
         )
-        self.forward()
-        self.play(FadeOut(ul_sur))
-        self.forward()
-        self.play(
+
+        t = self.aas('16.mp3', '左上角也是两次！')
+        self.forward_to(t.end + 0.5)
+
+        self.prepare(
+            FadeOut(ul_sur),
             *[
                 GrowArrow(arrow, rate_func=rush_from)
                 for arrow in arrows[:4]
             ]
         )
-        self.forward()
-        self.play(
+        self.prepare(
             Transform(Group(arrows[1]), Group(arrows[1], arrows[4])),
-            Transform(Group(arrows[3]), Group(arrows[3], arrows[5]))
+            Transform(Group(arrows[3]), Group(arrows[3], arrows[5])),
+            at=2
         )
-        self.forward()
-        self.play(FadeIn(trisimg))
-        self.forward()
+
+        self.forward(0.6)
+
+        t = self.aas('17.mp3', '本来只有 4 个顶点的矩形却用了 6 个顶点来表示')
+        self.forward_to(t.end + 0.4)
+
+        t = self.aas('18.mp3', '这样就产生了 50% 的额外开销')
+        self.forward_to(t.end + 0.7)
+
+        self.prepare(
+            FadeIn(trisimg, at=0.8)
+        )
+
+        t = self.aas('19.mp3', '当我们有包括上千个三角形的模型之后')
+        self.forward_to(t.end + 0.1)
+        t = self.aas('20.mp3', '这个问题会更糟糕')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('21.mp3', '这会产生一大堆浪费')
+        self.forward_to(t.end)
+
         self.play(FadeOut(trisimg))
-        self.forward()
-        self.play(
+        self.prepare(
             Transform(Group(arrows[1], arrows[4]), Group(arrows[1])),
-            Transform(Group(arrows[3], arrows[5]), Group(arrows[3]))
+            Transform(Group(arrows[3], arrows[5]), Group(arrows[3])),
+            at=0.9
         )
-        self.forward()
+
+        t = self.aas('22.mp3', '更好的解决方案是只储存不同的顶点')
+        self.forward_to(t.end + 0.5)
+        t = self.aas('23.mp3', '并设定绘制这些顶点的顺序')
 
         circle.points.move_to(arrows[0])
         circle.show()
-        self.forward(0.5)
+        self.forward(0.3)
         circle.points.move_to(arrows[1])
-        self.forward(0.5)
+        self.forward(0.3)
         circle.points.move_to(arrows[3])
-        self.forward(0.5)
+        self.forward(0.3)
         circle.points.move_to(arrows[1])
-        self.forward(0.5)
+        self.forward(0.3)
         circle.points.move_to(arrows[2])
-        self.forward(0.5)
+        self.forward(0.3)
         circle.points.move_to(arrows[3])
-        self.forward(0.5)
+        self.forward(0.3)
         circle.hide()
-        self.forward()
+
+        self.forward_to(t.end + 0.1)
 
         #########################################################
 
@@ -285,22 +365,56 @@ class Intro(Template):
 
         #########################################################
 
+        t = self.aas('24.mp3', '这样子我们只要储存 4 个顶点就能绘制矩形了')
+        self.forward_to(t.end + 0.3)
+        t = self.aas('25.mp3', '之后只要指定绘制的顺序就行')
+        self.forward_to(t.end + 0.4)
+        t = self.aas('26.mp3', '如果 OpenGL 提供这个功能就好了，对吧？')
+        self.forward_to(t.end + 0.6)
+        t = self.aas('27.mp3', f'值得庆幸的是，索引缓冲对象{s1}(IBO){s2}的工作方式正是如此',
+                     format=Text.Format.RichText)
+        self.forward_to(t.end + 0.8)
+
         arrows[5:].points.shift(RIGHT * 1.5)
-        self.play(
+        self.prepare(
             Group(arrows[:4], rect, tris).anim.points.shift(RIGHT * 1.5),
-            Write(Group(code2[1], code2[4:]), at=0.5)
+            Write(Group(code2[1], code2[4:]), at=0.5),
+            at=0.2
         )
-        self.forward()
-        self.play(FadeIn(sur, scale=0.8))
-        self.forward()
-        self.play(FadeOut(sur))
-        self.forward()
-        self.play(Uncreate(Group(code1[2], code1[5:8])))
+
+        t = self.aas('28.mp3', 'IBO 是一个缓冲区，就像一个顶点缓冲区对象一样')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
+            FadeIn(sur, scale=0.8),
+            at=0.4
+        )
+
+        t = self.aas('29.mp3', '它存储 OpenGL 用来决定要绘制哪些顶点的索引')
+        self.forward_to(t.end + 0.4)
+
+        self.prepare(
+            FadeOut(sur),
+            at=1
+        )
+
+        t = self.aas('30.mp3', f'这种所谓的索引绘制{s1}(Indexed Drawing){s2}正是我们问题的解决方案',
+                     format=Text.Format.RichText)
+        self.forward_to(t.end + 0.7)
+
+        self.prepare(Uncreate(Group(code1[2], code1[5:8])))
+
+        t = self.aas('31.mp3', '我们先把重复的去掉')
+        self.forward_to(t.end + 0.2)
+
         code1.remove(code1[2], *code1[5:8])
-        self.play(
-            code1.anim.arrange_in_lines()
+        self.prepare(
+            code1.anim.arrange_in_lines(),
+            at=0.3
         )
-        self.forward()
+
+        t = self.aas('32.mp3', '定义不重复的 4 个顶点')
+        self.forward_to(t.end + 0.4)
 
         #########################################################
 
@@ -322,7 +436,7 @@ class Intro(Template):
 
         #########################################################
 
-        self.play(
+        self.prepare(
             *[
                 FadeTransform(src, txt[0], path_arc=-60 * DEGREES, hide_src=False)
                 for src, txt in zip(
@@ -332,9 +446,14 @@ class Intro(Template):
             ],
             lag_ratio=0.5
         )
-        self.forward()
-        self.play(FadeIn(brect))
-        self.forward()
+
+        t = self.aas('33.mp3', '并且从 0 开始按顺序索引这些顶点')
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(FadeIn(brect, duration=1.4), at=0.5)
+
+        t = self.aas('34.mp3', '接着我们就可以给出绘制出矩形所需的索引')
+        self.forward_to(t.end + 0.3)
 
         circle.points.move_to(arrows[0])
         circle.show()
@@ -362,17 +481,28 @@ class Intro(Template):
         self.forward(0.5)
         circle.hide()
         self.play(FadeOut(brect))
-        self.forward()
-        self.play(FocusOn(code2[4][9:13]))
-        self.forward()
+        self.forward(0.5)
 
-        self.play(
+        t = self.aas('35.mp3', '另外需要注意的是，和 VBO 类似')
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(FocusOn(code2[4][9:13]), at=0.8)
+
+        t = self.aas('36.mp3', '这里我们指定 IBO 的数据类型是 \'i4\'')
+        self.forward_to(t.end + 0.5)
+        t = self.aas('37.mp3', f'表示每个索引使用 4 字节的整数{s1}(int){s2}存储',
+                     format=Text.Format.RichText)
+        self.forward_to(t.end + 1)
+
+        self.prepare(
             code1.anim.points.shift(DOWN * 1),
             code2.anim.points.shift(UP * 0.1),
             Group(rect, tris, arrows[:4], txts).anim
                 .points.shift(UR * 0.4).scale(0.8)
         )
-        self.forward()
+
+        t = self.aas('38.mp3', '我们把这个索引缓冲')
+        self.forward_to(t.end + 0.3)
 
         #########################################################
 
@@ -392,10 +522,30 @@ class Intro(Template):
 
         #########################################################
 
-        self.play(Write(code3))
-        self.forward()
-        self.play(Transform(code3[0][43:], code4[0][43:]))
-        self.forward()
+        self.prepare(
+            Write(code3),
+            Transform(code3[0][43:], code4[0][43:]),
+            lag_ratio=1
+        )
+
+        t = self.aas('39.mp3', '通过 index_buffer=ibo 的方式传递给 vao')
+        self.forward_to(t.end + 0.6)
+        t = self.aas('40.mp3', '这样设置后')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('41.mp3', '这个 vao 在渲染时就会参照这个索引缓冲')
+        self.forward_to(t.end)
+        t = self.aas('42.mp3', '渲染出两个三角形')
+        self.forward_to(t.end)
+
+        self.forward(2)
+
+
+class IntroExampleSubtitle(SubtitlesTemplate):
+    subtitles = [
+        ('43.mp3', '现在运行代码，你看到的还是这个橘黄色的矩形'),
+        ('44.mp3', '如果你遇到了什么问题'),
+        ('45.mp3', '可以参考一下这里给出的源码'),
+    ]
 
 
 class Notes(Template):

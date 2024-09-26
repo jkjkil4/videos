@@ -14,7 +14,7 @@ s2 = '</c></fs>'
 
 class TitleTl(TitleTemplate):
     str1 = 'Learn OpenGL'
-    str2 = '更多顶点属性（彩色三角形）'
+    str2 = '更多属性（彩色三角形）'
 
 
 code1_src = '''
@@ -91,19 +91,43 @@ class MoreAttr(Template):
         #########################################################
 
         self.forward()
-        self.play(FadeIn(frameg, scale=1.2))
-        self.play(FadeIn(hl1))
-        self.play(Transform(hl1, hl2))
-        self.play(
+
+        self.prepare(FadeIn(frameg, scale=1.2))
+
+        t = self.aas('1.mp3', '在前面的教程中')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(FadeIn(hl1), duration=1.5)
+
+        t = self.aas('2.mp3', '我们了解了如何填充 VBO')
+        self.forward_to(t.end + 0.4)
+
+        self.prepare(Transform(hl1, hl2), at=1.5)
+
+        t = self.aas('3.mp3', '以及如何将着色器程序与 VBO 绑定为一个 VAO')
+        self.forward_to(t.end + 0.8)
+
+        t = self.aas('4.mp3', '之前的这个顶点数据指定了三个顶点的位置')
+
+        self.prepare(
             FadeOut(hl2),
             frameg.anim(duration=1.5)
-                .points.scale(2).shift(LEFT * 3.95 + DOWN * 1.78)
+                .points.scale(2).shift(LEFT * 3.95 + DOWN * 1.78),
+            duration=t.duration
         )
-        self.play(FadeIn(verts, scale=0.8), FadeIn(hl3))
-        self.play(
+        self.prepare(FadeIn(verts, scale=0.8), FadeIn(hl3), at=2)
+
+        self.forward_to(t.end + 0.6)
+
+        self.prepare(
             verts.anim.color.set(['#ff0000', '#00ff00', '#0000ff'])
-                .r.radius.set(0.08)
+                .r.radius.set(0.08),
+            at=1.5
         )
+
+        t = self.aas('5.mp3', '这次，我们同样打算把颜色数据加进顶点数据中')
+        self.forward_to(t.end)
+
         self.play(
             Aligned(
                 verts.anim.points.shift(UR * 2 + LEFT * 0.5),
@@ -174,41 +198,95 @@ class MoreAttr(Template):
 
         #########################################################
 
-        self.play(FadeIn(hl4))
+        self.prepare(FadeIn(hl4), duration=2)
+
+        t = self.aas('6.mp3', '我们把颜色数据以 3 个 float 值的形式写到 vertices 数组中')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('7.mp3', '这样把三角形的三个角分别指定为红色、绿色和蓝色')
+        self.forward_to(t.end)
+
         self.play(FadeOut(hl4), FadeIn(surbox_vertdata, at=0.2))
-        self.play(
+
+        t = self.aas('8.mp3', '由于现在有更多的数据要发送到顶点着色器')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
             Write(code2),
             FadeIn(surbox_vert, scale=0.8),
             GrowArrow(arrow1),
             self.camera.anim(duration=1.5).points.shift(RIGHT * 6),
-            verts.anim.color.fade(0.5)
+            verts.anim.color.fade(0.5),
+            duration=2.6
         )
-        self.play(
+
+        t = self.aas('9.mp3', '我们有必要去调整一下顶点着色器')
+        self.forward_to(t.end + 0.4)
+
+        self.prepare(
             FadeIn(sur1),
-            FadeIn(sur2, at=0.2)
+            FadeIn(sur2, at=0.2),
+            at=1
         )
+
+        t = self.aas('10.mp3', '使它能够多接受一个颜色值作为输入')
+        self.forward_to(t.end + 0.8)
+        t = self.aas('11.mp3', '在顶点着色器这里')
+        self.forward_to(t.end + 0.2)
+
         self.play(
             FadeOut(sur1),
-            Transform(sur2, sur3, path_arc=40 * DEGREES)
+            Transform(sur2, sur3, path_arc=40 * DEGREES),
+            at=0.5
         )
-        self.play(
+
+        t = self.aas('12.mp3', '我们将 `v_color` 直接设置为从顶点数据那里得到的输入颜色')
+        self.forward_to(t.end + 0.8)
+
+        self.prepare(
             Write(code3),
             FadeIn(surbox_frag, scale=0.8),
             GrowArrow(arrow2),
             self.camera.anim(duration=1.5).points.shift(RIGHT * 6)
         )
-        self.play(
-            FadeIn(sur4)
+
+        t = self.aas('13.mp3', '在片段着色器这里', delay=0.5)
+        self.forward_to(t.end + 0.3)
+        t = self.aas('14.mp3', '我们不再使用 uniform 来传递片段的颜色了')
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(
+            FadeIn(sur4),
+            at=1,
+            duration=2
         )
+
+        t = self.aas('15.mp3', '而是使用从顶点着色器传递过来的 `v_color`')
+        self.forward_to(t.end)
+
         self.play(
             GrowArrow(arrow3),
             FadeIn(txt_result, at=0.2)
         )
+
         self.play(
             FadeOut(Group(sur3, sur4)),
             self.camera.anim(duration=2)
                 .points.shift(LEFT * 8 + DOWN).scale(1.2),
+            duration=1.5
         )
+
+        t = self.aas('16.mp3', '因为我们添加了另一个顶点属性')
+        t = self.aas('17.mp3', '并且更新了 VBO 的内存', delay=t.duration + 0.2)
+
+        self.prepare(
+            ShowPassingFlashAround(code2[4]),
+            at=1
+        )
+        self.prepare(
+            ShowPassingFlashAround(Rect([-0.11, -0.2, 0], [1.58, 0.84, 0])),
+            at=3
+        )
+        self.forward_to(t.end + 0.4)
 
         #########################################################
 
@@ -238,24 +316,54 @@ class MoreAttr(Template):
 
         #########################################################
 
-        self.play(ShowPassingFlashAround(code2[4]))
-        self.play(ShowPassingFlashAround(Rect([-0.11, -0.2, 0], [1.58, 0.84, 0])))
+        t = self.aas('18.mp3', '我们必须更改一下 VAO 中关于顶点属性绑定的声明')
+        self.forward_to(t.end)
+
         self.play(Write(code4))
-        self.play(ShowCreationThenFadeAround(code4[0][45:55]))
-        self.play(
-            Create(sur1),
-            Create(sur3),
-            self.camera.anim.points.scale(0.8).shift(UP * 0.8 + LEFT * 0.4)
+
+        t = self.aas('19.mp3', '可以发现')
+        self.forward_to(t.end)
+
+        self.prepare(
+            ShowCreationThenFadeAround(code4[0][45:55]),
+            at=1.5
         )
-        self.play(
+
+        t = self.aas('20.mp3', '这里我们加了一个对 in_color 属性的绑定')
+        self.forward_to(t.end + 0.4)
+        t = self.aas('21.mp3', '这表明将顶点数据传递给顶点着色器时')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
+            Create(sur1, at=0.7),
+            Create(sur3, at=0.7),
+            self.camera.anim.points.scale(0.8).shift(UP * 0.8 + LEFT * 0.4),
+        )
+
+        t = self.aas('22.mp3', '首先读取一个位置属性')
+        self.forward_to(t.end + 0.4)
+
+        self.prepare(
             Transform(sur1, sur2),
-            Transform(sur3, sur4)
+            Transform(sur3, sur4),
+            at=0.6,
+            duration=1.5
         )
-        self.play(
+
+        t = self.aas('23.mp3', '然后还要再读取一个颜色属性')
+        self.forward_to(t.end + 0.1)
+
+        self.prepare(
             Indicate(Group(sur2, sur4), scale_factor=1),
             CircleIndicate(Dot(verts.points.get()[0]), scale=1.2),
-            verts.anim(duration=0.5).color.set(alpha=[1, 0.5, 0.5])
+            verts.anim(duration=0.5).color.set(alpha=[1, 0.5, 0.5]),
+            at=0.4
         )
+
+        t = self.aas('24.mp3', '作为一个顶点的输入')
+        self.forward_to(t.end + 0.7)
+        t = self.aas('25.mp3', '依照这样的方式读取完三个顶点的属性')
+        self.forward_to(t.end)
 
         self.prepare(
             CircleIndicate(Dot(verts.points.get()[1]), scale=1.2),
@@ -278,12 +386,22 @@ class MoreAttr(Template):
         self.play(
             sur6.anim(duration=0.5).color.set(WHITE)
         )
+
+        t = self.aas('26.mp3', '这样顶点着色器就能正确地读取我们的顶点数据')
+        self.forward_to(t.end)
+
         self.play(
             Destruction(sur6),
             Destruction(sur2)
         )
-
         self.forward()
+
+
+class MoreAttrSubtitle(SubtitlesTemplate):
+    subtitles = [
+        ('27.mp3', '运行程序，你应该会看到这样的结果'),
+        ('28.mp3', '如果出现了什么问题，你可以参考这节的源代码'),
+    ]
 
 
 class FragInterp(Template):
@@ -302,15 +420,33 @@ class FragInterp(Template):
         #########################################################
 
         self.forward()
-        self.play(FadeOut(shaders3), FadeIn(verts))
-        self.play(FadeOut(verts), FadeIn(shaders3))
+
+        t = self.aas('29.mp3', '这个三角形可能与你想象的有点不同')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(FadeOut(shaders3), FadeIn(verts), duration=2)
+
+        t = self.aas('30.mp3', '因为我们只提供了三个颜色')
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(FadeOut(verts), FadeIn(shaders3), duration=2)
+
+        t = self.aas('31.mp3', '而不是我们现在看到的大调色板')
+        self.forward_to(t.end + 0.5)
+
         verts.radius.set(0.065)
-        self.play(
+        self.prepare(
             shaders3.anim.color.fade(0.5),
             FadeIn(verts),
             self.camera.anim.points.scale(0.6)
         )
-        self.play(ShowIncreasingSubsets(txt_fraginterp[0]))
+        self.prepare(
+            ShowIncreasingSubsets(txt_fraginterp[0]),
+            at=2
+        )
+
+        t = self.aas('32.mp3', '这是在片段着色器中进行所谓片段插值的结果')
+        self.forward_to(t.end)
 
         #########################################################
 
@@ -337,11 +473,20 @@ class FragInterp(Template):
         #########################################################
 
         self.play(FadeOut(txt_fraginterp))
-        self.play(
+
+        t = self.aas('33.mp3', '当渲染一个三角形时')
+        self.forward_to(t.end)
+
+        self.prepare(
             Create(hor_lines, lag_ratio=0.05),
             Create(ver_lines, lag_ratio=0.05, at=0.2),
-            duration=0.7
+            duration=0.7,
+            at=1.4
         )
+
+        t = self.aas('34.mp3', '光栅化阶段通常会造成比原指定顶点更多的片段', mul=1.2)
+        self.forward_to(t.end)
+
         self.play(
             Group(hor_lines, ver_lines)(VItem).anim.color.fade(0.7),
             duration=0.5
@@ -350,6 +495,8 @@ class FragInterp(Template):
         #     Destruction(hor_lines, lag_ratio=0.05),
         #     Destruction(ver_lines, lag_ratio=0.05, at=0.2)
         # )
+
+        ###########################################################
 
         points = verts.points.get()
         orig = points[1]
@@ -401,8 +548,23 @@ class FragInterp(Template):
             ])
 
         dot = Circle(radius=0.1, stroke_radius=0.01, fill_alpha=1)
-        dot_updater(dot, None)
 
+        ###########################################################
+
+        log.warning('35.mp3 爆音')
+        t = self.aas('35.mp3', '光栅会根据每个片段相对于三角形形状的相对位置', mul=1.2)
+
+        t = self.aas(
+            '36.mp3',
+            [
+                '插值片段着色器的所有输入变量',
+                '（对，所有，无论是颜色还是位置或者是你传递的某个向量）'
+            ],
+            scale=[1, 0.7],
+            delay=4
+        )
+
+        dot_updater(dot, None)
         self.play(
             Create(dot),
             FadeIn(arrows_updater(None), show_at_end=False)
@@ -410,31 +572,88 @@ class FragInterp(Template):
         self.prepare(
             DataUpdater(dot, dot_updater),
             ItemUpdater(None, arrows_updater),
-            duration=3.7
+            duration=5.5
         )
         self.play(
             p_tracker.anim.data.increment(UP * 0.4 + RIGHT * 0.05),
+            duration=1.5
         )
         self.play(
             p_tracker.anim.data.increment(DOWN * 0.8 + LEFT * 0.4),
-            duration=1.2
+            duration=1.8
         )
         self.play(
             p_tracker.anim.data.increment(RIGHT * 1 + UP * 0.2),
-            duration=1.5
+            duration=2.2
         )
         dot_updater(dot, None)
         self.play(Uncreate(dot), FadeOut(arrows_updater(None)))
-        self.play(
+
+        self.prepare(
             *[
                 CircleIndicate(Dot(pos))
                 for pos in verts.points.get()
-            ]
-        )
-        self.play(
-            shaders3.anim.color.set(alpha=1),
-            FadeOut(verts),
-            FadeOut(Group(hor_lines, ver_lines))
+            ],
+            at=2,
+            duration=2
         )
 
-        self.forward()
+        t = self.aas('37.mp3', '这也就导致了这个三角形的三个顶点是我们设置的三个颜色')
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(
+            shaders3.anim.color.set(alpha=1),
+            FadeOut(verts),
+            FadeOut(Group(hor_lines, ver_lines)),
+            at=0.4,
+            duration=1.6
+        )
+
+        t = self.aas('38.mp3', '而中间的部分是这三个颜色的过渡')
+        self.forward_to(t.end + 2)
+
+
+class Notes(Template):
+    CONFIG = Config(
+        fps=120
+    )
+    def construct(self) -> None:
+        notes = [
+            '顶点缓冲对象 <fs 0.8>(Vertex Buffer Object, VBO)</fs>',
+            '顶点数组对象 <fs 0.8>(Vertex Array Object, VAO)</fs>',
+        ]
+
+        txts = Group(*[
+            Text(note, font_size=12, format=Text.Format.RichText)
+            for note in notes
+        ])
+        txts.points.arrange(DOWN, buff=SMALL_BUFF, aligned_edge=LEFT)
+
+        bgf = partial(
+            SurroundingRect,
+            stroke_alpha=0.7,
+            fill_alpha=0.7,
+            fill_color=GREY_D,
+            stroke_color=GREY_B,
+            depth=100
+        )
+        bg = bgf(txts[0])
+
+        g = Group(bg, txts)
+
+        g.points.to_border(UR, buff=SMALL_BUFF)
+
+        self.play(
+            FadeIn(bg, duration=0.5),
+            Write(txts[0], duration=1)
+        )
+
+        for i, txt in enumerate(txts[1:], start=1):
+            self.forward(0.5)
+            self.play(
+                bg.anim(duration=0.3)
+                    .become(bgf(txts[:i + 1])),
+                Write(txt, duration=1)
+            )
+
+        self.forward(0.5)
