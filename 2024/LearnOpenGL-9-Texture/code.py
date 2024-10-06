@@ -44,12 +44,12 @@ class Intro(Template):
 
         verts = DotCloud(*points)
 
-        circles = Group(*[
+        circles = Group.from_iterable(
             Circle(0.2, color=c)
                 .points.move_to(p)
                 .r
             for p, c in zip(points, colors)
-        ])
+        )
 
         np.random.seed(114514)
         celeste_points = np.array([
@@ -134,7 +134,7 @@ class Intro(Template):
             txt.points.shift(p1 - txt[0].get_mark_orig())
             return txt
 
-        txts_vert = Group(*[
+        txts_vert = Group.from_iterable(
             get_text_by_two_point(
                 '顶点',
                 p1, p2,
@@ -147,9 +147,9 @@ class Intro(Template):
                 ([2.71, 0, 0], [3.09, 0.29, 0]),
                 ([5.18, -0.21, 0], [5.39, -0.64, 0])
             ]
-        ])
+        )
 
-        txts_color = Group(*[
+        txts_color = Group.from_iterable(
             get_text_by_two_point(
                 '颜色',
                 p1, p2,
@@ -164,7 +164,7 @@ class Intro(Template):
                 ([5.11, -1.62, 0], [5.39, -1.79, 0]),
                 ([4.52, -2.93, 0], [4.95, -2.93, 0])
             ]
-        ])
+        )
 
         txt_texture = Text(f'纹理\n{s1}Texture{s2}', font_size=36, format=Text.Format.RichText)
         txt_texture.points.arrange(DOWN)
@@ -646,17 +646,15 @@ class TexCoord(Template):
 
 class TexSettings(Template):
     def construct(self) -> None:
-        boxes = Group(
-            *[
-                Group(
-                    Rect(3, 0.7),
-                    Text(text)
-                )
-                for text in [
-                    '纹理环绕方式',
-                    '纹理过滤',
-                    '多级渐远纹理'
-                ]
+        boxes = Group.from_iterable(
+            Group(
+                Rect(3, 0.7),
+                Text(text)
+            )
+            for text in [
+                '纹理环绕方式',
+                '纹理过滤',
+                '多级渐远纹理'
             ]
         ).show()
         boxes.points.arrange(DOWN)
@@ -667,7 +665,9 @@ class TexSettings(Template):
         for box in boxes:
             self.play(
                 box(VItem).anim.color.set(YELLOW),
-                Group(*[b for b in boxes if b is not box])(VItem)
+                Group.from_iterable(
+                    b for b in boxes if b is not box
+                )(VItem)
                     .anim.color.fade(0.5),
                 duration=0.6
             )
@@ -790,34 +790,30 @@ class TexRepeat(Template):
 
         ques = Text('?', font_size=60, font='LXGW WenKai Lite')
 
-        quesg = Group(
-            *[
-                ques.copy()
-                    .points.shift(v * 3.5)
-                    .r
-                for v in [
-                    LEFT, RIGHT, UP, DOWN,
-                    UL, UR, DL, DR
-                ]
+        quesg = Group.from_iterable(
+            ques.copy()
+                .points.shift(v * 3.5)
+                .r
+            for v in [
+                LEFT, RIGHT, UP, DOWN,
+                UL, UR, DL, DR
             ]
         )
 
-        txts = Group(
-            *[
-                Text(
-                    text,
-                    stroke_background=True,
-                    stroke_color=BLACK,
-                    stroke_alpha=1,
-                    stroke_radius=0.04,
-                    font_size=30,
-                )
-                for text in [
-                    'GL_REPEAT',
-                    'GL_MIRRORED_REPEAT',
-                    'GL_CLAMP_TO_EDGE',
-                    'GL_CLAMP_TO_BORDER'
-                ]
+        txts = Group.from_iterable(
+            Text(
+                text,
+                stroke_background=True,
+                stroke_color=BLACK,
+                stroke_alpha=1,
+                stroke_radius=0.04,
+                font_size=30,
+            )
+            for text in [
+                'GL_REPEAT',
+                'GL_MIRRORED_REPEAT',
+                'GL_CLAMP_TO_EDGE',
+                'GL_CLAMP_TO_BORDER'
             ]
         )
 
@@ -1013,19 +1009,17 @@ class TexRepeat(Template):
 
         ###########################################################
 
-        wrappings = Group(
-            *[
-                Group(
-                    ImageItem(f'texture_wrapping{i}.png', height=3),
-                    Text(text, font_size=18)
-                ).points.arrange(DOWN, buff=SMALL_BUFF).r
-                for i, text in enumerate([
-                    'GL_REPEAT',
-                    'GL_MIRRORED_REPEAT',
-                    'GL_CLAMP_TO_EDGE',
-                    'GL_CLAMP_TO_BORDER'
-                ], start=1)
-            ]
+        wrappings = Group.from_iterable(
+            Group(
+                ImageItem(f'texture_wrapping{i}.png', height=3),
+                Text(text, font_size=18)
+            ).points.arrange(DOWN, buff=SMALL_BUFF).r
+            for i, text in enumerate([
+                'GL_REPEAT',
+                'GL_MIRRORED_REPEAT',
+                'GL_CLAMP_TO_EDGE',
+                'GL_CLAMP_TO_BORDER'
+            ], start=1)
         )
         wrappings(VItem).set_stroke_background()
         wrappings.points.arrange().move_to(self.camera).shift(UP)
