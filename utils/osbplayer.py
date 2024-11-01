@@ -31,6 +31,8 @@ class OsbPlayer(Timeline):
         offsetx = (Config.get.pixel_width - osu_width) / 2
         offsety = (Config.get.pixel_height - osu_height) / 2
 
+        scale_factor = Config.get.pixel_to_frame_ratio / Config.get.default_pixel_to_frame_ratio
+
         def map_x_from_osu(x: float) -> float:
             with self.with_config():
                 return -Config.get.frame_x_radius \
@@ -45,10 +47,13 @@ class OsbPlayer(Timeline):
             imgs = None
             if isinstance(obj, Sprite):
                 img = ImageItem(obj.file, depth=self.osu_depth)
+                img.points.scale(scale_factor)
             elif isinstance(obj, Animation):
                 root, ext = os.path.splitext(obj.file)
                 imgs = [
                     ImageItem(f'{root}{i}{ext}', depth=self.osu_depth)
+                        .points.scale(scale_factor)
+                        .r
                     for i in range(obj.frame_count)
                 ]
                 img = imgs[0]
@@ -67,7 +72,7 @@ class OsbPlayer(Timeline):
             elif obj.origin in (Origin.BottomLeft, Origin.BottomCentre, Origin.BottomRight):
                 offset += img.points.box.height / 2 * UP
 
-            offset *= factor
+            # offset *= factor
             img.points.shift(offset)
 
             flatten = obj.flatten()
