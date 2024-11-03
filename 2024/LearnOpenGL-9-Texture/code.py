@@ -245,15 +245,15 @@ class DynamicTriTextureRenderer(ImageItemRenderer):
         self.vbo_points.orphan(3 * 3 * 4)
         self.vbo_texcoords.orphan(3 * 2 * 4)
 
-        self.prev_texcoord = np.array([])
+        self.prev_texcoord = None
 
     def render(self, item: DynamicTriTexture) -> None:
-        new_texcoord = item.texcoord.value.data
+        new_texcoord = item.texcoord._points.data
         new_color = item.color._rgbas.data
         new_points = item.points._points.data
 
         if new_texcoord is not self.prev_texcoord:
-            self.vbo_texcoords.write(new_texcoord.tobytes())
+            self.vbo_texcoords.write(new_texcoord[:, :2].tobytes())
             self.prev_texcoord = new_texcoord
 
         if new_color is not self.prev_color:
@@ -288,31 +288,17 @@ class DynamicTriTextureRenderer(ImageItemRenderer):
 class DynamicTriTexture(ImageItem):
     renderer_cls = DynamicTriTextureRenderer
 
-    texcoord = CmptInfo(Cmpt_Data[Self, Array])
+    texcoord = CmptInfo(Cmpt_Points[Self])
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.points.set([DR, DL, UP]).stretch(1.2, dim=0)
-
-        array = Array(dtype='f4')
-        array.data = np.array([
-            [1.0, 0.0],
-            [0.0, 0.0],
-            [0.5, 1.0],
+        self.texcoord.set([
+            [1.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0],
+            [0.5, 1.0, 0.0],
         ])
-
-        def interpolate_func(a: Array, b: Array, t: float):
-            res = Array(dtype='f4')
-            res.data = interpolate(a.data, b.data, t)
-            return res
-
-        self.texcoord.set(array)
-        self.texcoord.set_func(
-            copy_func=lambda a: a.copy(),
-            maybe_same_func=lambda a, b: a.data is b.data,
-            interpolate_func=interpolate_func
-        )
 
 
 code1_src = '''
@@ -535,11 +521,9 @@ class TexCoord(Template):
         )
 
         def tri_wall_updater(data: DynamicTriTexture, p: UpdaterParams):
-            old = data.texcoord.get().data.copy()
-            old[2] = [top_x.current().data.get(), 1.0]
-            new = Array(dtype='f4')
-            new.data = old
-            data.texcoord.set(new)
+            points = data.texcoord.get().copy()
+            points[2, 0] = top_x.current().data.get()
+            data.texcoord.set(points)
 
         def updater_anim(value: float):
             return AnimGroup(
@@ -705,8 +689,8 @@ class CustomImgRenderer(ImageItemRenderer):
             (self.vbo_texcoords, '2f', 'in_texcoord')
         ])
 
-        self.prev_points = np.array([])
-        self.prev_color = np.array([])
+        self.prev_points = None
+        self.prev_color = None
         self.prev_img = None
 
 
@@ -741,11 +725,25 @@ class DynamicTriTextureRenderer2(DynamicTriTextureRenderer):
             (self.vbo_texcoords, '2f', 'in_texcoord')
         ])
 
-        self.prev_points = np.array([])
-        self.prev_color = np.array([])
+        self.prev_points = None
+        self.prev_color = None
         self.prev_img = None
 
-        self.prev_texcoord = np.array([])
+        self.prev_texcoord = None
+
+
+code2_src = '''
+<fc #9cdcfe>img</fc><fc #d4d4d4> = </fc><fc #4ec9b0>Image</fc><fc #d4d4d4>.</fc><fc #dcdcaa>open</fc><fc #d4d4d4>(</fc><fc #ce9178>'container.jpg'</fc><fc #d4d4d4>)</fc>
+<fc #9cdcfe>texture</fc><fc #d4d4d4> = </fc><fc #9cdcfe>ctx</fc><fc #d4d4d4>.</fc><fc #dcdcaa>texture</fc><fc #d4d4d4>(</fc><fc #9cdcfe>img</fc><fc #d4d4d4>.</fc><fc #9cdcfe>size</fc><fc #d4d4d4>, </fc><fc #9cdcfe>components</fc><fc #d4d4d4>=</fc><fc #b5cea8>3</fc><fc #d4d4d4>, </fc><fc #9cdcfe>data</fc><fc #d4d4d4>=</fc><fc #9cdcfe>img</fc><fc #d4d4d4>.</fc><fc #dcdcaa>tobytes</fc><fc #d4d4d4>())</fc>
+
+<fc #9cdcfe>texture</fc><fc #d4d4d4>.</fc><fc #9cdcfe>repeat_x</fc><fc #d4d4d4> = </fc><fc #569cd6>True</fc>
+<fc #9cdcfe>texture</fc><fc #d4d4d4>.</fc><fc #9cdcfe>repeat_y</fc><fc #d4d4d4> = </fc><fc #569cd6>True</fc>
+'''
+
+code3_src = '''
+<fc #d4d4d4>.</fc><fc #9cdcfe>repeat_x</fc><fc #d4d4d4> = </fc><fc #569cd6>False</fc>
+<fc #d4d4d4>.</fc><fc #9cdcfe>repeat_y</fc><fc #d4d4d4> = </fc><fc #569cd6>False</fc>
+'''
 
 
 class TexRepeat(Template):
@@ -894,10 +892,10 @@ class TexRepeat(Template):
         tri_mdl = DynamicTriTexture('madeline.png')
         tri_mdl.renderer_cls = DynamicTriTextureRenderer2
         tri_mdl.points.shift(RIGHT * 7).scale(1.6)
-        tri_mdl.texcoord.value.data = np.array([
-            [1.0, 1.0],
-            [0.0, 1.0],
-            [0.5, 0.0]
+        tri_mdl.texcoord.set([
+            [1.0, 1.0, 0.0],
+            [0.0, 1.0, 0.0],
+            [0.5, 0.0, 0.0]
         ])
 
         right_x = ValueTracker(1.0)
@@ -961,11 +959,9 @@ class TexRepeat(Template):
         line_updater(line, None)
 
         def tri_updater(data: DynamicTriTexture, p: UpdaterParams):
-            nparr = data.texcoord.value.data.copy()
-            nparr[0, 0] = right_x.current().data.get()
-            arr = Array(dtype='f4')
-            arr.data = nparr
-            data.texcoord.set(arr)
+            points = data.texcoord.get().copy()
+            points[0, 0] = right_x.current().data.get()
+            data.texcoord.set(points)
 
         ############################################################
 
@@ -1022,7 +1018,36 @@ class TexRepeat(Template):
             ], start=1)
         )
         wrappings(VItem).set_stroke_background()
-        wrappings.points.arrange().move_to(self.camera).shift(UP)
+        wrappings.points.arrange().move_to(self.camera).shift(UP * 1.5)
+
+        code2 = Text(
+            code2_src,
+            font_size=20,
+            format=Text.Format.RichText
+        )
+        code2.points.next_to(wrappings, DOWN, buff=LARGE_BUFF)
+
+        repeat_g = Group(
+            code2[4][7:],
+            code2[5][7:]
+        )
+
+        code3 = Text(
+            code3_src,
+            font_size=20,
+            format=Text.Format.RichText
+        )
+        code3.points.next_to(wrappings[2], DOWN, buff=MED_LARGE_BUFF)
+
+        code4 = Text(
+            '<fc #9cdcfe>ctx</fc><fc #d4d4d4>.</fc><fc #dcdcaa>sampler</fc>',
+            font_size=20,
+            format=Text.Format.RichText
+        )
+        code4.points.next_to(wrappings[3], DOWN, buff=MED_LARGE_BUFF)
+
+        cross = SVGItem('cross.svg', height=1)
+        cross.points.next_to(wrappings[1], DOWN, buff=MED_LARGE_BUFF)
 
         ###########################################################
 
@@ -1032,5 +1057,974 @@ class TexRepeat(Template):
             FadeIn(wrappings[0][0], at=0.4),
             FadeIn(wrappings[1:], at=0.4)
         )
+        self.play(
+            Write(code2)
+        )
+        self.play(
+            code2[:3](VItem).anim.color.fade(0.7),
+            ShowPassingFlashAround(code2[4:], at=0.5)
+        )
+        self.play(
+            FadeOut(code2[:3], duration=0.4),
+            FadeOut(code2[4][:7], duration=0.4),
+            FadeOut(code2[5][:7], duration=0.4),
+            repeat_g.anim.points.next_to(wrappings[0], DOWN, buff=MED_LARGE_BUFF)
+        )
+        self.play(
+            FadeTransform(
+                repeat_g,
+                Group.from_iterable(Group(*line) for line in code3[1:-1]),
+                hide_src=False,
+                path_arc=40 * DEGREES
+            )
+        )
+        self.play(
+            ShowCreationThenDestructionAround(Group(wrappings[2], code3))
+        )
+        self.play(
+            FadeIn(code4, UP)
+        )
+        self.play(
+            FadeIn(cross, scale=0.8)
+        )
 
         self.forward()
+
+
+code5_src = '''
+<fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>NEAREST</fc>
+<fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>LINEAR</fc>
+'''
+
+
+class TexFilter(Template):
+    def construct(self) -> None:
+        ############################################################
+
+        crow02 = PixelImageItem('crow02.png', height=2)
+
+        axes = Axes(
+            (0, 1.5),
+            (0, 1.5),
+            unit_size=2,
+            axis_config=dict(
+                include_tip=True,
+                include_numbers=True,
+            ),
+            x_axis_config=dict(
+                numbers_to_exclude=[]
+            ),
+            depth=-0.5
+        )
+        axes.points.shift(crow02.points.box.get(DL) - axes.c2p(0, 0))
+
+        path = VItem(
+            [-0.48, -0.28, 0], [-0.35, -0.41, 0], [-0.24, -0.4, 0], [-0.15, -0.33, 0], [-0.07, -0.24, 0],
+            [0.06, -0.23, 0], [0.1, -0.31, 0], [0.03, -0.44, 0], [-0.05, -0.55, 0], [-0.02, -0.61, 0],
+            [0.09, -0.55, 0], [0.17, -0.47, 0], [0.21, -0.34, 0], [0.22, -0.25, 0], [0.14, -0.16, 0],
+        )
+
+        dot = Dot(
+            path.points.get_start(),
+            fill_color=BLACK,
+            stroke_alpha=1,
+            stroke_radius=0.012,
+            radius=0.07,
+            depth=-1
+        )
+
+        ############################################################
+
+        self.forward()
+        self.play(
+            FadeIn(crow02, scale=1.2),
+            Write(axes, lag_ratio=0.05),
+            FadeIn(dot, scale=0.5, at=0.6)
+        )
+        self.play(
+            MoveAlongPath(dot, path)
+        )
+
+        ############################################################
+
+        def current_pixel_pos() -> tuple[float, float]:
+            pos = dot.current().points.box.center
+            return crow02.point_to_pixel(pos)
+
+        def pixel_updater(data: Rect, p: UpdaterParams):
+            pixel_pos = current_pixel_pos()
+            data.points.next_to(crow02.pixel_to_point(*pixel_pos), DR, buff=0)
+
+        pixel = Rect(
+            crow02.pixel_to_point(0, 0),
+            crow02.pixel_to_point(1, 1),
+            stroke_radius=0.002,
+            color=YELLOW
+        )
+        pixel_updater(pixel, None)
+
+        ############################################################
+
+        self.play(
+            self.camera.anim.points.move_to(dot).scale(0.2).shift(RIGHT * 0.5 + DOWN * 0.25),
+            dot.anim.points.scale(0.2)
+                .r.radius.set(0.002),
+            FadeIn(pixel, scale=0.1)
+        )
+
+        ############################################################
+
+        fr = FrameRect(self.camera, **HighlightRect.difference_config_d, depth=-10)
+
+        methods = Text(
+            code5_src,
+            font_size=8,
+            format=Text.Format.RichText,
+            depth=-20
+        )
+        methods.points.arrange(DOWN).move_to(self.camera)
+
+        ############################################################
+
+        self.play(
+            FadeIn(fr)
+        )
+        self.play(
+            FadeIn(methods)
+        )
+        self.play(
+            FadeOut(fr),
+            FadeOut(methods[2]),
+            methods[1].anim.points.scale(0.5).shift(UL * 0.4 + LEFT * 0.4)
+        )
+
+        ############################################################
+
+        def large_pixel_updater(data: Square, p: UpdaterParams):
+            pixel_pos = current_pixel_pos()
+            data.fill.set(crow02.pixel_to_rgba(*pixel_pos)[:3])
+
+        large_pixel = Square(
+            0.5,
+            stroke_radius=0.005,
+            fill_alpha=1,
+            color=YELLOW_E,
+            depth=-1
+        )
+        large_pixel.points.next_to(self.camera)
+        large_pixel_updater(large_pixel, None)
+
+        def line_updater(data: Line, p: UpdaterParams):
+            box = pixel.current().points.box
+            y = clip(large_pixel.points.box.y,
+                     box.get_y(DOWN),
+                     box.get_y(UP))
+            data.points.put_start_and_end_on(
+                [box.get_x(RIGHT), y, 0],
+                large_pixel.points.box.left
+            )
+
+        line = Line(color=[YELLOW, YELLOW_E], stroke_radius=[0.002, 0.005])
+        line_updater(line, None)
+
+        path = VItem(
+            [0.14, -0.16, 0], [0.24, -0.12, 0], [0.27, -0.13, 0], [0.27, -0.16, 0], [0.23, -0.23, 0],
+            [0.21, -0.29, 0], [0.16, -0.33, 0], [0.1, -0.38, 0], [0.05, -0.36, 0], [0.03, -0.3, 0],
+            [0.05, -0.22, 0], [0.07, -0.17, 0], [0.14, -0.16, 0],
+        )
+
+        ############################################################
+
+        self.play(
+            Create(line),
+            DrawBorderThenFill(large_pixel, duration=1.5)
+        )
+        self.play(
+            MoveAlongPath(dot, path, rate_func=linear),
+            DataUpdater(
+                pixel,
+                pixel_updater
+            ),
+            DataUpdater(
+                large_pixel,
+                large_pixel_updater
+            ),
+            DataUpdater(
+                line,
+                line_updater
+            ),
+            duration=4
+        )
+
+        ############################################################
+
+        light = ImageItem('light.png', height=0.3)
+        light.points.move_to(dot)
+
+        def line_updater(data: Line, p: UpdaterParams):
+            data.points.put_start_and_end_on(
+                dot.current().points.box.center,
+                large_pixel.points.box.left
+            )
+
+        def large_pixel_updater(data: Square, p: UpdaterParams):
+            pos = dot.current().points.box.center
+            x, y = crow02.point_to_pixel(pos)
+            x += 0.5
+            y += 0.5
+            d = (-2, -1, 0, 1, 2)
+            points = [
+                (
+                    crow02.pixel_to_point(x + dx, y + dy),
+                    get_norm(crow02.pixel_to_point(x + dx, y + dy) - pos)
+                )
+                for dx, dy in it.product(d, d)
+                if crow02.pixel_to_rgba(int(x + dx), int(y + dy))[-1] > 0.5
+            ]
+            points.sort(key=lambda p: p[1])
+
+            weights = [
+                math.exp(-600 * p[1]**2)
+                for p in points
+            ]
+
+            total = sum(weights)
+
+            color = np.sum(
+                [
+                    w * crow02.point_to_rgba(p[0])[:3]
+                    for p, w in zip(points, weights)
+                ],
+                axis=0
+            ) / total
+
+            data.fill.set(color)
+
+        def light_updater(data: ImageItem, p: UpdaterParams):
+            data.points.move_to(dot.current())
+
+        methods[2].points.move_to(methods[1]).scale(0.5)
+
+        ############################################################
+
+        self.play(
+            FadeOut(pixel),
+            FadeIn(light),
+            line.anim.do(partial(line_updater, p=None)),
+            large_pixel.anim.do(partial(large_pixel_updater, p=None)),
+            FadeOut(methods[1], scale=0.8, duration=0.4),
+            FadeIn(methods[2], scale=0.3)
+        )
+        self.play(
+            MoveAlongPath(dot, path, rate_func=linear),
+
+            DataUpdater(
+                large_pixel,
+                large_pixel_updater
+            ),
+            DataUpdater(
+                line,
+                line_updater
+            ),
+            DataUpdater(
+                light,
+                light_updater
+            ),
+            duration=4
+        )
+        self.play(
+            FadeOut(Group(crow02, light, dot, line, large_pixel,
+                          methods[2], axes))
+        )
+
+        self.forward()
+
+
+class TexFilter2(Template):
+    def construct(self) -> None:
+        ############################################################
+
+        filterings = Group(
+            *[
+                Group(
+                    PixelImageItem(f'texture_filtering{i}.png', height=3.2),
+                    Text(text)
+                ).points.arrange(DOWN, buff=SMALL_BUFF).r
+                for i, text in enumerate(
+                    [
+                        'mgl.NEAREST',
+                        'mgl.LINEAR'
+                    ],
+                    start=1
+                )
+            ]
+        )
+        filterings.points.arrange()
+
+        hl1 = Rect([0, 2.05, 0], [3.45, -2.18, 0], **HighlightRect.difference_config_d)
+        hl2 = Rect([-3.51, 2.18, 0], [-0.06, -2.14, 0], **HighlightRect.difference_config_d)
+
+        ############################################################
+
+        self.forward()
+
+        self.play(
+            FadeIn(filterings, scale=1.2, lag_ratio=0.02)
+        )
+        self.play(
+            FadeIn(hl1)
+        )
+        self.play(
+            FadeOut(hl1),
+            FadeIn(hl2)
+        )
+        self.play(
+            FadeOut(hl2)
+        )
+
+        self.forward()
+
+
+class TexFilter3(Template):
+    def construct(self) -> None:
+        ########################################################
+
+        wall = ImageItem('wall.jpg', height=3)
+        wall.points.to_border(LEFT).shift(RIGHT)
+
+        txt_kwargs = dict(
+            stroke_background=True,
+            stroke_alpha=1,
+            stroke_color=BLACK
+        )
+
+        txt = Text('原图', **txt_kwargs)
+        txt.points.move_to(wall)
+
+        wall1 = wall.copy()
+        wall1.image.set(min_mag_filter=(mgl.NEAREST_MIPMAP_NEAREST, mgl.NEAREST))
+        wall1.points.shift(RIGHT * 6 + UP * 3).scale(0.6, about_edge=DL)
+
+        wall2 = wall.copy()
+        wall2.image.set(min_mag_filter=(mgl.LINEAR_MIPMAP_LINEAR, mgl.LINEAR))
+        wall2.points.shift(RIGHT * 6 + DOWN * 1).scale(1.5, about_edge=UL)
+
+        txt1 = Text('缩小', **txt_kwargs)
+        txt1.points.move_to(wall1)
+
+        txt2 = Text('放大', **txt_kwargs)
+        txt2.points.move_to(wall2)
+
+        arrow1 = Arrow(wall, wall1)
+        arrow2 = Arrow(wall, wall2)
+
+        atxt1 = arrow1.create_text('<fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>NEAREST</fc>',
+                                   format=Text.Format.RichText)
+        atxt2 = arrow2.create_text('<fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>LINEAR</fc>',
+                                   format=Text.Format.RichText,
+                                   under=True)
+
+        ########################################################
+
+        self.show(wall, txt)
+        self.forward()
+        self.play(
+            FadeIn(wall1),
+            Write(txt1)
+        )
+        self.play(
+            GrowArrow(arrow1),
+            Write(atxt1)
+        )
+        self.play(
+            FadeIn(wall2),
+            Write(txt2)
+        )
+        self.play(
+            GrowArrow(arrow2),
+            Write(atxt2)
+        )
+
+        ########################################################
+
+        code = Text(
+            '<fc #9cdcfe>texture</fc><fc #d4d4d4>.</fc><fc #9cdcfe>filter</fc><fc #d4d4d4> = (</fc><fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>NEAREST</fc><fc #d4d4d4>, </fc><fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>LINEAR</fc><fc #d4d4d4>)</fc>',
+            format=Text.Format.RichText
+        )
+
+        ########################################################
+
+        self.play(
+            Transform(atxt1[0][:], code[0][18:29]),
+            Transform(atxt2[0][:], code[0][31:41]),
+            FadeIn(code[0][:18]),
+            FadeIn(code[0][29:31]),
+            FadeIn(code[0][41:]),
+            FadeOut(Group(wall, wall1, wall2, arrow1, arrow2, txt, txt1, txt2))
+        )
+        self.play(
+            ShowCreationThenDestruction(Underline(code[0][18:29], color=YELLOW))
+        )
+        self.play(
+            ShowCreationThenDestruction(Underline(code[0][31:41], color=YELLOW))
+        )
+        self.forward()
+
+
+class TexMipmap(Template):
+    def construct(self) -> None:
+        ###########################################################
+
+        cam_orig = self.camera.copy()
+
+        plane = NumberPlane(
+            (-4, 5), (-4, 7),
+            unit_size=1.5,
+            faded_line_ratio=2
+        )
+
+        self.camera.anim.points \
+            .rotate(75 * DEGREES, axis=RIGHT) \
+            .rotate(20 * DEGREES, absolute=True)
+
+        face1 = ImageItem('container.jpg', height=2)
+        cube = Group(
+            face1,
+            *[
+                face1.copy()
+                    .points.apply_matrix(rotation_between_vectors(IN, v))
+                           .shift(v + OUT)
+                    .r
+                for v in [LEFT, UP, RIGHT, DOWN, OUT]
+            ]
+        )
+        cubes = cube * 6
+        cubes.points.arrange_by_offset(DOWN * 7 + LEFT, center=False).set_y(14).set_x(-0.5)
+        for i, cube in enumerate(reversed(cubes)):
+            cube.points.shift(RIGHT * i**2 / 7)
+        cubes.depth.arrange()
+
+        rect1 = Rect([3.9, 2.6, 0], [4.68, 1.7, 0], color=YELLOW).fix_in_frame()
+        rect2 = Rect([-5.8, 2, 0], [-3.1, -1.4, 0], color=YELLOW).fix_in_frame()
+        hl1 = HighlightRect(rect1, buff=0).fix_in_frame()
+        hl2 = HighlightRect(rect2, buff=0).fix_in_frame()
+
+        cam_stat = self.camera.copy()
+
+        ###########################################################
+
+        self.forward()
+
+        self.play(
+            Write(plane, lag_ratio=0.05),
+            FadeIn(cubes, at=1.2)
+        )
+        self.play(
+            FadeIn(hl1),
+            ShowCreationThenDestruction(rect1, duration=2)
+        )
+        self.play(
+            FadeOut(hl1),
+            FadeIn(hl2),
+            ShowCreationThenDestruction(rect2, duration=2)
+        )
+        self.play(
+            FadeOut(hl2)
+        )
+        self.play(
+            FadeIn(hl1)
+        )
+
+        self.forward()
+
+
+class TexMipmap2(Template):
+    def construct(self) -> None:
+        ###########################################################
+
+        frame = ImageItem('TexMipmap.png').show()
+
+        tex = Group(
+            img := ImageItem('container.jpg'),
+            SurroundingRect(img, buff=0, color=GOLD),
+
+            rect := Rect(
+                0.8, 0.4,
+                fill_alpha=1,
+                color=GOLD
+            ).points.align_to(img, UL).r,
+
+            Text('纹理', font_size=16)
+                .points.move_to(rect).r
+        )
+        tex.points.shift(LEFT)
+
+        ur_orig = np.array([4.02, 2.42, 0])
+        ur_h = [4.6, 2.4, 0] - ur_orig
+        ur_v = [3.96, 1.9, 0] - ur_orig
+
+        u_tr = ValueTracker(0.4)
+        v_tr = ValueTracker(0.6)
+
+        def dl_updater(p=None):
+            w, h = tex[0].image.img.size
+            u = u_tr.current().data.get()
+            v = v_tr.current().data.get()
+
+            rect = Rect(
+                tex[0].pixel_to_point(w * clip(u - 0.1, 0, 1),
+                                      h * clip(v - 0.1, 0, 1)),
+                tex[0].pixel_to_point(w * clip(u + 0.1, 0, 1),
+                                      h * clip(v + 0.1, 0, 1)),
+                fill_alpha=0.2
+            )
+            return rect
+
+        dl = dl_updater()
+
+        def line_updater(p=None):
+            w, h = tex[0].image.img.size
+            u = u_tr.current().data.get()
+            v = v_tr.current().data.get()
+
+            return Arrow(
+                tex[0].pixel_to_point(w * clip(u + 0.1, 0, 1),
+                                    h * clip(v - 0.1, 0, 1)),
+                ur_orig + u * ur_h + v * ur_v,
+                buff=0
+            )
+
+        line = line_updater()
+
+        container_bad = ImageItem('container.jpg', height=3)
+        container_bad.image.set(min_mag_filter=(mgl.NEAREST, mgl.LINEAR))
+        container_bad.points.next_to(tex, buff=LARGE_BUFF)
+
+        ###########################################################
+
+        self.forward()
+
+        self.play(
+            FadeIn(tex[0], duration=0.7),
+            Write(tex[1:])
+        )
+        self.play(
+            Write(dl),
+            Write(line)
+        )
+        self.play(
+            u_tr.anim.data.set(0.7),
+            v_tr.anim.data.set(0.2),
+            ItemUpdater(dl, dl_updater),
+            ItemUpdater(line, line_updater)
+        )
+        self.play(
+            u_tr.anim.data.set(0.2),
+            v_tr.anim.data.set(0.6),
+            ItemUpdater(dl, dl_updater),
+            ItemUpdater(line, line_updater)
+        )
+        self.play(
+            u_tr.anim.data.set(0.7),
+            v_tr.anim.data.set(0.7),
+            ItemUpdater(dl, dl_updater),
+            ItemUpdater(line, line_updater)
+        )
+        line.hide()
+        line = line_updater()
+        self.play(
+            FadeOut(Group(line, dl)),
+            FadeIn(container_bad)
+        )
+        self.play(
+            container_bad.anim(rate_func=rush_from).points.scale(0.05),
+            duration=3
+        )
+        self.play(
+            FadeOut(Group(frame, container_bad))
+        )
+
+        ###########################################################
+
+        txt_mipmap = Text('多\n级\n渐\n远\n纹\n理')
+        txt_mipmap.points.to_border(UL, buff=LARGE_BUFF)
+        txt_line = Line(ORIGIN, DOWN * 5)
+        txt_line.points.next_to(txt_mipmap, buff=SMALL_BUFF, aligned_edge=UP)
+
+        txt_mipmap_g = Group(txt_mipmap, txt_line, color=GOLD)
+
+        img = tex[0]
+        imgs1 = img * 8
+        imgs1.points.scale(0.53).arrange(DOWN) \
+            .next_to(txt_line, buff=MED_LARGE_BUFF, aligned_edge=UP)
+
+        imgs2 = imgs1.copy()
+
+        for img1, img2 in it.pairwise(imgs2):
+            img2.points.set_width(img1.points.box.width / 2)
+            img2.points.next_to(img1, DOWN, aligned_edge=LEFT)
+
+        container = ImageItem('container.jpg')
+        container.image.set(min_mag_filter=(mgl.LINEAR_MIPMAP_NEAREST, mgl.LINEAR))
+
+        def redsur_updater(p=None):
+            width = container.current().points.box.width
+
+            use = None
+            for img in imgs2:
+                if img.points.box.width < width:
+                    use = img
+                    break
+
+            assert use is not None
+
+            return SurroundingRect(
+                use,
+                buff=0,
+                color=RED
+            )
+
+        ###########################################################
+
+        self.play(
+            TransformMatchingShapes(tex[-1], txt_mipmap),
+            FadeTransform(tex[1], txt_line, duration=2),
+            FadeOut(tex[2])
+        )
+        self.play(
+            Transform(Group(img), imgs1)
+        )
+        self.play(
+            Transform(imgs1, imgs2)
+        )
+        self.show(container)
+
+        self.prepare(
+            ItemUpdater(None, redsur_updater),
+            duration=5
+        )
+
+        self.forward()
+        self.play(
+            container.anim(rate_func=rush_from).points.scale(0.025),
+            duration=4
+        )
+        redsur = redsur_updater().show()
+
+        ###########################################################
+
+        imgs3 = imgs2.copy()
+        imgs3[1:].points.arrange(DOWN, buff=0, aligned_edge=LEFT)
+        Group(imgs3[0], imgs3[1:]).points.arrange(buff=0)
+
+        cover = Rect(
+            [-6.32, 3.21, 0], [-3.03, -3.06, 0],
+            **HighlightRect.difference_config_d
+        )
+
+        txt_mipmaps = Text(
+            '<fc #9cdcfe>texture</fc><fc #d4d4d4>.</fc><fc #dcdcaa>build_mipmaps</fc><fc #d4d4d4>()</fc>',
+            font_size=16,
+            format=Text.Format.RichText
+        )
+        txt_mipmaps.points.next_to(imgs3, DOWN)
+
+        ###########################################################
+
+        self.play(
+            FadeOut(redsur, duration=0.4),
+            FadeOut(container, duration=0.4),
+            Transform(imgs2, imgs3, path_arc=60 * DEGREES),
+            FadeIn(cover, at=0.6, duration=0.3),
+            FadeIn(imgs2, at=0.7, duration=0.5)
+        )
+        self.play(
+            Write(txt_mipmaps)
+        )
+
+        ###########################################################
+
+        height1 = imgs2[1].points.box.height + 0.05
+        height2 = imgs2[1].points.box.height - 0.05
+        container.points.set_height(height1)
+
+        ###########################################################
+
+        redsur = redsur_updater()
+        self.play(
+            FadeOut(Group(txt_mipmaps, cover, imgs3)),
+            FadeIn(container),
+            FadeIn(redsur)
+        )
+        self.prepare(
+            ItemUpdater(
+                redsur,
+                redsur_updater
+            ),
+            duration=3
+        )
+        for _ in range(3):
+            self.play(
+                container.anim(duration=0.3).points.set_height(height2)
+            )
+            self.forward(0.2)
+            self.play(
+                container.anim(duration=0.3).points.set_height(height1)
+            )
+            self.forward(0.2)
+
+        ###########################################################
+
+        lmn = Text(
+            '<fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>LINEAR_MIPMAP_NEAREST</fc>',
+            font_size=16,
+            format=Text.Format.RichText
+        )
+        lmn.points.next_to(container, DOWN)
+
+        lmn_part = lmn[0][:10].copy()
+        lmn_part.points.next_to(container, DOWN)
+
+        pbg = partial(
+            SurroundingRect,
+            buff=SMALL_BUFF / 2,
+            stroke_alpha=0,
+            fill_alpha=0.7,
+            depth=10
+        )
+
+        bg1 = pbg(lmn[0][4:10], color=PURPLE)
+        bg2 = pbg(Group(lmn[0][11:17], lmn[0][18:25]), color=MAROON)
+
+        txt1 = Text('纹理内', font_size=12, color=PURPLE)
+        txt1.points.next_to(bg1, DOWN, buff=MED_LARGE_BUFF)
+        txt2 = Text('多级渐远纹理间', font_size=12, color=MAROON)
+        txt2.points.next_to(bg2, DOWN, buff=MED_LARGE_BUFF)
+
+        arrow1 = Arrow(txt1, bg1, buff=0.1, color=PURPLE)
+        arrow2 = Arrow(txt2, bg2, buff=0.1, color=MAROON)
+
+        ###########################################################
+
+        self.play(
+            Write(lmn_part)
+        )
+        self.play(
+            Transform(lmn_part, lmn[0][:10]),
+            FadeIn(lmn[0][10:], LEFT)
+        )
+        self.play(
+            FadeIn(bg1, duration=0.7),
+            GrowDoubleArrow(arrow1, start_ratio=1, at=0.5, duration=0.4, rate_func=rush_from),
+            FadeIn(txt1, DOWN * 0.2, 1.2, at=0.3, duration=0.6),
+        )
+        self.play(
+            FadeIn(bg2, duration=0.7),
+            GrowDoubleArrow(arrow2, start_ratio=1, at=0.5, duration=0.4, rate_func=rush_from),
+            FadeIn(txt2, DOWN * 0.2, 1.2, at=0.3, duration=0.6),
+        )
+
+        ###########################################################
+
+        lml = Text(
+            '<fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>LINEAR_MIPMAP_LINEAR</fc>',
+            font_size=16,
+            format=Text.Format.RichText
+        )
+        lml.points.move_to_by_indicator(lml[0][10], lmn[0][10])
+
+        container.image.set(min_mag_filter=(mgl.LINEAR_MIPMAP_LINEAR, mgl.LINEAR))
+
+        ###########################################################
+
+        self.play(
+            Destruction(lmn[0][18:], lag_ratio=0.2),
+            Create(lml[0][18:], lag_ratio=0.2, at=0.3)
+        )
+
+        self.prepare(
+            ItemUpdater(
+                redsur,
+                redsur_updater
+            ),
+            duration=2
+        )
+        for _ in range(2):
+            self.play(
+                container.anim(duration=0.3).points.set_height(height2)
+            )
+            self.forward(0.2)
+            self.play(
+                container.anim(duration=0.3).points.set_height(height1)
+            )
+            self.forward(0.2)
+
+        self.forward()
+
+
+typ2_src = R'''
+#set page(fill: none)
+#let center-box(body) = context {
+  box(move(body, dy: measure(body).height / 2 - 0.5em))
+}
+
+#{
+  show raw: set text(fill: rgb("#4ec9b0"))
+  `mgl`
+}.#center-box(
+  box(
+    fill: rgb("#9A72AC").transparentize(30%),
+    inset: 2pt,
+    width: 6.8em
+  )[
+    #set par(spacing: -0.3em)
+    #set text(fill: rgb("#9cdcfe"))
+    `NEAREST` \
+    #set align(center)
+    #move(dx: 3pt, dy: 2pt, text(fill: white)[\/]) \
+    #set align(right)
+    `LINEAR`
+  ]
+)`_`#center-box(
+  box(
+    fill: rgb("#C55F73").transparentize(30%),
+    inset: 2pt,
+    width: 13.6em
+  )[
+    #set par(spacing: -0.3em)
+    #set text(fill: rgb("#9cdcfe"))
+    `MIPMAP_NEAREST` \
+    #set align(center)
+    #move(dx: 2.5pt, dy: 2pt, text(fill: white)[\/]) \
+    #set align(right)
+    `MIPMAP_LINEAR`
+  ]
+)
+'''
+
+typ3_src = R'''
+#{{
+    show raw: set text(rgb("#4ec9b0"))
+    `mgl`
+}}.#{{
+    set text(rgb("#9cdcfe"))
+    highlight(
+        fill: rgb("#9A72AC").transparentize(40%),
+        extent: 1pt,
+    )[`{}`]
+    `_`
+    highlight(
+        fill: rgb("#C55F73").transparentize(40%),
+        extent: 1pt,
+    )[`{}`]
+}}
+'''
+
+typ4_src = '''
+#set text(font: "Noto Sans S Chinese", size: 0.8em, fill: luma(40%))
+#set page(width: 44em)
+#set par(first-line-indent: 2em)
+#par(box())
+一个常见的错误是，将放大过滤的选项设置为多级渐远纹理的选项之一。这样没有任何效果，因为多级渐远纹理主要是使用在纹理被缩小的情况下的，纹理放大不会使用多级渐远纹理。
+'''
+
+
+class TexMipmap3(Template):
+    def construct(self) -> None:
+        ##########################################################
+
+        typ2 = TypstText(typ2_src)
+        typ2.points.to_border(UP, buff=LARGE_BUFF)
+        typ2.show()
+
+        typs = Group(*[
+            TypstText(typ3_src.format(a, f'MIPMAP_{b}'))
+            for a, b in it.product(
+                ('NEAREST', 'LINEAR'),
+                ('NEAREST', 'LINEAR')
+            )
+        ])
+        descs = Group(*[
+            Text(text,
+                 font_size=16,
+                 format=Text.Format.RichText)
+            for text in [
+                '使用<c PURPLE>邻近插值</c>进行纹理内的采样；\n使用最<c MAROON>邻近</c>的多级渐远纹理级别',
+                '使用<c PURPLE>线性插值</c>进行纹理内的采样；\n使用最<c MAROON>邻近</c>的多级渐远纹理级别',
+                '使用<c PURPLE>邻近插值</c>进行纹理内的采样；\n在两个多级渐远纹理之间进行<c MAROON>线性插值</c>',
+                '使用<c PURPLE>线性插值</c>进行纹理内的采样；\n在两个多级渐远纹理之间使用<c MAROON>线性插值</c>'
+            ]
+        ])
+
+        typdescs = Group(*typs, *descs)
+        typdescs.points.arrange_in_grid(4, aligned_edge=LEFT, v_buff=MED_LARGE_BUFF, fill_rows_first=False)
+        # typdescs.show()
+
+        setfilter1 = Text(
+            '<fc #9cdcfe>texture</fc><fc #d4d4d4>.</fc><fc #9cdcfe>filter</fc><fc #d4d4d4> = (</fc><fc #4ec9b0>mgl</fc><fc #9cdcfe>.LINEAR, </fc><fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>LINEAR</fc><fc #d4d4d4>)</fc>',
+            format=Text.Format.RichText,
+            font_size=16
+        )
+        setfilter1.points.next_to(typdescs, DOWN, buff=MED_LARGE_BUFF)
+
+        setfilter2 = Text(
+            '<fc #9cdcfe>texture</fc><fc #d4d4d4>.</fc><fc #9cdcfe>filter</fc><fc #d4d4d4> = (</fc><fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>LINEAR_MIPMAP_LINEAR</fc><fc #d4d4d4>, </fc><fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>LINEAR</fc><fc #d4d4d4>)</fc>',
+            format=Text.Format.RichText,
+            font_size=16
+        )
+        setfilter2.points.next_to(setfilter1, DOWN)
+
+        setfilter3 = Text(
+            '<fc #9cdcfe>texture</fc><fc #d4d4d4>.</fc><fc #9cdcfe>filter</fc><fc #d4d4d4> = (</fc><fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>LINEAR_MIPMAP_LINEAR</fc><fc #d4d4d4>, </fc><fc #4ec9b0>mgl</fc><fc #d4d4d4>.</fc><fc #9cdcfe>LINEAR</fc><fc #d4d4d4>)</fc>',
+            format=Text.Format.RichText,
+            font_size=16
+        )
+        setfilter3.points.shift(UP * 1)
+
+        typ4 = TypstDoc(typ4_src)
+        typ4.points.next_to(setfilter3, DOWN, buff=MED_LARGE_BUFF)
+
+        ##########################################################
+
+        self.play(Write(typ2))
+
+        self.forward(0.5)
+
+        for typ, desc, (part1, part2) in zip(
+            typs,
+            descs,
+            it.product(
+                [typ2[5:12], typ2[13:19]],
+                [typ2[21:35], typ2[36:49]]
+            )
+        ):
+            rect1 = SurroundingRect(part1)
+            rect2 = SurroundingRect(part2)
+            self.show(rect1, rect2, typ, desc)
+            self.forward(0.7)
+            self.hide(rect1, rect2)
+
+        self.play(
+            Write(setfilter1, duration=1.3)
+        )
+        self.play(
+            setfilter1.anim(duration=0.4).color.fade(0.5),
+            Write(setfilter2, duration=1.3)
+        )
+        self.play(
+            FadeOut(Group(typ2, typdescs, setfilter1), duration=0.8),
+            Transform(setfilter2, setfilter3, duration=1.3)
+        )
+        self.play(
+            FadeIn(typ4)
+        )
+
+
+if __name__ == '__main__':
+    anim = TexFilter()
+
+
+# if __name__ == '__main__':
+#     anim = TexMipmap().build()
+#     anim.anim_on(9.5)
+#     anim.capture().save('2024/LearnOpenGL-9-Texture/assets/TexMipmap.png')

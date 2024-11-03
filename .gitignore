@@ -15,9 +15,10 @@
 /2024/*/cover.png
 
 __pycache__
-result.json
 test.py
-2024/LearnOpenGL-9-Texture/awesomeface.png
-2024/LearnOpenGL-9-Texture/container.jpg
-2024/LearnOpenGL-9-Texture/wall.jpg
-2024/LearnOpenGL-7-Shader/test.glsl
+/result.json
+/2024/LearnOpenGL-9-Texture/awesomeface.png
+/2024/LearnOpenGL-9-Texture/container.jpg
+/2024/LearnOpenGL-9-Texture/wall.jpg
+/2024/LearnOpenGL-7-Shader/test.glsl
+/2024/ZbsViolin/assets
