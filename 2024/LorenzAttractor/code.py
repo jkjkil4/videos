@@ -9,7 +9,7 @@ class SubSceneTemplate(Timeline):
     )
 
 
-class LorenzOscillatorCurve(SubSceneTemplate):
+class LorenzAttractorCurve(SubSceneTemplate):
     def construct(self) -> None:
         center = np.array([0.150, 0.196, 25.676])
 
@@ -45,7 +45,7 @@ class LorenzOscillatorCurve(SubSceneTemplate):
         )
 
 
-class LorenzOscillatorDotCloud(SubSceneTemplate):
+class LorenzAttractorDotCloud(SubSceneTemplate):
     def construct(self) -> None:
         center = np.array([0.150, 0.196, 25.676])
         radius = 12
@@ -90,23 +90,23 @@ class LorenzOscillatorDotCloud(SubSceneTemplate):
         )
 
 
-class LorenzOscillator(Timeline):
+class LorenzAttractor(Timeline):
     CONFIG = Config(
         output_dir=':/videos'
     )
 
     def construct(self) -> None:
-        video1 = Video('videos/LorenzOscillatorCurve.mp4')
-        video2 = Video('videos/LorenzOscillatorDotCloud.mp4')
+        video1 = Video('videos/LorenzAttractorCurve.mp4')
+        video2 = Video('videos/LorenzAttractorDotCloud.mp4')
         video1.start()
         video2.start()
         group = Group(video1, video2).show()
         group.points.arrange(buff=0)
 
-        txt1 = Text('LorenzOscillatorCurve').show()
+        txt1 = Text('LorenzAttractorCurve').show()
         txt1.points.move_to(video1).to_border(UP)
 
-        txt2 = Text('LorenzOscillatorDotCloud').show()
+        txt2 = Text('LorenzAttractorDotCloud').show()
         txt2.points.move_to(video2).to_border(UP)
 
         g = Group(group, txt1, txt2)
