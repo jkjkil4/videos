@@ -509,7 +509,7 @@ class FragInterp(Template):
 
         p_tracker = ValueTracker(
             np.sum(points, axis=0) / 3,
-            maybe_same_func=lambda a, b: np.all(a == b)
+            not_changed_func=lambda a, b: np.all(a == b)
         )
 
         def dot_updater(dot: Circle, p: UpdaterParams) -> None:

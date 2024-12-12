@@ -281,7 +281,7 @@ class DynamicTriTextureRenderer(ImageItemRenderer):
         self.prog['image'] = 0
         self.texture.filter = item.image.get_filter()
         self.texture.use(0)
-        self.update_fix_in_frame(item, self.prog)
+        self.update_fix_in_frame(self.u_fix, item)
         self.vao.render(mgl.TRIANGLES)
 
 
@@ -671,6 +671,9 @@ class CustomImgRenderer(ImageItemRenderer):
         assert self.shader_path
         self.prog = get_custom_program(self.shader_path)
 
+        self.u_fix = self.get_u_fix_in_frame(self.prog)
+        self.u_image = self.prog['image']
+
         self.ctx = self.data_ctx.get().ctx
         self.vbo_points = self.ctx.buffer(reserve=4 * 3 * 4)
         self.vbo_color = self.ctx.buffer(reserve=4 * 4 * 4)
@@ -713,6 +716,9 @@ class ImgBorderRenderer(CustomImgRenderer):
 class DynamicTriTextureRenderer2(DynamicTriTextureRenderer):
     def init(self) -> None:
         self.prog = get_custom_program('shaders/image_repeat')
+
+        self.u_fix = self.get_u_fix_in_frame(self.prog)
+        self.u_image = self.prog['image']
 
         self.ctx = self.data_ctx.get().ctx
         self.vbo_points = self.ctx.buffer(reserve=3 * 3 * 4)
@@ -1984,6 +1990,9 @@ class TexMipmap3(Template):
         typ4 = TypstDoc(typ4_src)
         typ4.points.next_to(setfilter3, DOWN, buff=MED_LARGE_BUFF)
 
+        udl1 = Underline(setfilter3[0][18:42], color=YELLOW)
+        udl2 = Underline(setfilter3[0][44:54], color=YELLOW)
+
         ##########################################################
 
         self.play(Write(typ2))
@@ -2015,8 +2024,15 @@ class TexMipmap3(Template):
             FadeOut(Group(typ2, typdescs, setfilter1), duration=0.8),
             Transform(setfilter2, setfilter3, duration=1.3)
         )
+        self.prepare(
+            FadeIn(typ4),
+            duration=2
+        )
         self.play(
-            FadeIn(typ4)
+            ShowCreationThenDestruction(udl1)
+        )
+        self.play(
+            ShowCreationThenDestruction(udl2)
         )
 
 

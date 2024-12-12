@@ -79,9 +79,9 @@ class Pipeline1(Template):
         self.forward_to(t.end)
         self.forward(0.8)
         self.play(
-            Rotate(self.camera, 80 * DEGREES, axis=UP),
+            Rotate(self.camera, 80 * DEGREES, axis=UP, absolute=False),
             Group(cam_dot, cam_lines).anim
-                .digest_styles(color=GREY),
+                .set(color=GREY),
             duration=2
         )
 
@@ -230,7 +230,7 @@ class Pipeline1(Template):
         self.play(
             self.camera.anim.points
                 .shift(self.camera.points.info.vertical_vect * -0.2)
-                .rotate(-8 * DEGREES, axis=RIGHT),
+                .rotate(-8 * DEGREES, axis=RIGHT, absolute=False),
             arrow.anim.points.shift(UP * 1.6),
             plane(VItem).anim.color.fade(0.5)
         )
@@ -1107,7 +1107,7 @@ class VertexInput(Template):
         y.points.next_to(axis_y, UP, item_root_only=True)
 
         xy = Group(x, y)
-        xy.digest_styles(stroke_color=BLACK, stroke_alpha=1, stroke_background=True)
+        xy.set(stroke_color=BLACK, stroke_alpha=1, stroke_background=True)
 
         verts_color = (LIGHT_PINK, YELLOW_E, PURPLE)
 

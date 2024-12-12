@@ -290,9 +290,9 @@ class SimpleSolution(Template):
         self.forward(2.5)
 
         self.subtitle('存储图像对于我们的设备来说是身经百战见得多了', duration=3.5)
-        self.play(frames[1:].anim.digest_styles(color=GREY))
+        self.play(frames[1:].anim.set(color=GREY))
         self.forward()
-        self.play(frames[1:].anim.digest_styles(color=WHITE))
+        self.play(frames[1:].anim.set(color=WHITE))
         self.forward()
         self.subtitle('但视频编码绝对没有这么简单', duration=2.3)
         self.forward(2.3)
@@ -379,11 +379,11 @@ class SimpleSolution(Template):
         #########################################################
 
         frame0R = frame0_stat.copy()
-        frame0R.digest_styles(color=[1, 0, 0])
+        frame0R.set(color=[1, 0, 0])
         frame0G = frame0_stat.copy()
-        frame0G.digest_styles(color=[0, 1, 0])
+        frame0G.set(color=[0, 1, 0])
         frame0B = frame0_stat.copy()
-        frame0B.digest_styles(color=[0, 0, 1])
+        frame0B.set(color=[0, 0, 1])
 
         frame0RGB = Group(frame0R, frame0G, frame0B).show()
         frame0RGB.depth.arrange(10)

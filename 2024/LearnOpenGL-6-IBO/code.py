@@ -73,7 +73,7 @@ class Intro(Template):
         )
         self.prepare(
             FadeOut(dc),
-            tri.anim.digest_styles(**orange_config),
+            tri.anim.set(**orange_config),
             duration=1.6
         )
 
