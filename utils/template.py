@@ -9,7 +9,6 @@ class Template(Timeline):
             'audios'
         ],
         output_dir=':/kdenlive/janim_src',
-        audio_channels=2,
         wnd_monitor=1,
         wnd_pos='OO'
     )

@@ -14,8 +14,7 @@ file = R'D:\SteamLibrary\steamapps\music\Rabi-Ribi - Original Soundtrack\FLAC\Ra
 class AudioVisualizer(Timeline):
     CONFIG = Config(
         preview_fps=40,
-        background_color=Color('white'),
-        audio_channels=2
+        background_color=Color('white')
     )
 
     def construct(self) -> None:

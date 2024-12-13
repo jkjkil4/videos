@@ -25,8 +25,7 @@ def create_timeline_class_by_file(filename: str) -> type[Timeline]:
         dict(
             CONFIG=Config(
                 pixel_width=960,
-                pixel_height=540,
-                audio_channels=2
+                pixel_height=540
             ),
             construct=construct
         )
