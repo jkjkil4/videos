@@ -82,7 +82,7 @@ class MainWindow(QWidget):
             line = line.strip()
             if not line:
                 continue
-            results.append(f"t = self.aas('{number}'.mp3, {repr(line)})")
+            results.append(f"t = self.aas('{number}.mp3', {repr(line)})")
             number += 1
 
         result = '\nself.forward_to(t.end)\n'.join(results)
