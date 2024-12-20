@@ -171,7 +171,7 @@ OpenGL 默认的行为是重复这个纹理图像，也就是忽略浮点纹理�
 
 所以，OpenGL 提供了对于纹理过滤(Texture Filtering)的选项。纹理过滤有很多个选项，但是现在我们只讨论最重要的两种：`mgl.NEAREST` 和 `mgl.LINEAR`。
 
-`mgl.NEAREST`（也叫临近过滤，Nearest Neighbor Filtering）是 OpenGL 默认的纹理过滤方式。当设置为 `mgl.NEAREST` 的时候，OpenGL 会选择中心店最接近纹理坐标的那个像素。可以观察这里我们移动纹理坐标时，所使用的纹理像素的变动。
+`mgl.NEAREST`（也叫临近过滤，Nearest Neighbor Filtering）是 OpenGL 默认的纹理过滤方式。当设置为 `mgl.NEAREST` 的时候，OpenGL 会选择中心点最接近纹理坐标的那个像素。可以观察这里我们移动纹理坐标时，所使用的纹理像素的变动。
 
 `mgl.LINEAR`（也叫线性过滤，(Bi)linear Filtering）它会基于纹理坐标附近的纹理像素，计算出一个插值，近似出这些纹理像素之间的颜色。当一个纹理像素的中心距离纹理坐标越近，那么这个纹理像素的颜色对最终的样本颜色的贡献越大。你会看到在大多数情况下返回的颜色是邻近像素的混合色。
 
