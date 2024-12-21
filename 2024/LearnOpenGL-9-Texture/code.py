@@ -38,7 +38,6 @@ class Intro(Template):
         # moderngl = ImageItem('moderngl.png')
         celeste = PixelImageItem('07.png')
 
-
         points = [[1.06, -0.87, 0], [-1.07, -0.85, 0], [0, 0.76, 0]]
         colors = ['red', 'lime', 'blue']
 
@@ -74,26 +73,39 @@ class Intro(Template):
         self.show(verts)
         self.forward()
 
-        self.play(
-            *[
-                Create(c, auto_close_path=False)
-                for c in circles
-            ],
-            lag_ratio=0.4,
-            duration=1
+        self.prepare(
+            AnimGroup(
+                *[
+                    Create(c, auto_close_path=False)
+                    for c in circles
+                ],
+                lag_ratio=0.4,
+                duration=1
+            ),
+            Wait(1),
+            AnimGroup(
+                verts.anim.color.set(colors)
+                    .r.radius.set(0.1),
+                *[
+                    FadeOut(c, scale=0.5)
+                    for c in circles
+                ]
+            ),
+            lag_ratio=1
         )
-        self.play(
-            verts.anim.color.set(colors)
-                .r.radius.set(0.1),
-            *[
-                FadeOut(c, scale=0.5)
-                for c in circles
-            ]
-        )
-        self.play(
+
+        t = self.aas('1.mp3', '我们已经了解到，可以为每个顶点添加颜色来增加图形的细节')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
             FadeOut(verts),
             FadeIn(shaders3)
         )
+
+        t = self.aas('2.mp3', '从而创建出有趣的图像')
+        self.forward_to(t.end + 0.5)
+        t = self.aas('3.mp3', '但是，如果想让图形看起来更真实')
+        self.forward_to(t.end)
 
         def easing1(t: np.ndarray):
             t = np.clip(t, 0, 1)
@@ -105,24 +117,15 @@ class Intro(Template):
             alpha -= p.alpha * (adv + 2)
             data.color.set(alpha=easing1(alpha))
 
+        cam_stat = self.camera.copy()
+
+        t = self.aas('4.mp3', '我们就必须有足够多的顶点', delay=0.3)
+
         self.play(
             FadeOut(shaders3, duration=0.4)
         )
 
-        cam_stat = self.camera.copy()
         self.camera.points.scale(0.1).shift(RIGHT * 4 + DOWN)
-
-        self.play(
-            DataUpdater(
-                dots,
-                updater1,
-                become_at_end=False
-            )
-        )
-        self.play(
-            self.camera.anim.become(cam_stat),
-            duration=2
-        )
 
         ############################################################
 
@@ -171,18 +174,46 @@ class Intro(Template):
 
         ############################################################
 
-        self.play(
-            Write(txts_vert)
+        self.prepare(
+            DataUpdater(
+                dots,
+                updater1,
+                become_at_end=False,
+                duration=0.8
+            ),
+            self.camera.anim(duration=1.5).become(cam_stat),
+            lag_ratio=0.2
         )
-        self.play(
-            Write(txts_color)
+        self.prepare(
+            Write(txts_vert, at=0.8)
         )
-        self.play(
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(
+            Write(txts_color, at=0.2, duration=1.4)
+        )
+
+        t = self.aas('5.mp3', '从而指定足够多的颜色')
+        self.forward_to(t.end + 0.5)
+
+        t = self.aas('6.mp3', '这将会产生很多额外开销')
+        self.forward_to(t.end + 0.6)
+
+        t = self.aas('7.mp3', '因为每个模型都会需求更多的顶点')
+        self.forward_to(t.end + 0.3)
+        t = self.aas('8.mp3', '每个顶点又需求一个颜色属性')
+        self.forward_to(t.end + 0.6)
+
+        self.prepare(
             Uncreate(txts_vert),
             Uncreate(txts_color),
             FadeOut(dots, at=0.4),
             DrawBorderThenFill(txt_texture, at=0.7)
         )
+
+        t = self.aas('9.mp3', f'艺术家和程序员更喜欢使用纹理{s1}(Texture){s2}',
+                     format=Text.Format.RichText)
+        self.forward_to(t.end)
 
         self.forward()
 
@@ -209,18 +240,41 @@ class Intro2(Template):
         ############################################################
 
         self.forward()
-        self.play(FadeIn(wall))
-        self.play(
+        t = self.aas('10.mp3', '纹理是一个2D图片（甚至也有1D和3D的纹理）')
+        self.forward_to(t.end + 0.4)
+        t = self.aas('11.mp3', '它可以用来添加物体的细节')
+        self.forward_to(t.end + 0.7)
+
+        self.prepare(FadeIn(wall))
+
+        t = self.aas('12.mp3', '你可以想象纹理是一张绘有砖块的纸')
+        self.forward_to(t.end + 0.1)
+
+        self.prepare(
             wall.anim.points.shift(OUT * 2)
                 .rotate(-PI / 2, axis=UP, about_point=ORIGIN),
             self.camera.anim.points.scale(2)
                 .rotate(60 * DEGREES, axis=RIGHT, absolute=True)
                 .rotate(-70 * DEGREES, axis=OUT, absolute=True),
-            FadeIn(faces)
+            FadeIn(faces),
+            duration=1.5
         )
-        self.play(
-            self.camera.anim.points.scale(0.25).shift(IN + UP * 0.3)
+
+        t = self.aas('13.mp3', '无缝折叠贴合到你的3D房子上')
+        self.forward_to(t.end + 0.35)
+        t = self.aas('14.mp3', '这样你的房子看起来就像有砖墙外表了')
+        self.forward_to(t.end + 0.8)
+
+        self.prepare(
+            self.camera.anim.points.scale(0.25).shift(IN + UP * 0.3),
+            duration=2
         )
+
+        t = self.aas('15.mp3', '因为我们可以在一张图片上插入非常多的细节')
+        self.forward_to(t.end + 0.4)
+        t = self.aas('16.mp3', '这样就可以让物体非常精细而不用指定额外的顶点')
+        self.forward_to(t.end)
+
         self.forward()
 
 
@@ -327,8 +381,12 @@ class TexCoord(Template):
         ############################################################
 
         self.forward()
-        self.play(FadeIn(tri_wall, scale=2))
-        self.play(
+        self.prepare(FadeIn(tri_wall, scale=2), duration=2.5)
+
+        t = self.aas('17.mp3', '你会看到这是之前教程的那个三角形贴上了一张砖墙图片')
+        self.forward_to(t.end + 0.6)
+
+        self.prepare(
             tri_wall.anim.points.shift(RIGHT * 2.4),
             FadeIn(wall),
             AnimGroup(
@@ -425,22 +483,40 @@ class TexCoord(Template):
 
         ############################################################
 
-        self.play(
+        self.prepare(
             GrowArrow(arrow),
-            DrawBorderThenFill(arrow_txt, at=0.2, duration=1.2)
+            DrawBorderThenFill(arrow_txt, at=0.2, duration=1.2),
+            at=1
         )
-        self.play(
-            Create(dots_r, lag_ratio=0.5)
+
+        t = self.aas('18.mp3', '为了能够把纹理贴到三角形上')
+        self.forward_to(t.end + 0.4)
+
+        self.prepare(
+            Create(dots_r, lag_ratio=0.5),
+            at=1
         )
-        self.play(
+
+        t = self.aas('19.mp3', '我们需要指定三角形的每个顶点各自对应纹理的哪个部分')
+        self.forward_to(t.end + 0.7)
+
+        self.prepare(
             Group(arrow, arrow_txt)(VItem).anim(duration=0.6)
                 .color.fade(0.5),
             FadeIn(tri_l, duration=0.6),
-            Create(dots_l, lag_ratio=0.2)
+            Create(dots_l, lag_ratio=0.2),
+            at=1.6
         )
-        self.play(
+
+        t = self.aas('20.mp3', '这样每个顶点就会关联着一个纹理坐标(Texture Coordinate)')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
             Create(lines, lag_ratio=0.2)
         )
+
+        t = self.aas('21.mp3', '用来标明该从纹理图像的哪里采样颜色')
+        self.forward_to(t.end + 0.3)
 
         self.play(
             FadeOut(Group(lines, arrow, arrow_txt, tri_wall, txt2, dots_r, dots_l, tri_l)),
@@ -485,40 +561,69 @@ class TexCoord(Template):
 
         ############################################################
 
-        self.play(Write(axes, lag_ratio=0.05))
+        t2 = self.prepare(Write(axes, lag_ratio=0.05))
 
-        self.play(
+        t = self.aas('22.mp3', '纹理坐标在x和y轴上', delay=0.8)
+        self.forward_to(t2.end)
+
+        self.prepare(
             Write(x),
             Write(y),
             lag_ratio=0.2
         )
-        self.play(
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(
             Indicate(
                 Group(axes.x_axis.numbers, axes.y_axis.numbers),
                 scale_factor=1.05
-            )
+            ),
+            duration=1.5
         )
-        self.play(
+
+        t = self.aas('23.mp3', '范围在0到1之间（注意我们使用的是2D纹理图像）')
+        self.forward_to(t.end + 0.6)
+        t = self.aas('24.mp3', f'使用纹理坐标获取纹理颜色叫做采样{s1}(Sampling){s2}',
+                     format=Text.Format.RichText)
+        self.forward_to(t.end + 0.4)
+
+        self.prepare(
             FadeIn(dot1, show_at_end=False, duration=0.5, scale=0.1),
             AnimGroup(
                 ShowCreationThenDestruction(cline1),
                 ShowCreationThenDestruction(cline2)
             ),
             FadeOut(dot2, duration=0.5, scale=10),
-            lag_ratio=0.95
+            lag_ratio=0.95,
+            at=1,
+            duration=5.5
         )
-        self.play(
+
+        t = self.aas('25.mp3', '纹理坐标起始于 (0,0)，也就是纹理图片的左下角')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('26.mp3', '终止于 (1,1)，即纹理图片的右上角')
+        self.forward_to(t.end + 0.8)
+
+        self.prepare(
             FadeIn(tri_l),
             FadeIn(dots_l),
             Group(self.camera, txt1).anim
                 .points.shift(RIGHT * 2)
         )
 
-        self.play(
+        t = self.aas('27.mp3', '配置在纹理坐标中的三个点后')
+        self.forward_to(t.end + 0.4)
+
+        self.prepare(
             Create(line3),
             FadeIn(tri_wall),
-            lag_ratio=0.7
+            lag_ratio=0.7,
+            at=1,
+            duration=3
         )
+
+        t = self.aas('28.mp3', '我们就可以将纹理中的这块部分附着到最终显示出的三角形中')
+        self.forward_to(t.end + 0.6)
 
         def tri_wall_updater(data: DynamicTriTexture, p: UpdaterParams):
             points = data.texcoord.get().copy()
@@ -553,30 +658,60 @@ class TexCoord(Template):
                 )
             )
 
+        t = self.aas('29.mp3', '当我们改变纹理坐标中的这三个点，所附着的内容也会发生变化')
+
         self.play(
-            updater_anim(0)
+            updater_anim(0),
+            at=1,
+            duration=1.3
         )
         self.play(
-            updater_anim(1)
+            updater_anim(1),
+            duration=1.3
         )
         self.play(
-            updater_anim(0.5)
+            updater_anim(0.5),
+            duration=1.3
         )
         tri_l.become(tri_l_updater(None))
 
-        self.play(
+        self.forward(0.4)
+        t = self.aas('30.mp3', '现在这个例子中')
+        self.forward_to(t.end + 0.5)
+
+        self.prepare(
             CircleIndicate(dots_l[1], rate_func=there_and_back_with_pause),
             CircleIndicate(dots_r[1], rate_func=there_and_back_with_pause),
+            at=1,
+            duration=5
         )
-        self.play(
+
+        t = self.aas('31.mp3', '我们把三角形左下角顶点的纹理坐标设置为 (0,0)')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('32.mp3', '这样它就能对应纹理的左下角')
+        self.forward_to(t.end + 0.5)
+
+        self.prepare(
             CircleIndicate(dots_l[0], rate_func=there_and_back_with_pause),
             CircleIndicate(dots_r[0], rate_func=there_and_back_with_pause),
+            at=1,
+            duration=2
         )
-        self.play(
+
+        t = self.aas('33.mp3', '同理将右下方的顶点设置为 (1,0)')
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(
             CircleIndicate(dots_l[2], rate_func=there_and_back_with_pause),
             CircleIndicate(dots_r[2], rate_func=there_and_back_with_pause),
+            at=1,
+            duration=3.5
         )
-        self.play(
+
+        t = self.aas('34.mp3', '上顶点的坐标设置为 (0.5, 1.0) 对应纹理的上中位置')
+        self.forward_to(t.end + 0.8)
+
+        self.prepare(
             FadeOut(txt1)
         )
         self.play(
@@ -611,20 +746,48 @@ class TexCoord(Template):
 
         ############################################################
 
-        self.play(
-            Write(code1_g, duration=1.5)
+        self.prepare(
+            Write(code1_g, duration=1.5),
+            at=0.8,
+            duration=2.5
         )
-        self.play(
+
+        t = self.aas('35.mp3', '纹理坐标看起来就像这样')
+        self.forward_to(t.end + 2.5)
+
+        self.prepare(
             GrowArrow(arrow1),
-            Write(glvert_g, at=0.4)
+            Write(glvert_g, at=0.4),
+            at=1
         )
-        self.play(
-            FadeIn(arrow2_txt, scale=0.8)
+
+        t = self.aas('36.mp3', '我们只要给顶点着色器传递这三个纹理坐标就行了')
+        self.forward_to(t.end + 0.4)
+
+        self.prepare(
+            FadeIn(arrow2_txt, scale=0.8),
+            at=0.5
         )
-        self.play(
+
+        t = self.aas('37.mp3', '在片段插值的帮助下')
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(
             GrowArrow(arrow2),
-            Write(glfrag_g, at=0.4)
+            Write(glfrag_g, at=0.4),
+            at=1.4
         )
+
+        t = self.aas('38.mp3', '我们的三个顶点会经过插值后传入片段着色器')
+        self.forward_to(t.end + 0.3)
+        t = self.aas('39.mp3', '产生三角形区域内每个点的纹理坐标信息')
+        self.forward_to(t.end + 0.5)
+
+        t = self.aas('40.mp3', '纹理采样可以采用几种不同的插值方式')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('41.mp3', '所以我们需要自己告诉 OpenGL 该怎样对纹理采样')
+        self.forward_to(t.end)
+
         self.forward()
 
 
@@ -646,9 +809,17 @@ class TexSettings(Template):
         stat = boxes.copy()
 
         self.forward()
+
+        t = self.aas('42.mp3', '接下来我们会认识与纹理有关的几个配置选项')
+
+        self.forward_to(t.end + 0.4)
+
+        t = self.aas('43.mp3', '我们先从“纹理环绕方式”开始')
+
+        self.forward_to(t.end + 0.4)
+
         for box in boxes:
             self.play(
-                box(VItem).anim.color.set(YELLOW),
                 Group.from_iterable(
                     b for b in boxes if b is not box
                 )(VItem)
@@ -660,8 +831,11 @@ class TexSettings(Template):
                 boxes.anim.become(stat),
                 duration=0.6
             )
-        self.forward()
 
+        self.prepare(
+            boxes[1:](VItem).anim.color.fade(0.5),
+            at=0.4
+        )
 
 
 class CustomImgRenderer(ImageItemRenderer):
@@ -825,14 +999,25 @@ class TexRepeat(Template):
 
         self.forward()
 
-        self.play(
+        self.prepare(
             FadeIn(mdl, scale=1.2),
-            FadeIn(Group(*plane.get_axes()))
+            FadeIn(Group(*plane.get_axes())),
+            at=0.5
         )
-        self.play(
+
+        t = self.aas('44.mp3', '纹理坐标的范围通常是从 (0,0) 到 (1,1)')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
             DrawBorderThenFill(quesg, duration=1.5),
-            self.camera.anim.points.scale(1.2)
+            self.camera.anim.points.scale(1.2),
+            at=1.5
         )
+
+        t = self.aas('45.mp3', '那如果我们把纹理坐标设置在范围之外会发生什么？')
+        self.forward_to(t.end + 0.3)
+        t = self.aas('48.mp3', 'OpenGL 提供了很多种选择')
+        self.forward_to(t.end + 0.8)
 
         ############################################################
 
@@ -849,49 +1034,87 @@ class TexRepeat(Template):
 
         ############################################################
 
-        self.play(
+        self.prepare(
             FadeOut(quesg, duration=0.6),
             FadeIn(mdl1),
             FadeIn(txts[0], UP),
-            FadeIn(lines)
+            FadeIn(lines),
+            at=0.4
         )
+
+        t = self.aas('49.mp3', '默认的是 GL_REPEAT，它会重复纹理图像')
+        self.forward_to(t.end + 0.6)
+
         # self.play(
         #    mdl1.anim.color.set(alpha=1)
         # )
         # self.play(
         #    mdl1.anim.color.set(alpha=0.4)
         # )
-        self.play(
+        # t = self.aas('50.mp3', '这里我为了辨识度把外面的部分减淡了')
+        # self.forward_to(t.end)
+        # t = self.aas('51.mp3', '实际情况中它们并没有变淡')
+        # self.forward_to(t.end)
+
+        self.prepare(
             FadeTransform(mdl1, mdl2),
             FadeOut(txts[0], UP),
-            FadeIn(txts[1], UP)
+            FadeIn(txts[1], UP),
+            at=0.3
         )
-        self.play(
-            FadeIn(r1)
+
+        t = self.aas('52.mp3', '还有 GL_MIRRORED_REPEAT')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
+            FadeIn(r1),
+            Transform(r1, r2, at=1),
+            FadeOut(r2, at=2),
+            at=1
         )
-        self.play(
-            Transform(r1, r2)
-        )
-        self.play(
-            FadeOut(r2)
-        )
-        self.play(
+
+        t = self.aas('53.mp3', '和之前一样，但每次重复图片是镜像放置的')
+        self.forward_to(t.end + 1.5)
+
+        self.prepare(
             FadeTransform(mdl2, mdl3),
             FadeOut(txts[1], UP),
             FadeIn(txts[2], UP),
-            FadeOut(lines)
+            FadeOut(lines),
+            at=0.3
         )
-        self.play(
+
+        t = self.aas('54.mp3', '以及 GL_CLAMP_TO_EDGE')
+        self.forward_to(t.end + 0.5)
+        t = self.aas('55.mp3', '纹理坐标会被约束在0到1之间，超出的部分会重复纹理坐标的边缘')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('56.mp3', '产生一种边缘被拉伸的效果')
+        self.forward_to(t.end + 0.5)
+
+        self.prepare(
             FadeTransform(mdl3, mdl4),
             FadeOut(txts[2], UP),
-            FadeIn(txts[3], UP)
+            FadeIn(txts[3], UP),
+            at=0.3
         )
-        self.play(
+
+        t = self.aas('57.mp3', '最后是 GL_CLAMP_TO_BORDER')
+        self.forward_to(t.end + 0.3)
+        t = self.aas('58.mp3', '超出的坐标变为用户指定的边缘颜色')
+        self.forward_to(t.end + 0.8)
+
+        self.prepare(
             FadeOut(txts[3], scale=0.8, duration=0.3),
             FadeIn(txts[0], scale=0.5),
             FadeTransform(mdl4, mdl1),
-            FadeIn(lines)
+            FadeIn(lines),
+            at=1
         )
+
+        t = self.aas('59.mp3', '在默认的情况下是 GL_REPEAT')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('60.mp3', '这种行为下，OpenGL 会在超出的部分一直重复纹理图像')
+        self.forward_to(t.end + 0.4)
 
         ############################################################
 
@@ -971,7 +1194,7 @@ class TexRepeat(Template):
 
         ############################################################
 
-        self.play(
+        self.prepare(
             Group(*plane.get_axes())(VItem)
                 .anim.color.set(GREY),
             FadeOut(Group(lines, mdl1)),
@@ -981,8 +1204,14 @@ class TexRepeat(Template):
             FadeIn(tri_mdl),
             FadeIn(tri_l),
             FadeIn(dot, at=0.3),
-            Create(line, at=0.6)
+            Create(line, at=0.6),
+            at=0.5
         )
+
+        t = self.aas('61.mp3', '比如这张“前进中的玛德琳”')
+        self.forward_to(t.end + 0.4)
+
+        t = self.aas('62.mp3', '当我们把右边这个纹理顶点继续向右挪')
         self.play(
             right_x.anim.data.set(1.7),
             ItemUpdater(
@@ -1001,13 +1230,18 @@ class TexRepeat(Template):
                 line,
                 line_updater
             ),
-            duration=2
+            duration=t.duration
         )
+        tri_l.become(tri_l_updater(None))
+        self.forward(0.2)
+
+        t = self.aas('63.mp3', '我们就能在右边再次看到玛德琳的身影')
         self.play(
             CircleIndicate(Dot([8.1, -0.41, 0]), buff=MED_LARGE_BUFF, rate_func=there_and_back_with_pause),
             CircleIndicate(Dot([2.38, -0.37, 0]), buff=MED_LARGE_BUFF, rate_func=there_and_back_with_pause),
-            duration=1.5
+            duration=t.duration
         )
+        self.forward(0.6)
 
         ###########################################################
 
@@ -1057,42 +1291,91 @@ class TexRepeat(Template):
 
         ###########################################################
 
+        t = self.aas('64.mp3', '刚刚讲的这几个是 OpenGL 中的标识')
         self.play(
             FadeOut(Group(*plane.get_axes(), mdl, tri_mdl, dot, line, tri_l)),
             Transform(txts[0], wrappings[0][1]),
             FadeIn(wrappings[0][0], at=0.4),
-            FadeIn(wrappings[1:], at=0.4)
+            FadeIn(wrappings[1:], at=0.4),
+            duration=t.duration
         )
-        self.play(
-            Write(code2)
+        self.forward(0.4)
+
+        self.prepare(
+            Write(code2),
+            duration=1.5
         )
-        self.play(
+        self.prepare(
             code2[:3](VItem).anim.color.fade(0.7),
-            ShowPassingFlashAround(code2[4:], at=0.5)
+            ShowPassingFlashAround(code2[4:], at=0.5, duration=2),
+            at=1.6
         )
-        self.play(
+
+        t = self.aas('65.mp3', '在 ModernGL 中，我们通过纹理的 .repeat_x 和 .repeat_y 进行控制')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
             FadeOut(code2[:3], duration=0.4),
             FadeOut(code2[4][:7], duration=0.4),
             FadeOut(code2[5][:7], duration=0.4),
             repeat_g.anim.points.next_to(wrappings[0], DOWN, buff=MED_LARGE_BUFF)
         )
-        self.play(
+
+        t = self.aas('66.mp3', '这也意味着你可以对纹理的两个方向分别设置重复方式')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('67.mp3', '他们默认都是 True')
+        self.forward_to(t.end + 0.6)
+
+        self.prepare(
             FadeTransform(
                 repeat_g,
                 Group.from_iterable(Group(*line) for line in code3[1:-1]),
                 hide_src=False,
                 path_arc=40 * DEGREES
-            )
+            ),
+            at=1
         )
+
+        t = self.aas('68.mp3', '当你把对应方向的行为设置为 False 后')
+        self.forward_to(t.end + 0.3)
+
+        t = self.aas('69.mp3', '超出的部分会重复边缘的颜色，产生一种边缘被拉伸的效果')
         self.play(
-            ShowCreationThenDestructionAround(Group(wrappings[2], code3))
+            ShowCreationThenDestructionAround(
+                Group(wrappings[2], code3),
+                duration=t.duration
+            ),
+            Wait(0.3),
+            lag_ratio=1
         )
-        self.play(
+
+        t = self.aas('70.mp3', '这也就是对应 GL_CLAMP_TO_EDGE 的行为')
+        self.forward_to(t.end + 0.7)
+
+        t = self.aas('71.mp3', '上面提到的这两种行为是最为常见的')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('72.mp3', '可以直接用 .repeat_x 和 .repeat_y 进行控制')
+        self.forward_to(t.end + 0.5)
+
+        t = self.aas('73.mp3', '我们先不展开具体如何使用其余的两种行为了')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
             FadeIn(code4, UP)
         )
-        self.play(
+
+        t = self.aas('74.mp3', 'GL_CLAMP_TO_BORDER 需要使用 ctx.sampler 进行配置')
+        self.forward_to(t.end + 0.6)
+
+        t = self.aas('75.mp3', '并且很遗憾的是')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
             FadeIn(cross, scale=0.8)
         )
+
+        t = self.aas('76.mp3', 'ModernGL 暂未支持 GL_MIRRORED_REPEAT 的配置')
+        self.forward_to(t.end)
 
         self.forward()
 
@@ -1142,14 +1425,19 @@ class TexFilter(Template):
         ############################################################
 
         self.forward()
-        self.play(
-            FadeIn(crow02, scale=1.2),
-            Write(axes, lag_ratio=0.05),
-            FadeIn(dot, scale=0.5, at=0.6)
+        self.prepare(
+            AnimGroup(
+                FadeIn(crow02, scale=1.2),
+                Write(axes, lag_ratio=0.05),
+                FadeIn(dot, scale=0.5, at=0.6),
+            ),
+            MoveAlongPath(dot, path),
+            at=0.4,
+            lag_ratio=1
         )
-        self.play(
-            MoveAlongPath(dot, path)
-        )
+
+        t = self.aas('77.mp3', '纹理坐标不依赖于分辨率，它可以是任意浮点值')
+        self.forward_to(t.end + 0.1)
 
         ############################################################
 
@@ -1171,12 +1459,24 @@ class TexFilter(Template):
 
         ############################################################
 
+        t = self.aas('78.mp3', '所以 OpenGL 需要知道怎样通过这个纹理坐标合理地获取纹理像素。')
         self.play(
-            self.camera.anim.points.move_to(dot).scale(0.2).shift(RIGHT * 0.5 + DOWN * 0.25),
-            dot.anim.points.scale(0.2)
-                .r.radius.set(0.002),
-            FadeIn(pixel, scale=0.1)
+            AnimGroup(
+                self.camera.anim.points.move_to(dot).scale(0.2).shift(RIGHT * 0.5 + DOWN * 0.25),
+                dot.anim.points.scale(0.2)
+                    .r.radius.set(0.002),
+                FadeIn(pixel, scale=0.1),
+                duration=t.duration
+            ),
+            Wait(0.5),
+            lag_ratio=1
         )
+
+        t = self.aas('79.mp3', f'OpenGL 提供了对于纹理过滤{s1}(Texture Filtering){s2}的选项',
+                     format=Text.Format.RichText)
+        self.forward_to(t.end + 0.2)
+        t = self.aas('80.mp3', '纹理过滤有很多个选项，但是现在我们只讨论最重要的两种')
+        self.forward_to(t.end + 0.1)
 
         ############################################################
 
@@ -1192,17 +1492,31 @@ class TexFilter(Template):
 
         ############################################################
 
+        t = self.aas('81.mp3', 'mgl.NEAREST 和 mgl.LINEAR')
+        log.warning('81.mp3 重录')
         self.play(
-            FadeIn(fr)
+            AnimGroup(
+                FadeIn(fr),
+                FadeIn(methods, at=0.5),
+                duration=t.duration
+            ),
+            Wait(0.6),
+            lag_ratio=1
         )
-        self.play(
-            FadeIn(methods)
-        )
-        self.play(
+
+        self.prepare(
             FadeOut(fr),
             FadeOut(methods[2]),
             methods[1].anim.points.scale(0.5).shift(UL * 0.4 + LEFT * 0.4)
         )
+
+        t = self.aas('82.mp3', f'mgl.NEAREST{s1}（也叫临近过滤，Nearest Neighbor Filtering）{s2}',
+                     format=Text.Format.RichText)
+        self.forward_to(t.end + 0.1)
+
+        t = self.aas('83.mp3', '是 OpenGL 默认的纹理过滤方式')
+        self.forward_to(t.end + 0.5)
+
 
         ############################################################
 
@@ -1241,11 +1555,17 @@ class TexFilter(Template):
 
         ############################################################
 
+        t = self.aas('84.mp3', '当设置为 mgl.NEAREST 的时候')
         self.play(
             Create(line),
-            DrawBorderThenFill(large_pixel, duration=1.5)
+            DrawBorderThenFill(large_pixel, duration=1.5),
+            duration=t.duration
         )
-        self.play(
+        self.forward(0.2)
+        t = self.aas('85.mp3', 'OpenGL 会选择中心点最接近纹理坐标的那个像素')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
             MoveAlongPath(dot, path, rate_func=linear),
             DataUpdater(
                 pixel,
@@ -1261,6 +1581,11 @@ class TexFilter(Template):
             ),
             duration=4
         )
+
+        t = self.aas('86.mp3', '可以观察这里我们移动纹理坐标时')
+        self.forward_to(t.end)
+        t = self.aas('87.mp3', '所使用的纹理像素的变动')
+        self.forward_to(t.end + 0.6)
 
         ############################################################
 
@@ -1313,14 +1638,57 @@ class TexFilter(Template):
 
         ############################################################
 
-        self.play(
+        self.prepare(
             FadeOut(pixel),
             FadeIn(light),
             line.anim.do(partial(line_updater, p=None)),
             large_pixel.anim.do(partial(large_pixel_updater, p=None)),
             FadeOut(methods[1], scale=0.8, duration=0.4),
-            FadeIn(methods[2], scale=0.3)
+            FadeIn(methods[2], scale=0.3),
+            duration=1
         )
+
+        t = self.play_audio(
+            Audio('88.mp3')
+        )
+        t = self.play_audio(
+            Audio('89.mp3'),
+            begin=0.22,
+            delay=t.duration
+        )
+        self.subtitle(f'mgl.LINEAR 会基于纹理坐标附近的纹理像素\n{s1}（也叫线性过滤，(Bi)linear Filtering）{s2}',
+                      duration=t.end - self.current_time,
+                      format=Text.Format.RichText)
+        self.forward_to(t.end + 0.1)
+
+        self.prepare(
+            MoveAlongPath(dot, path, rate_func=linear),
+
+            DataUpdater(
+                large_pixel,
+                large_pixel_updater
+            ),
+            DataUpdater(
+                line,
+                line_updater
+            ),
+            DataUpdater(
+                light,
+                light_updater
+            ),
+            at=2,
+            duration=4
+        )
+
+        t = self.aas('90.mp3', '计算出一个插值，近似出这些纹理像素之间的颜色')
+        self.forward_to(t.end + 0.6)
+
+        t = self.aas('91.mp3', '当一个纹理像素的中心距离纹理坐标越近')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('92.mp3', '那么这个纹理像素的颜色对最终的样本颜色的贡献越大')
+        self.forward_to(t.end + 0.4)
+
+        t = self.aas('93.mp3', '你会看到在大多数情况下返回的颜色是邻近像素的混合色')
         self.play(
             MoveAlongPath(dot, path, rate_func=linear),
 
@@ -1336,8 +1704,10 @@ class TexFilter(Template):
                 light,
                 light_updater
             ),
-            duration=4
+            duration=t.duration
         )
+        self.forward(0.5)
+
         self.play(
             FadeOut(Group(crow02, light, dot, line, large_pixel,
                           methods[2], axes))
@@ -1374,19 +1744,57 @@ class TexFilter2(Template):
 
         self.forward()
 
-        self.play(
-            FadeIn(filterings, scale=1.2, lag_ratio=0.02)
+        t = self.aas('94.mp3', '那么这两种纹理过滤方式有怎样的视觉效果呢？')
+        self.forward_to(t.end + 0.2)
+
+        t = self.aas(
+            '95.mp3',
+            [
+                '让我们看看在一个很大的物体上应用一张低分辨率的纹理会发生什么吧',
+                f'{s1}（因为这样可以使得纹理被充分地放大，每个纹理像素都能看大）{s2}'
+            ],
+            format=Text.Format.RichText
         )
         self.play(
-            FadeIn(hl1)
+            FadeIn(filterings, scale=1.2, lag_ratio=0.02),
+            duration=t.duration / 2,
+            at = t.duration / 2
         )
-        self.play(
+        self.forward(0.6)
+
+        self.prepare(
+            FadeIn(hl1),
+            at=0.4
+        )
+
+        t = self.aas('96.mp3', 'mgl.NEAREST 产生了颗粒状的团')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('97.mp3', '我们能够清晰看到组成纹理的像素')
+        self.forward_to(t.end + 0.6)
+
+        self.prepare(
             FadeOut(hl1),
-            FadeIn(hl2)
+            FadeIn(hl2),
+            at=0.4
         )
+
+        t = self.aas('98.mp3', '而 mgl.LINEAR 能够产生更平滑的图案')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('99.mp3', '更难看出单个的纹理像素。')
+        self.forward_to(t.end)
+
         self.play(
             FadeOut(hl2)
         )
+
+        t = self.aas('100.mp3', '相比而言，mgl.LINEAR 可以产生更真实的输出')
+        self.forward_to(t.end + 0.3)
+        t = self.aas('101.mp3', '但有些开发者更喜欢 8-bit 风格')
+        self.forward_to(t.end + 0.1)
+        t = self.aas('102.mp3', '所以他们会用 mgl.NEAREST 选项')
+        self.forward_to(t.end + 0.3)
+        t = self.aas('103.mp3', '这取决于特定的需求')
+        self.forward_to(t.end)
 
         self.forward()
 
@@ -1434,22 +1842,37 @@ class TexFilter3(Template):
 
         self.show(wall, txt)
         self.forward()
-        self.play(
-            FadeIn(wall1),
-            Write(txt1)
+
+        t = self.aas('104.mp3', '当进行缩小和放大操作的时候可以设置纹理过滤的选项')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
+            AnimGroup(
+                FadeIn(wall1),
+                Write(txt1)
+            ),
+            AnimGroup(
+                GrowArrow(arrow1),
+                Write(atxt1)
+            )
         )
-        self.play(
-            GrowArrow(arrow1),
-            Write(atxt1)
+
+        t = self.aas('105.mp3', '比如你可以在纹理被缩小的时候使用邻近过滤')
+        self.forward_to(t.end + 0.1)
+
+        self.prepare(
+            AnimGroup(
+                FadeIn(wall2),
+                Write(txt2)
+            ),
+            AnimGroup(
+                GrowArrow(arrow2),
+                Write(atxt2)
+            )
         )
-        self.play(
-            FadeIn(wall2),
-            Write(txt2)
-        )
-        self.play(
-            GrowArrow(arrow2),
-            Write(atxt2)
-        )
+
+        t = self.aas('106.mp3', '被放大时使用线性过滤')
+        self.forward_to(t.end + 0.8)
 
         ########################################################
 
@@ -1460,7 +1883,7 @@ class TexFilter3(Template):
 
         ########################################################
 
-        self.play(
+        self.prepare(
             Transform(atxt1[0][:], code[0][18:29]),
             Transform(atxt2[0][:], code[0][31:41]),
             FadeIn(code[0][:18]),
@@ -1468,12 +1891,25 @@ class TexFilter3(Template):
             FadeIn(code[0][41:]),
             FadeOut(Group(wall, wall1, wall2, arrow1, arrow2, txt, txt1, txt2))
         )
+
+        t = self.aas('107.mp3', '这种操作我们需要使用类似这样的方式来配置')
+        self.forward_to(t.end + 0.2)
+
+
+
+        t = self.aas('108.mp3', '前一个表示缩小时的过滤方式')
         self.play(
-            ShowCreationThenDestruction(Underline(code[0][18:29], color=YELLOW))
+            ShowCreationThenDestruction(Underline(code[0][18:29], color=YELLOW)),
+            duration=t.duration
         )
+        self.forward(0.1)
+
+        t = self.aas('109.mp3', '后一个表示放大时的过滤方式')
         self.play(
-            ShowCreationThenDestruction(Underline(code[0][31:41], color=YELLOW))
+            ShowCreationThenDestruction(Underline(code[0][31:41], color=YELLOW)),
+            duration=t.duration
         )
+
         self.forward()
 
 
@@ -1521,25 +1957,42 @@ class TexMipmap(Template):
 
         self.forward()
 
-        self.play(
+        self.prepare(
             Write(plane, lag_ratio=0.05),
             FadeIn(cubes, at=1.2)
         )
-        self.play(
+
+        t = self.aas('110.mp3', '假设我们有一个包含很多物体的大房间')
+        self.forward_to(t.end + 0.1)
+        t = self.aas('111.mp3', '每个物体上都有纹理')
+        self.forward_to(t.end + 0.5)
+
+        self.prepare(
             FadeIn(hl1),
             ShowCreationThenDestruction(rect1, duration=2)
         )
-        self.play(
+
+        t = self.aas('112.mp3', '有些物体会很远')
+        self.forward_to(t.end + 0.1)
+
+        self.prepare(
             FadeOut(hl1),
             FadeIn(hl2),
-            ShowCreationThenDestruction(rect2, duration=2)
+            ShowCreationThenDestruction(rect2, duration=2),
+            at=0.4,
+            duration=2.5
         )
-        self.play(
-            FadeOut(hl2)
+
+        t = self.aas('113.mp3', '但其纹理会拥有与近处物体同样高的分辨率')
+        self.forward_to(t.end + 0.4)
+
+        self.prepare(
+            FadeOut(hl2),
+            FadeIn(hl1, at=0.5)
         )
-        self.play(
-            FadeIn(hl1)
-        )
+
+        t = self.aas('114.mp3', '由于远处的物体可能只产生很少的片段')
+        self.forward_to(t.end)
 
         self.forward()
 
@@ -1610,10 +2063,16 @@ class TexMipmap2(Template):
 
         self.forward()
 
-        self.play(
+        self.prepare(
             FadeIn(tex[0], duration=0.7),
-            Write(tex[1:])
+            Write(tex[1:]),
+            duration=1.5
         )
+
+        t = self.aas('115.mp3', 'OpenGL 从高分辨率纹理中为这些片段获取正确的颜色值就很困难')
+        self.forward_to(t.end + 0.4)
+
+        t = self.aas('116.mp3', '因为它需要对一个跨过纹理很大部分的片段只拾取一个纹理颜色')
         self.play(
             Write(dl),
             Write(line)
@@ -1642,10 +2101,16 @@ class TexMipmap2(Template):
             FadeOut(Group(line, dl)),
             FadeIn(container_bad)
         )
-        self.play(
+        self.prepare(
             container_bad.anim(rate_func=rush_from).points.scale(0.05),
             duration=3
         )
+
+        t = self.aas('117.mp3', '在小物体上这会产生不真实的感觉')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('118.mp3', '更不用说它们使用高分辨率纹理时浪费内存带宽的问题了')
+        self.forward_to(t.end)
+
         self.play(
             FadeOut(Group(frame, container_bad))
         )
@@ -1692,30 +2157,62 @@ class TexMipmap2(Template):
 
         ###########################################################
 
+        t = self.aas('119.mp3', f'OpenGL 使用一种叫做多级渐远纹理{s1}(Mipmap){s2}的概念来解决这个问题',
+                     format=Text.Format.RichText)
         self.play(
             TransformMatchingShapes(tex[-1], txt_mipmap),
             FadeTransform(tex[1], txt_line, duration=2),
-            FadeOut(tex[2])
+            FadeOut(tex[2]),
+            duration=t.duration
         )
-        self.play(
-            Transform(Group(img), imgs1)
-        )
-        self.play(
-            Transform(imgs1, imgs2)
-        )
-        self.show(container)
+        self.forward(0.6)
 
         self.prepare(
-            ItemUpdater(None, redsur_updater),
-            duration=5
+            Transform(Group(img), imgs1),
+            at=0.5,
+            duration=1.5
         )
 
-        self.forward()
+        t = self.aas('120.mp3', '它简单来说就是预先生成一系列的纹理图像')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
+            Transform(imgs1, imgs2),
+            at=1.3,
+            duration=1.5
+        )
+
+        t = self.aas('121.mp3', '后一个纹理图像的大小是前一个的二分之一')
+        self.forward_to(t.end + 0.6)
+
+        t = self.aas('122.mp3', '多级渐远纹理背后的理念很简单')
+        self.forward_to(t.end)
+
+        self.show(container)
+        self.prepare(
+            ItemUpdater(None, redsur_updater),
+            duration=6
+        )
+
+        self.forward(0.4)
+
+        t = self.aas('123.mp3', '距观察者的距离超过一定的阈值')
+        t = self.aas('124.mp3', 'OpenGL 会切换为其中特定尺寸的纹理',
+                     delay=t.duration + 0.2)
+
+        self.forward(0.6)
         self.play(
             container.anim(rate_func=rush_from).points.scale(0.025),
-            duration=4
+            duration=5
         )
         redsur = redsur_updater().show()
+
+        t = self.aas('125.mp3', '即最适合物体的距离的那个')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('126.mp3', '由于距离远，解析度不高也不会被用户注意到')
+        self.forward_to(t.end + 0.4)
+        t = self.aas('127.mp3', '同时，多级渐远纹理另一加分之处是它的性能非常好')
+        self.forward_to(t.end + 1)
 
         ###########################################################
 
@@ -1737,16 +2234,28 @@ class TexMipmap2(Template):
 
         ###########################################################
 
-        self.play(
+        self.prepare(
             FadeOut(redsur, duration=0.4),
             FadeOut(container, duration=0.4),
             Transform(imgs2, imgs3, path_arc=60 * DEGREES),
             FadeIn(cover, at=0.6, duration=0.3),
-            FadeIn(imgs2, at=0.7, duration=0.5)
+            FadeIn(imgs2, at=0.7, duration=0.5),
+            at=0.5,
+            duration=2
         )
-        self.play(
-            Write(txt_mipmaps)
+
+        t = self.aas('128.mp3', '多级渐远纹理放在一起是长这个样子的')
+        self.forward_to(t.end + 0.6)
+        t = self.aas('129.mp3', '手工为每个纹理图像创建一系列多级渐远纹理很麻烦')
+        self.forward_to(t.end + 0.2)
+
+        self.prepare(
+            Write(txt_mipmaps),
+            at=2
         )
+
+        t = self.aas('130.mp3', '幸好 OpenGL 提供了直接生成多级渐远纹理的方式')
+        self.forward_to(t.end + 0.3)
 
         ###########################################################
 
@@ -1754,22 +2263,46 @@ class TexMipmap2(Template):
         height2 = imgs2[1].points.box.height - 0.05
         container.points.set_height(height1)
 
+        udl = Underline(txt_mipmaps, color=YELLOW)
+
         ###########################################################
 
         redsur = redsur_updater()
+
+        self.prepare(Create(udl))
+
+        t = self.aas('131.mp3', '我们直接使用这个代码就好了')
+        self.forward_to(t.end + 0.6)
+        t = self.aas('132.mp3', '在创建完一个纹理后调用它')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('133.mp3', 'OpenGL 就会承担接下来的所有工作了')
+        self.forward_to(t.end + 0.5)
+        t = self.aas('134.mp3', '后面的教程中你会看到该如何使用它')
+        self.forward_to(t.end)
+
         self.play(
+            Destruction(udl, duration=0.6),
             FadeOut(Group(txt_mipmaps, cover, imgs3)),
             FadeIn(container),
             FadeIn(redsur)
         )
+
+        self.forward(0.7)
+
+        t = self.aas('135.mp3', '在渲染中切换多级渐远纹理级别(Level)时')
+        t = self.aas('136.mp3', 'OpenGL 在两个不同级别的多级渐远纹理层之间会产生不真实的硬边界',
+                     delay=t.duration + 0.1)
+
+        self.forward(0.3)
         self.prepare(
             ItemUpdater(
                 redsur,
                 redsur_updater
             ),
-            duration=3
+            duration=9
         )
-        for _ in range(3):
+
+        for _ in range(9):
             self.play(
                 container.anim(duration=0.3).points.set_height(height2)
             )
@@ -1812,23 +2345,45 @@ class TexMipmap2(Template):
 
         ###########################################################
 
-        self.play(
-            Write(lmn_part)
+        self.prepare(
+            Write(lmn_part),
+            at=0.3
         )
-        self.play(
+
+        t = self.aas('137.mp3', '（为了解决这个问题）就像普通的纹理过滤一样')
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(
             Transform(lmn_part, lmn[0][:10]),
-            FadeIn(lmn[0][10:], LEFT)
+            FadeIn(lmn[0][10:], LEFT),
+            at=1.5,
+            duration=3
         )
-        self.play(
+
+        t = self.aas('138.mp3', '切换多级渐远纹理级别时你也可以在两个')
+        self.forward_to(t.end)
+        t = self.aas('139.mp3', '不同多级渐远纹理级别之间使用 NEAREST 或 LINEAR 过滤')
+        log.warning('139.mp3 重录')
+        self.forward_to(t.end + 0.6)
+
+        self.prepare(
             FadeIn(bg1, duration=0.7),
             GrowDoubleArrow(arrow1, start_ratio=1, at=0.5, duration=0.4, rate_func=rush_from),
             FadeIn(txt1, DOWN * 0.2, 1.2, at=0.3, duration=0.6),
+            at=0.7
         )
-        self.play(
+
+        t = self.aas('140.mp3', '这个标识的前半部分对应之前提到的纹理内的过滤方式')
+        self.forward_to(t.end + 0.3)
+
+        self.prepare(
             FadeIn(bg2, duration=0.7),
             GrowDoubleArrow(arrow2, start_ratio=1, at=0.5, duration=0.4, rate_func=rush_from),
             FadeIn(txt2, DOWN * 0.2, 1.2, at=0.3, duration=0.6),
         )
+
+        t = self.aas('141.mp3', '后半部分就是我们现在正在说的多级渐远纹理间的过滤方式')
+        self.forward_to(t.end + 0.6)
 
         ###########################################################
 
@@ -1843,19 +2398,28 @@ class TexMipmap2(Template):
 
         ###########################################################
 
+        t = self.aas('142.mp3', '如果我们把后半部分改成 LINEAR')
+        log.warning('142.mp3 重录')
         self.play(
             Destruction(lmn[0][18:], lag_ratio=0.2),
-            Create(lml[0][18:], lag_ratio=0.2, at=0.3)
+            Create(lml[0][18:], lag_ratio=0.2, at=0.3),
+            duration=t.duration
         )
+        self.forward(0.1)
+
+        t = self.aas('143.mp3', '那么就会在两个多级渐远纹理之间进行线性插值')
+        self.forward_to(t.end + 0.4)
+
+        t = self.aas('144.mp3', '从而消除切换纹理时的突变')
 
         self.prepare(
             ItemUpdater(
                 redsur,
                 redsur_updater
             ),
-            duration=2
+            duration=4
         )
-        for _ in range(2):
+        for _ in range(4):
             self.play(
                 container.anim(duration=0.3).points.set_height(height2)
             )
@@ -1941,7 +2505,7 @@ class TexMipmap3(Template):
 
         typ2 = TypstText(typ2_src)
         typ2.points.to_border(UP, buff=LARGE_BUFF)
-        typ2.show()
+        # typ2.show()
 
         typs = Group(*[
             TypstText(typ3_src.format(a, f'MIPMAP_{b}'))
@@ -1995,9 +2559,13 @@ class TexMipmap3(Template):
 
         ##########################################################
 
-        self.play(Write(typ2))
+        self.forward()
+        self.prepare(Write(typ2), at=0.5)
 
-        self.forward(0.5)
+        t = self.aas('145.mp3', '显然，这个配置的前后两部分分别有两种选择')
+        self.forward_to(t.end + 0.2)
+        t = self.aas('146.mp3', '你就可以排列组合得到这四种纹理过滤方式')
+        self.forward_to(t.end + 0.2)
 
         for typ, desc, (part1, part2) in zip(
             typs,
@@ -2013,13 +2581,21 @@ class TexMipmap3(Template):
             self.forward(0.7)
             self.hide(rect1, rect2)
 
-        self.play(
+        self.prepare(
             Write(setfilter1, duration=1.3)
         )
-        self.play(
+
+        t = self.aas('147.mp3', '和前面设置纹理过滤的方式一样')
+        self.forward_to(t.end + 0.1)
+
+        self.prepare(
             setfilter1.anim(duration=0.4).color.fade(0.5),
             Write(setfilter2, duration=1.3)
         )
+
+        t = self.aas('148.mp3', '我们通过类似这样的方式来设置多级渐远纹理的纹理过滤方式')
+        self.forward_to(t.end)
+
         self.play(
             FadeOut(Group(typ2, typdescs, setfilter1), duration=0.8),
             Transform(setfilter2, setfilter3, duration=1.3)
@@ -2028,12 +2604,20 @@ class TexMipmap3(Template):
             FadeIn(typ4),
             duration=2
         )
+
+        t = self.aas('149.mp3', '记得这里前面一个是配置缩小时的过滤选项')
         self.play(
-            ShowCreationThenDestruction(udl1)
+            ShowCreationThenDestruction(udl1),
+            duration=t.duration
         )
+        self.forward(0.2)
+
+        t = self.aas('150.mp3', '后面一个是放大时的过滤选项')
         self.play(
-            ShowCreationThenDestruction(udl2)
+            ShowCreationThenDestruction(udl2),
+            duration=t.duration
         )
+        self.forward()
 
 
 if __name__ == '__main__':
