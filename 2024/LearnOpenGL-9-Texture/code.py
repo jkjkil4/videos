@@ -27,7 +27,7 @@ class SurBox(Group):
 
 class TitleTl(TitleTemplate):
     str1 = 'Learn OpenGL'
-    str2 = '纹理'
+    str2 = '纹理的基本概念'
 
 
 class Intro(Template):
@@ -1493,7 +1493,6 @@ class TexFilter(Template):
         ############################################################
 
         t = self.aas('81.mp3', 'mgl.NEAREST 和 mgl.LINEAR')
-        log.warning('81.mp3 重录')
         self.play(
             AnimGroup(
                 FadeIn(fr),
@@ -2126,7 +2125,7 @@ class TexMipmap2(Template):
 
         img = tex[0]
         imgs1 = img * 8
-        imgs1.points.scale(0.53).arrange(DOWN) \
+        imgs1.points.scale(0.35).arrange(DOWN) \
             .next_to(txt_line, buff=MED_LARGE_BUFF, aligned_edge=UP)
 
         imgs2 = imgs1.copy()
@@ -2363,7 +2362,6 @@ class TexMipmap2(Template):
         t = self.aas('138.mp3', '切换多级渐远纹理级别时你也可以在两个')
         self.forward_to(t.end)
         t = self.aas('139.mp3', '不同多级渐远纹理级别之间使用 NEAREST 或 LINEAR 过滤')
-        log.warning('139.mp3 重录')
         self.forward_to(t.end + 0.6)
 
         self.prepare(
@@ -2394,12 +2392,17 @@ class TexMipmap2(Template):
         )
         lml.points.move_to_by_indicator(lml[0][10], lmn[0][10])
 
+        comp = container.copy()
+        comp.points.shift(UP)
+        comp_txt = Text('对比（上面这个会在缩小时突然变糊一点）', color=GREY, font_size=14)
+        comp_txt.points.next_to(UP * 1.5 + RIGHT)
+        comp_arrow = Arrow(comp_txt.points.box.left, comp, color=GREY, buff=0.15)
+
         container.image.set(min_mag_filter=(mgl.LINEAR_MIPMAP_LINEAR, mgl.LINEAR))
 
         ###########################################################
 
         t = self.aas('142.mp3', '如果我们把后半部分改成 LINEAR')
-        log.warning('142.mp3 重录')
         self.play(
             Destruction(lmn[0][18:], lag_ratio=0.2),
             Create(lml[0][18:], lag_ratio=0.2, at=0.3),
@@ -2408,6 +2411,12 @@ class TexMipmap2(Template):
         self.forward(0.1)
 
         t = self.aas('143.mp3', '那么就会在两个多级渐远纹理之间进行线性插值')
+
+        self.prepare(
+            FadeIn(Group(comp, comp_txt, comp_arrow)),
+            at=t.duration - 1
+        )
+
         self.forward_to(t.end + 0.4)
 
         t = self.aas('144.mp3', '从而消除切换纹理时的突变')
@@ -2417,15 +2426,19 @@ class TexMipmap2(Template):
                 redsur,
                 redsur_updater
             ),
-            duration=4
+            duration=5
         )
-        for _ in range(4):
+        for _ in range(5):
             self.play(
-                container.anim(duration=0.3).points.set_height(height2)
+                container.anim.points.set_height(height2),
+                comp.anim.points.set_height(height2),
+                duration=0.3
             )
             self.forward(0.2)
             self.play(
-                container.anim(duration=0.3).points.set_height(height1)
+                container.anim.points.set_height(height1),
+                comp.anim.points.set_height(height1),
+                duration=0.3
             )
             self.forward(0.2)
 
@@ -2617,6 +2630,14 @@ class TexMipmap3(Template):
             ShowCreationThenDestruction(udl2),
             duration=t.duration
         )
+        self.forward()
+
+
+class NextChapterSubtitle(Template):
+    def construct(self):
+        self.subtitle('以上就是纹理的基本概念', 1)
+        self.forward(2)
+        self.subtitle('我们将在下一节加载与创建纹理', 1)
         self.forward()
 
 
