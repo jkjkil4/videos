@@ -278,12 +278,12 @@ class Desc_FixInFrame(TitleObjTemplate):
 
         self.prepare(
             self.camera.anim
-            .points.rotate(70 * DEGREES, axis=RIGHT),
+            .points.rotate(70 * DEGREES, axis=RIGHT, absolute=False),
             at=2
         )
         t2 = self.prepare(
             self.camera.anim
-            .points.rotate(-90 * DEGREES, axis=DR),
+            .points.rotate(-90 * DEGREES, axis=DR, absolute=False),
             at=3
         )
 
