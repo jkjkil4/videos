@@ -45,6 +45,5 @@ class Logo(Timeline):
 
 
 if __name__ == '__main__':
-    anim = Logo().build()
-    anim.anim_on(0)
-    anim.capture().save('logo.png')
+    built = Logo().build()
+    built.capture(0).save('logo.png')

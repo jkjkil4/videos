@@ -5,6 +5,7 @@
 *.kdenlive
 *.psd
 *.mov
+._*
 
 /.VSCodeCounter
 /env_osbpy

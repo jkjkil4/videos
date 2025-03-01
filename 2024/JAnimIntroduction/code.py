@@ -357,8 +357,7 @@ class Functions(SubtitleTemplate2):
                 lambda data, p: data \
                     .color.fade(1 - smooth(min(1, p.alpha * 4))).r \
                     .points.rotate(PI * p.alpha),
-                hide_at_begin=False,
-                show_at_end=False,
+                hide_at_end=True,
                 become_at_end=False,
                 rate_func=linear,
                 duration=3
@@ -375,8 +374,7 @@ class Functions(SubtitleTemplate2):
                 lambda data, p: data \
                     .color.fade(1 - smooth(min(1, (1 - p.alpha) * 4))).r \
                     .points.rotate(PI * p.alpha),
-                hide_at_begin=False,
-                show_at_end=False,
+                hide_at_end=True,
                 become_at_end=False,
                 rate_func=linear,
                 duration=4
