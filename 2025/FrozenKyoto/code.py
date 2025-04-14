@@ -90,8 +90,8 @@ class GothicTextBox(Group[VItem]):
             char.color.set(alpha=0)
 
         return AnimGroup(
-            self[:3].anim(rate_func=cubic_out, duration=stretch_duration).become(stat1),
-            self[3].anim(rate_func=expo_out, duration=txt_duration).become(stat2),
+            self[:3].anim(rate_func=ease_out_cubic, duration=stretch_duration).become(stat1),
+            self[3].anim(rate_func=ease_out_expo, duration=txt_duration).become(stat2),
             **kwargs
         )
 
@@ -137,21 +137,21 @@ class TextBoxGroup(Group[Group[TextBox]]):
                         box[:3],
                         box[0].points.box.center,
                         duration=0.4,
-                        rate_func=sine_out
+                        rate_func=ease_out_sine
                     ),
                     GrowFromPoint(
                         box[3],
                         box[0].points.box.center,
                         duration=0.4,
                         at=0.075,
-                        rate_func=sine_out
+                        rate_func=ease_out_sine
                     ),
                     FadeIn(
                         box[4],
                         direction_fn(i),
                         duration=0.4,
                         at=0.15,
-                        rate_func=sine_out
+                        rate_func=ease_out_sine
                     )
                 )
                 for i, box in enumerate(it.chain(*self.children))
