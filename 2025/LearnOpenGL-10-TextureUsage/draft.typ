@@ -1,4 +1,4 @@
-#import "@preview/pinit:0.2.0": *
+#import "@preview/pinit:0.2.2": *
 
 #show heading: set text(fill: blue)
 
@@ -83,14 +83,34 @@ texture = ctx.texture(img.size, components=3, data=img.tobytes())
 便可以创建一个 OpenGL 纹理对象。这里我们给 `ctx.texture` 传递 `img.size` 告诉 OpenGL 这个纹理的尺寸，传递 `components=3` 表明这是使用三分量的 `RGB` 形式存储的图像数据，接着便是传递 `img.tobytes()` 将图像数据提供给它。
 
 #note[
-  注意，这里我们本身就已经是以 `RGB` 的形式载入图像，因此不用额外的转换，对于其它的，例如带透明度通道的 `.png` `RGBA` 图像，你可以选择对不同的图像配置不同的 components，或者使用类似于 `.convert('RGBA')` 的方式把图像都统一成一种格式
+  注意，这里我们载入的本身就已经是 `RGB` 形式的图像，刚好对应 `components=3`，因此不用额外的转换；如果你还需要载入其它的，例如带透明度通道的 `.png` `RGBA` 图像，你可以选择对不同的图像配置不同的 components，或者使用 `.convert('RGBA')` 的方式把图像都统一成一种格式\
+  \
+]#pin(1)
+
+#p(1, body-dy: -10em)[
+  可以做成
+  
+  ```python
+  img = Image.open('container.jpg')
+  texture = ctx.texture(img.size, components=3, data=img.tobytes())
+
+  img = Image.open('xxx.png')
+  texture = ctx.texture(img.size, components=4, data=img.tobytes())
+
+  img = Image.open('container.jpg').convert('RGBA')
+  texture = ctx.texture(img.size, components=3, data=img.tobytes())
+  ```
 ]
 
-此时，只有基本级别(Base-level)的纹理图像被加载了，如果要使用多级渐远纹理，我们需要使用 `texture.build_mipmaps()` 来生成它们，这会为这个纹理自动生成所有需要的多级渐远纹理。
+此时，只有基本级别(Base-level)的纹理图像被加载了，如果要使用多级渐远纹理，我们需要使#pin(2)用 `texture.build_mipmaps()` 来生成它们，这会为这个纹理自动生成所有需要的多级渐远纹理。
+
+#p(2)[
+  可以放上期视频
+]
 
 == 应用纹理
 
-后面的这部分我们会使用 `第6节 索引缓冲对象` 中最后一部分使用索引缓冲对象(IBO)绘制矩形的代码，你可以把那个代码复制进来（贴个链接），我们以这个为基础来给这个矩形附着上纹理渲染。
+后面的这部分我们会使用 `第6节 索引缓冲对象` 中最后一部分使用索引缓冲对象(IBO)绘制矩形的代码，你可以把那个代码复制进来（贴个链接），我们以这个为基础来给矩形附着上纹理渲染。
 
 为了渲染纹理，我们需要告知 OpenGL 如何采样纹理，所以我们必须更新顶点数据，加上纹理坐标：
 
@@ -105,13 +125,29 @@ vertices = np.array([
 ], dtype='f4')
 ```
 
-由于我们添加了额外的新顶点属性，我们必须向 OpenGL 注明我们新的顶点格式：
+由于我们添加了额外的新顶点属性，我们必须向 OpenGL 注明我们新的顶点格式：#pin(3)
 
 ```py
 vao = ctx.vertex_array(prog, vbo, 'in_vert', 'in_texcoord', index_buffer=ibo)
 ```
 
-接着我们需要调整顶点着色器使其能够接受这两个顶点属性，并把坐标传递给片段着色器：
+#p(3)[
+  高亮一下 `in_texcoord`
+]
+
+接着我们需要调整顶点着色器使其能够接受这两个顶点属性，并把坐标传递给片段着色器：#pin(4)
+
+#p(4)[
+  高亮一下
+  ```glsl
+  in vec2 in_texcoord;
+  ```
+
+  和
+  ```glsl
+  v_texcoord = in_texcoord;
+  ```
+]
 
 ```glsl
 #version 330 core
@@ -128,11 +164,11 @@ void main()
 }
 ```
 
-片段着色器也应该能访问纹理对象，但是我们怎样才能做到这一点呢？
+我们需要在片段着色器中，获取纹理对象在对应坐标的颜色，我们怎样才能做到这一点呢？
 
 GLSL 有一个供纹理对象使用的内建数据类型，叫做采样器(Sampler)，它以纹理类型作为后缀，比如 `sampler1D`、`sampler3D`，或在我们的例子中的 `sampler2D`。
 
-我们可以简单声明一个 `uniform sampler2D` 把一个纹理添加到片段着色器中，稍后我们会把纹理赋值给这个 uniform：
+我们可以简单声明一个 `uniform sampler2D` 把一个纹理添加到片段着色器中/*，稍后我们会把纹理赋值给这个 uniform*/：
 
 ```glsl
 #version 330 core
@@ -289,4 +325,4 @@ texture2.use(1)
 
 如果你看到了一个开心的箱子，你就做对了。你可以对比一下源代码（贴链接）。
 
-前面提到使用 `.transpose` 翻转图像是 LearnOpenGL 中的方法，我不太喜欢这种，我们把前面的 `.transpose` 先删了，其实对调纹理坐标的 `y` 轴也能达到同样的方式，对吧？我更喜欢这种方式
+另外说一下，前面提到使用 `.transpose` 翻转图像是 LearnOpenGL 中的方法，我不太喜欢这种，我们把前面的 `.transpose` 先删了，其实对调纹理坐标的 `y` 轴也能达到同样的方式，对吧？我更喜欢这种方式
