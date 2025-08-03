@@ -14,6 +14,7 @@
 /test
 /logo.png
 /2024/*/cover.png
+/2025/*/cover.png
 
 __pycache__
 test.py
