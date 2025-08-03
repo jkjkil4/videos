@@ -14,6 +14,12 @@ class Template(Timeline):
     )
 
 
+class MOVTemplate(Template):
+    CONFIG = Config(
+        background_color=Color(PURE_GREEN)
+    )
+
+
 class TitleTemplate(Template):
     str1 = 'Title'
     str2 = 'Topic'
