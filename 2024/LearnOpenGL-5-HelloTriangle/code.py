@@ -452,7 +452,7 @@ class Pipeline2(Template):
                 DOWN * 2.1,
                 ORIGIN
             ]).r,
-            **HighlightRect.difference_config_d
+            **Rect.preset_shadow
         )
 
         hl_one = boolean_ops.Difference(
@@ -460,7 +460,7 @@ class Pipeline2(Template):
             Rect(1.6, 2)
                 .points.shift(LEFT * 0.885 + UP)
                 .r,
-            **HighlightRect.difference_config_d
+            **Rect.preset_shadow
         )
 
         #########################################################
@@ -728,7 +728,7 @@ class Pipeline2(Template):
                 Rect([5.04, 3.29, 0], [14.96, -2.63, 0]),
                 Rect([10.19, 3.17, 0], [15.06, -8.96, 0])
             ),
-            **HighlightRect.difference_config_d
+            **Rect.preset_shadow
         )
 
         path1 = VItem(
@@ -1229,7 +1229,7 @@ class VertexInput(Template):
             Rect([-5.28, 2.11, 0], [5.52, -1.59, 0]),
             SurroundingRect(gpu),
             depth=-210,
-            **HighlightRect.difference_config_d
+            **Rect.preset_shadow
         )
 
         cover2 = boolean_ops.Difference(

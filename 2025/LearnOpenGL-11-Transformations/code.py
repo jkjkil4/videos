@@ -358,7 +358,7 @@ class TL3(Template):
 
         ####################################################
 
-        frect = FrameRect(**HighlightRect.difference_config_d)
+        frect = FrameRect(**Rect.preset_shadow)
 
         typ_vecdesc = TypstText(
             R'''
@@ -1199,7 +1199,7 @@ class TL8(Template):
         typ.patterns('macron(w)', 'vec(0.5,3.5)').set(color=GREEN_A)
         typ.patterns('macron(v)', 'vec(3,2)').set(color=RED_A)
         typ.points.next_to(vec_res.points.get_end(), UP, buff=SMALL_BUFF)
-        typbg = SurroundingRect(typ, depth=1, **HighlightRect.difference_config_d)
+        typbg = SurroundingRect(typ, depth=1, **Rect.preset_shadow)
 
         typp = TypstMath(
             R'''
@@ -1211,7 +1211,7 @@ class TL8(Template):
         typp['macron(w)'].set(color=GREEN_A)
         typp['macron(v)'].set(color=RED_A)
         typp.match_pattern(typ, '=')
-        typpbg = SurroundingRect(typp, depth=1, **HighlightRect.difference_config_d)
+        typpbg = SurroundingRect(typp, depth=1, **Rect.preset_shadow)
 
         typg = Group(typ_w, typ_nv)
 
@@ -1326,7 +1326,7 @@ class TL9(Template):
         txt = Text('<c RED_A>向量</c>的长度    <c GREY><fs 0.7>使用勾股定理即可</fs></c>', format='rich')
         txt.points.next_to(gg, UP, aligned_edge=LEFT, buff=SMALL_BUFF * 1.5)
         
-        ggbg = SurroundingRect(Group(gg, txt), depth=5, **HighlightRect.difference_config_d)
+        ggbg = SurroundingRect(Group(gg, txt), depth=5, **Rect.preset_shadow)
 
         ####################################################
 
@@ -1751,7 +1751,7 @@ class TL11(Template):
         ]
 
         typ.generate_target().points.to_border(UP)
-        typbg = SurroundingRect(typ.target, depth=-4, **HighlightRect.difference_config_d).fix_in_frame()
+        typbg = SurroundingRect(typ.target, depth=-4, **Rect.preset_shadow).fix_in_frame()
 
         vec_v = Vector([3,1], color=RED_A)
         vec_k = Vector([1,2], color=GREEN_A)
@@ -2137,7 +2137,7 @@ class TL11(Template):
         typ2.points.next_to(vec2.points.end, UR, buff=SMALL_BUFF)
         typ3.points.next_to(vec3.points.end, UR, buff=SMALL_BUFF)
 
-        _BgRect = partial(SurroundingRect, **HighlightRect.difference_config_d)
+        _BgRect = partial(SurroundingRect, **Rect.preset_shadow)
 
         typ1 = Group(_BgRect(typ1), typ1)
         typ2 = Group(_BgRect(typ2), typ2)

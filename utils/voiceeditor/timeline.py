@@ -5,8 +5,8 @@ from bisect import bisect_left, bisect_right
 from dataclasses import dataclass
 
 import numpy as np
-from janim.gui.audio_player import AudioPlayer
-from janim.gui.precise_timer import PreciseTimer
+from janim.gui.utils.audio_player import AudioPlayer
+from janim.gui.utils.precise_timer import PreciseTimer
 from PySide6.QtCore import QPointF, QRectF, Qt, QTimer
 from PySide6.QtGui import (QColor, QKeyEvent, QMouseEvent, QPainter,
                            QPainterPath, QPen)

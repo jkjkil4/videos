@@ -431,7 +431,7 @@ class Intro(Template):
                 Rect([-6.26, -0.31, 0], [-2.39, -0.89, 0]),
                 Rect([-1.67, 2.48, 0], [4.83, -2.76, 0])
             ),
-            **HighlightRect.difference_config_d
+            **Rect.preset_shadow
         )
 
         #########################################################

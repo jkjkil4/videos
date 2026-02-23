@@ -426,7 +426,7 @@ class TexCoord(Template):
             return boolean_ops.Difference(
                 rect,
                 tri,
-                **HighlightRect.difference_config_d
+                **Rect.preset_shadow
             )
 
         tri_l = tri_l_updater(None)
@@ -1142,7 +1142,7 @@ class TexRepeat(Template):
                 boolean_ops.Difference(
                     rect,
                     tri,
-                    **HighlightRect.difference_config_d
+                    **Rect.preset_shadow
                 ),
                 boolean_ops.Difference(
                     tri,
@@ -1480,7 +1480,7 @@ class TexFilter(Template):
 
         ############################################################
 
-        fr = FrameRect(self.camera, **HighlightRect.difference_config_d, depth=-10)
+        fr = FrameRect(self.camera, **Rect.preset_shadow, depth=-10)
 
         methods = Text(
             code5_src,
@@ -1736,8 +1736,8 @@ class TexFilter2(Template):
         )
         filterings.points.arrange()
 
-        hl1 = Rect([0, 2.05, 0], [3.45, -2.18, 0], **HighlightRect.difference_config_d)
-        hl2 = Rect([-3.51, 2.18, 0], [-0.06, -2.14, 0], **HighlightRect.difference_config_d)
+        hl1 = Rect([0, 2.05, 0], [3.45, -2.18, 0], **Rect.preset_shadow)
+        hl2 = Rect([-3.51, 2.18, 0], [-0.06, -2.14, 0], **Rect.preset_shadow)
 
         ############################################################
 
@@ -2221,7 +2221,7 @@ class TexMipmap2(Template):
 
         cover = Rect(
             [-6.32, 3.21, 0], [-3.03, -3.06, 0],
-            **HighlightRect.difference_config_d
+            **Rect.preset_shadow
         )
 
         txt_mipmaps = Text(

@@ -37,7 +37,7 @@ class ImgAttrs(Template):
         group = Group(txt1, txt2, txt3, txt4)
         group.points.arrange_in_grid(fill_rows_first=False, aligned_edge=RIGHT, buff=0.7)
 
-        rect = SurroundingRect(group, **HighlightRect.difference_config_d, depth=1, buff=0.4).show()
+        rect = SurroundingRect(group, **Rect.preset_shadow, depth=1, buff=0.4).show()
 
         self.play(FadeIn(rect))
         self.play(Write(txt1))
@@ -98,7 +98,7 @@ class PillowImageNote(TextDisplayTemplate):
     )
 
     def construct(self):
-        FrameRect(**HighlightRect.difference_config_d, depth=1).show()
+        FrameRect(**Rect.preset_shadow, depth=1).show()
         super().construct()
 
 
@@ -229,7 +229,7 @@ class TakeColor(Template):
 
 class SamplerDesc(Template):
     def construct(self):
-        rect = FrameRect(**HighlightRect.difference_config_d, depth=1)
+        rect = FrameRect(**Rect.preset_shadow, depth=1)
         title = Title('采样器')
         txt = Text('sampler1D\nsampler2D\nsampler3D')
         txt.points.arrange(DOWN)
@@ -257,7 +257,7 @@ class SamplerHighlight(Template):
                 Rect([-5.93, -0.9, 0], [-2.01, -1.29, 0]),
                 Rect([-4.34, -2.2, 0], [-0.67, -2.51, 0])
             ).points.shift(UP * 0.5).r,
-            **HighlightRect.difference_config_d,
+            **Rect.preset_shadow,
         )
 
         self.play(FadeIn(hl))
@@ -320,7 +320,7 @@ class TextureParams(Template):
 
 class TextureLocation(Template):
     def construct(self):
-        rect = FrameRect(**HighlightRect.difference_config_d)
+        rect = FrameRect(**Rect.preset_shadow)
 
         self.play(FadeIn(rect))
 
@@ -442,7 +442,7 @@ class ColorBoxCode(Template):
         code = Text(code_colorbox, format=Text.Format.RichText, font_size=12).show()
         code.points.to_border(RIGHT)
 
-        rect = SurroundingRect(code, **HighlightRect.difference_config_d, depth=1).show()
+        rect = SurroundingRect(code, **Rect.preset_shadow, depth=1).show()
         rect.set(fill_alpha=0.8)
 
         for i, line in enumerate(code):
@@ -471,7 +471,7 @@ class TextureLocationNote(TextDisplayTemplate):
     stay_duration=6
 
     def construct(self):
-        FrameRect(**HighlightRect.difference_config_d, depth=1).show()
+        FrameRect(**Rect.preset_shadow, depth=1).show()
         super().construct()
 
         ctx = mgl.create_context()
@@ -504,7 +504,7 @@ class TwoTextureCode1(Template):
         code = Text(code_twotexture1, format=Text.Format.RichText, font_size=12).show()
         code.points.to_border(UR)
 
-        rect = SurroundingRect(code, **HighlightRect.difference_config_d, depth=1).show()
+        rect = SurroundingRect(code, **Rect.preset_shadow, depth=1).show()
         rect.set(fill_alpha=0.8)
 
         for i, line in enumerate(code):
@@ -530,7 +530,7 @@ class GLSLMix(Template):
     def construct(self):
         ##############################################################
 
-        rect = FrameRect(**HighlightRect.difference_config_d, depth=1)
+        rect = FrameRect(**Rect.preset_shadow, depth=1)
         title = Title('mix 函数')
 
         line = NumberLine((0, 1), include_numbers=True, unit_size=2)
@@ -737,13 +737,13 @@ class RemoveColorCode(MOVTemplate):
         )
         pyline.points.to_border(UR)
 
-        rect1 = SurroundingRect(code1, **HighlightRect.difference_config_d, depth=1)
+        rect1 = SurroundingRect(code1, **Rect.preset_shadow, depth=1)
         rect1.set(fill_alpha=0.8, stroke_alpha=1, stroke_color=WHITE)
 
-        rect2 = SurroundingRect(code2, **HighlightRect.difference_config_d, depth=1)
+        rect2 = SurroundingRect(code2, **Rect.preset_shadow, depth=1)
         rect2.set(fill_alpha=0.8, stroke_alpha=1, stroke_color=WHITE)
 
-        rect3 = SurroundingRect(pyline, **HighlightRect.difference_config_d, depth=1)
+        rect3 = SurroundingRect(pyline, **Rect.preset_shadow, depth=1)
         rect3.set(fill_alpha=0.8, stroke_alpha=1, stroke_color=WHITE)
 
         def del_line(item: Points):
@@ -819,7 +819,7 @@ class ImageAndOpenGLCoords(MOVTemplate):
 
         rect = SurroundingRect(
             g, 
-            **HighlightRect.difference_config_d, 
+            **Rect.preset_shadow, 
             depth=2, 
             buff=0.5
         )

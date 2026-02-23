@@ -333,7 +333,7 @@ class GLSL(SubtitleTemplate2):
                 [-2.05, 0.84, 0], [-2.07, 1.15, 0], [-2.03, 1.5, 0], [-2.07, 1.76, 0], [-2.2, 1.95, 0],
                 [-2.57, 1.91, 0]
             ).points.close_path().r,
-            **HighlightRect.difference_config_d
+            **Rect.preset_shadow
         )
 
         txt_types = TypstText(typ1_src)
@@ -387,7 +387,7 @@ class GLSL(SubtitleTemplate2):
 
         txt_types_g = Group(txt_types, brace)
 
-        cov_types = SurroundingRect(txt_types_g, **HighlightRect.difference_config_d)
+        cov_types = SurroundingRect(txt_types_g, **Rect.preset_shadow)
 
         st_vector = Group(Arrow(DL * 0.8, UR * 0.8), Text('向量'))
         st_matrix = TypstText(
@@ -583,7 +583,7 @@ class GLSL(SubtitleTemplate2):
         cov = boolean_ops.Union(
             Rect([5.09, 2.31, 0], [9.74, 0.3, 0]),
             Rect([1.26, 2.46, 0], [4.59, -0.43, 0]),
-            **HighlightRect.difference_config_d
+            **Rect.preset_shadow
         )
 
         def get_gletters(letters: str):
@@ -945,7 +945,7 @@ class InputAndOutput(SubtitleTemplate2):
         ras = ra * 10
         ras.points.arrange(buff=-0.3).set_y(code4_block[0].points.box.y)
 
-        cov = Rect([-5.24, 2.46, 0], [5.26, -2.56, 0], **HighlightRect.difference_config_d)
+        cov = Rect([-5.24, 2.46, 0], [5.26, -2.56, 0], **Rect.preset_shadow)
         inout = Text('in & out', font_size=60, color='#569cd6')
 
         txt_vertdata = Text(
@@ -958,7 +958,7 @@ class InputAndOutput(SubtitleTemplate2):
 
         arrow1 = Arrow(txt_vertdata, code4_block[-1][3])
 
-        fr = FrameRect(**HighlightRect.difference_config_d).fix_in_frame()
+        fr = FrameRect(**Rect.preset_shadow).fix_in_frame()
         ch5 = ImageItem('ShaderProgramAndVertexArray.mp4_20240919_082340.350.jpg', height=5).fix_in_frame()
         ch5_sur = SurroundingRect(ch5, buff=0, color=WHITE).fix_in_frame()
         ch5_title = Text('第5节 你好，三角形').fix_in_frame()
@@ -985,7 +985,7 @@ class InputAndOutput(SubtitleTemplate2):
         tip_cpp_opengl.points.to_border(UL, buff=SMALL_BUFF)
         # tip_cpp_opengl.show()
 
-        fr = FrameRect(**HighlightRect.difference_config_d).fix_in_frame()
+        fr = FrameRect(**Rect.preset_shadow).fix_in_frame()
         code8 = Text(
             code8_src,
             format=Text.Format.RichText,
