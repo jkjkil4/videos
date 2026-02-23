@@ -2122,7 +2122,12 @@ class TL11(Template):
 
         ####################################################
 
-        plane = NumberPlane((-5, 5), (-5, 5), faded_line_ratio=0, background_line_style={ 'alpha': 0.5 })
+        plane = NumberPlane(
+            (-5, 5), (-5, 5), 
+            faded_line_ratio=0, 
+            background_line_style={ 'alpha': 0.5 },
+            depth=20
+        )
 
         vec1 = Vector(np.array([2, 1, 1.5]) * 0.7, color=RED_A)
         vec2 = Vector([0, 1.5], color=GREEN_A)
@@ -2133,36 +2138,54 @@ class TL11(Template):
         typ3 = TypstMath('macron(v) times macron(k)', color=BLUE_A)
         colorize_vec(typ3)
 
-        typ1.points.next_to(vec1.points.end, UR, buff=SMALL_BUFF)
-        typ2.points.next_to(vec2.points.end, UR, buff=SMALL_BUFF)
-        typ3.points.next_to(vec3.points.end, UR, buff=SMALL_BUFF)
-
-        _BgRect = partial(SurroundingRect, **Rect.preset_shadow)
+        _BgRect = partial(SurroundingRect, depth=1, **Rect.preset_shadow)
 
         typ1 = Group(_BgRect(typ1), typ1)
         typ2 = Group(_BgRect(typ2), typ2)
         typ3 = Group(_BgRect(typ3), typ3)
 
-        def FaceToCamera(**kwargs):
+        def typsnextto():
+            typ1.points.next_to(vec1.points.get_end(), UR, buff=0)
+            typ2.points.next_to(vec2.points.get_end(), UR, buff=0)
+            typ3.points.next_to(vec3.points.get_end(), UR, buff=0)
+
+        typsnextto()
+
+        v = vec3.points.vector
+        dl = DashedLine(v * 2, ORIGIN, depth=1, stroke_radius=0.01, alpha=0.5)
+
+        def FaceToCamera(fnkwargs={}, become_at_end=False, **kwargs):
             return AnimGroup(
                 GroupUpdater(
                     typ1, 
-                    lambda group, p: group.points.face_to_camera(about_point=vec1.points.end),
-                    **kwargs
+                    lambda group, p: group.points.face_to_camera(about_point=vec1.current().points.get_end(), **fnkwargs),
+                    **kwargs,
+                    show_at_begin=False,
+                    become_at_end=become_at_end
                 ),
                 GroupUpdater(
                     typ2, 
-                    lambda group, p: group.points.face_to_camera(about_point=vec2.points.end),
-                    **kwargs
+                    lambda group, p: group.points.face_to_camera(about_point=vec2.current().points.get_end(), **fnkwargs),
+                    **kwargs,
+                    show_at_begin=False,
+                    become_at_end=become_at_end
                 ),
                 GroupUpdater(
                     typ3, 
-                    lambda group, p: group.points.face_to_camera(about_point=vec3.points.end),
-                    **kwargs
+                    lambda group, p: group.points.face_to_camera(about_point=vec3.current().points.get_end(), **fnkwargs),
+                    **kwargs,
+                    show_at_begin=False,
+                    become_at_end=become_at_end
                 ),
             )
+        
+        elbow1 = RightAngle(vec1, vec3, length=0.3)
+        elbow2 = RightAngle(vec2, vec3, length=0.3)
 
         ####################################################
+
+        g = Group(typ1, typ2, typ3)
+        g.save_state()
 
         self.play(
             FadeIn(plane),
@@ -2177,10 +2200,121 @@ class TL11(Template):
                 lambda data, p: data.points.rotate(p.elapsed * 0.1),
                 duration=FOREVER
             ),
-            FaceToCamera(duration=FOREVER)
+            FaceToCamera(duration=FOREVER),
+            collapse=True
         )
         self.play(
-            GrowArrow(vec3)
+            FadeIn(typ1),
+            FadeIn(typ2),
+        )
+        self.play(
+            FadeIn(dl),
+            GrowArrow(vec3),
+            FadeIn(typ3),
+            lag_ratio=0.5
+        )
+        self.play(
+            Create(elbow1),
+            Create(elbow2)
+        )
+        # self.camera.become_current()
+        self.play(
+            self.camera.anim.points.set(orientation=Quaternion(0.67, 0.22, -0.22, -0.67)),
+            duration=3
+        )
+        # self.play(
+        #     self.camera.anim.points.set(orientation=Quaternion(0.39, 0.56, -0.59, -0.43)),
+        #     duration=3
+        # )
+        self.play(
+            self.camera.anim.points.set(orientation=Quaternion(0.54, 0.36, -0.41, -0.64)),
+            duration=2
+        )
+        typ1.become_current()
+        typ2.become_current()
+        typ3.become_current()
+        self.play(
+            Group(vec1, typ1, elbow1).update.points.rotate(
+                -22 * DEGREES, 
+                about_point=ORIGIN, 
+                axis=vec3.points.vector
+            ),
+            typ1.update.points.rotate(22 * DEGREES, axis=self.camera.points.info.camera_axis),
+            vec1.tip.update.points.rotate(-12 * DEGREES, axis=vec1.points.vector),
+            vec3.anim.points.scale(1.2, about_point=ORIGIN).r.place_tip(),
+            typ3.anim.points.shift(v * 0.2)
+        )
+
+        ####################################################
+
+        elbow3 = RightAngle(vec1, vec2, length=0.3)
+
+        ####################################################
+
+        g.load_state()
+        typsnextto()
+        self.play(
+            Aligned(
+                AnimGroup(
+                    FadeIn(elbow3),
+                    self.camera.anim.points.set(orientation=Quaternion(0.66, 0.23, -0.22, -0.68)),
+                    lag_ratio=0.3
+                ),
+                FaceToCamera(),
+                duration=3,
+            )
+        )
+        g.load_state()
+        typsnextto()
+        self.play(
+            self.camera.anim.points.set(orientation=Quaternion(0.89, 0.25, 0.12, 0.37)),
+            FaceToCamera(become_at_end=True),
+            duration=3
+        )
+
+        self.play(
+            FadeOut(Group(vec1, vec2, vec3, typ1, typ2, typ3, plane, elbow1, elbow2, elbow3, dl))
+        )
+        # self.camera.load_state()
+
+        ####################################################
+
+        typx1 = TypstMath('macron(v) times macron(k)', scale=1.5).fix_in_frame()
+        colorize_vec(typx1)
+
+        typx2 = TypstText(
+            '''
+            $
+                vec(A_x, A_y, A_z) times vec(B_x, B_y, B_z)
+                =
+                vec(
+                    gap: #1em,
+                    A_y dot B_z - A_z dot B_y,
+                    A_z dot B_x - A_x dot B_z,
+                    A_x dot B_y - A_y dot B_x
+                )
+            $
+            ''',
+            depth=1
+        ).fix_in_frame()
+        typx2.patterns(('$A_x$', ...), ('$B_x$', ...)).set(color=RED)
+        typx2.patterns(('$A_y$', ...), ('$B_y$', ...)).set(color=GREEN)
+        typx2.patterns(('$A_z$', ...), ('$B_z$', ...)).set(color=BLUE)
+
+        g = Group(vec1, vec2, vec3, typ1, typ2, typ3, elbow1, elbow2, dl)
+
+        ####################################################
+
+        self.play(Write(typx1))
+        self.play(
+            TransformMatchingDiff(typx1, typx2[:29], duration=1)
+        )
+        self.play(
+            FadeIn(typx2[29:], LEFT)
+        )
+        self.play(
+            typx2(VItem).anim.color.fade(0.5),
+            FadeIn(g)
         )
 
         self.forward()
