@@ -10,7 +10,13 @@ class Template(Timeline):
         ],
         output_dir=':/kdenlive/janim_src',
         wnd_monitor=1,
-        wnd_pos='OO'
+        wnd_pos='OO',
+        typst_shared_preamble=t_(
+            R'''
+            #set text(font: "Noto Sans S Chinese")
+            #show math.equation: set text(font: ("New Computer Modern Math", "Noto Sans S Chinese"))
+            '''
+        )
     )
 
 
