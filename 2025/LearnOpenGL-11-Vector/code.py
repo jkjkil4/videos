@@ -2318,3 +2318,7 @@ class TL11(Template):
         )
 
         self.forward()
+
+
+class All(AboveTimelines):
+    pass
