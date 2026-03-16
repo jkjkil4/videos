@@ -1814,5 +1814,1091 @@ class TL13(SharpDelimTemplate):
         self.forward()
 
 
+class TL14(SharpDelimTemplate):
+    def construct(self):
+        ####################################################
+
+        mattypes = MatTypes().show()
+        mattypes[2].set(fill_color=YELLOW)
+
+        mat1 = TypstText(
+            R'''
+            #let dc = circle(radius: 0.65em, fill: white.transparentize(50%))
+            $
+                mat(
+                    gap: #1em,
+                    ..#range(4).map(
+                        row => range(4).map(
+                            col => [#box[#dc] #label("box" + str(row) + "-" + str(col))]
+                        )
+                    )
+                )
+            $
+            '''
+        )
+
+        def getels(lst: list[tuple[int, int, str, JAnimColor]]):
+            a = Group()
+            b = Group()
+            for row, col, typ_str, c in lst:
+                label = mat1.get_label(f'box{row}-{col}')
+                a.add(label)
+
+                typ = TypstMath(typ_str, color=c, scale=1.4)
+                typ.points.move_to(label).shift(DOWN * 0.06 + RIGHT * 0.03)
+                b.add(typ)
+            
+            return a, b
+        
+        els1, typs1 = getels([
+            [0, 0, 'S_1', RED],
+            [1, 1, 'S_2', GREEN],
+            [2, 2, 'S_3', BLUE]
+        ])
+
+        els2, typs2 = getels([
+            [0, 3, 'T_x', RED],
+            [1, 3, 'T_y', GREEN],
+            [2, 3, 'T_z', BLUE]
+        ])
+
+        txt1 = TypstText('缩放 $->$', scale=1.3)
+        txt1.points.shift([-3, 1.45, 0.0])
+
+        txt2 = TypstText('$<-$ 位移', scale=1.3)
+        txt2.points.shift([3, 1.45, 0.0])
+
+        r1 = SweepRect(typs2)
+
+        ####################################################
+
+        self.play(
+            FadeIn(mat1)
+        )
+        self.play(
+            FadeOut(els1),
+            FadeIn(typs1),
+            FadeIn(txt1)
+        )
+        self.play(
+            FadeIn(els1),
+            FadeOut(typs1),
+            FadeOut(txt1)
+        )
+        self.play(
+            FadeOut(els2),
+            FadeIn(typs2),
+            FadeIn(txt2)
+        )
+        self.play(
+            r1.anim_in()
+        )
+
+        ####################################################
+
+        mat2 = TypstMath(
+            R'''
+            mat(1, 0, 0, T_x; 0, 1, 0, T_y; 0, 0, 1, T_z; 0, 0, 0, 1)
+            dot
+            vec(x,y,z,1)
+            ''',
+            scale=1.3
+        )
+        Group(mat2[5], mat2[9], mat2[13], mat2[17:19]).set(color=RED)
+        Group(mat2[6], mat2[10], mat2[14], mat2[19:21]).set(color=GREEN)
+        Group(mat2[7], mat2[11], mat2[15], mat2[21:23]).set(color=BLUE)
+        mat2[8, 12, 16, 23].set(color=MAROON)
+        mat2parts = Group(
+            mat2[:29],
+            mat2[29],
+            mat2[30:],
+        )
+
+        line = Line(
+            mat2[5].points.box.center,
+            mat2[23].points.box.center,
+            buff=-0.2,
+            stroke_radius=0.2,
+            stroke_alpha=0.3,
+            stroke_color=YELLOW,
+            depth=10
+        )
+        r2 = SweepRect(mat2[17:23])
+
+        ####################################################
+
+        fadeouts = Group(*mat1, typs2, txt2, r1)
+        fadeouts.remove(*els2.descendants())
+
+        self.play(
+            FadeOut(fadeouts),
+            Write(mat2parts[0])
+        )
+        self.play(
+            Create(line),
+            FadeIn(line, duration=0.3)
+        )
+        self.play(
+            FadeOut(line, duration=0.6),
+            r2.anim_in()
+        )
+        self.play(
+            FadeOut(r2),
+            Write(mat2parts[1:])
+        )
+
+        ####################################################
+
+        mat3 = TypstText(
+            R'''
+            #let sd = $#h(-0.1em) dot #h(0.1em)$
+            $
+                vec(1,0,0,0) sd x
+                +
+                vec(0,1,0,0) sd y
+                +
+                vec(0,0,1,0) sd z
+                +
+                vec(T_x, T_y, T_z, 1) sd 1
+            $
+            '''
+        )
+        Group(mat3[7], mat3[28], mat3[49], mat3[70:72]).set(color=RED)
+        Group(mat3[8], mat3[29], mat3[50], mat3[72:74]).set(color=GREEN)
+        Group(mat3[9], mat3[30], mat3[51], mat3[74:76]).set(color=BLUE)
+        mat3[10, 31, 52, 76].set(color=MAROON)
+
+        mat4 = TypstMath(
+            R'''
+            vec(x,0,0,0)
+            +
+            vec(0,y,0,0)
+            +
+            vec(0,0,z,0)
+            +
+            vec(T_x, T_y, T_z, 1)
+            '''
+        )
+        Group(mat4[26], mat4[45], mat4[64:66]).set(color=RED)
+        Group(mat4[8], mat4[46], mat4[66:68]).set(color=GREEN)
+        Group(mat4[9], mat4[28], mat4[68:70]).set(color=BLUE)
+        mat4[10, 29, 48].set(color=MAROON)
+
+        mat5 = TypstMath(
+            R'''
+            vec(x + T_x, y + T_y, z + T_z, 1)
+            '''
+        )
+        mat5['T_x'].set(color=RED)
+        mat5['T_y'].set(color=GREEN)
+        mat5['T_z'].set(color=BLUE)
+
+        ####################################################
+
+        ignores = Group(*mat2[:5], *mat2[24:29], *mat2[30:37], *mat2[41:])
+        src = mat2[:]
+        src.remove(*ignores)
+
+        self.play(
+            FadeOut(ignores, duration=0.5),
+            TransformMatchingShapes(src, mat3)
+        )
+        self.play(
+            TransformMatchingDiff(mat3, mat4)
+        )
+
+        ignores = Group(*mat4[11:18], *mat4[19:26], *mat4[30:37], *mat4[38:45], *mat4[49:56], *mat4[57:64])
+        src = mat4[:]
+        src.remove(*ignores)
+
+        self.play(
+            FadeOut(ignores, duration=0.5),
+            TransformMatchingShapes(src, mat5)
+        )
+
+        mat2.points.scale(1/1.3).shift(LEFT * 1)
+        mat5.generate_target().points.shift(RIGHT * 2)
+        eq = TypstMath('=')
+        eq.points.move_to((mat2.points.box.right + mat5.target.points.box.left) * 0.5)
+        self.play(
+            AnimGroup(
+                FadeIn(mat2),
+                MoveToTarget(mat5),
+            ),
+            Write(eq),
+            lag_ratio=0.6
+        )
+
+        ####################################################
+
+        hl = HighlightRect(Group(mat5[8:11], mat5[12:15], mat5[16:19]), glow_alpha=0.5)
+
+        r1 = SurroundingRect(mat2[5:24], glow_alpha=0.4)
+        r2 = SurroundingRect(Group(mat2[5:8], mat2[9:12], mat2[13:16]), glow_alpha=0.4)
+        r3 = SurroundingRect(mat2[17:23], stroke_alpha=0, fill_alpha=0.5, depth=10, color=RED)
+
+        ####################################################
+
+        self.play(
+            FadeIn(hl)
+        )
+        self.play(
+            FadeOut(hl)
+        )
+        self.play(
+            FadeIn(r1)
+        )
+        self.play(
+            Transform(r1, r2)
+        )
+        self.play(
+            FadeIn(r3)
+        )
+        self.play(
+            FadeOut(r3),
+            Transform(r2, r1)
+        )
+        self.play(
+            FadeOut(r1)
+        )
+        self.play(
+            FadeOut(Group(mat2, mat5, eq))
+        )
+
+        self.forward()
+
+
+def Tick(**kwargs):
+    return VItem(
+        [-0.77, 1.58, 0], [-0.77, 1.58, 0], [-0.76, 1.58, 0], [-0.75, 1.57, 0], [-0.75, 1.57, 0],
+        [-0.75, 1.57, 0], [-0.73, 1.54, 0], [-0.71, 1.53, 0], [-0.71, 1.53, 0], [-0.7, 1.53, 0],
+        [-0.63, 1.6, 0], [-0.58, 1.65, 0], [-0.43, 1.77, 0],
+        **kwargs
+    )
+
+
+class TL15(SharpDelimTemplate):
+    def construct(self):
+        ####################################################
+
+        mattypes = MatTypes().show()
+        mattypes[2].set(fill_color=YELLOW)
+
+        tick1 = Tick(color=GREEN_B, depth=-100)
+        tick2 = Tick(color=GREEN_B, depth=-100)
+        tick3 = Tick(color=GREEN_B, depth=-100)
+
+        tick1.points.shift([-3.1, 1.64, 0.0])
+        tick2.points.shift([-0.49, 1.64, 0.0])
+        tick3.points.shift([2.12, 1.64, 0.0])
+        
+        ####################################################
+
+        self.play(
+            mattypes[2].anim.set(fill_color=GREY),
+            mattypes[3].anim.set(fill_color=YELLOW)
+        )
+
+        self.play(
+            Create(tick1, rate_func=rush_from),
+            Create(tick2, rate_func=rush_from),
+            Create(tick3, rate_func=rush_from),
+            lag_ratio=0.8
+        )
+        self.play(
+            ShowPassingFlashAround(mattypes[-1])
+        )
+        self.play(
+            FadeOut(Group(tick1, tick2, tick3))
+        )
+
+        ####################################################
+
+        con3d = Container3D().apply_depth_test().apply_distance_sort(False)
+
+        def con3d_updater(data, p=None):
+            deg = degtr.current().get_value()
+            data.points.rotate(deg, about_point=ORIGIN)
+
+        degtr = ValueTracker(0)
+
+        def lines_updater(p=None, at3d=False):
+            deg = degtr.current().get_value()
+            line1 = Line(ORIGIN, RIGHT * 1.5, color=BLUE, stroke_radius=0.015)
+            line2 = line1.copy()
+            line2.points.rotate(deg, about_point=ORIGIN)
+            
+            g = Group(
+                line1, line2
+            )
+
+            try:
+                angle = Angle(line1, line2, color=BLUE)
+                g.add(angle)
+                txt = Text('旋转角度', font_size=12)
+                txt.points.scale(min(1, deg / (20 * DEGREES)))
+                p = angle.points.pfp(0.5)
+                txt.points.next_to(p, buff=0.1)
+                if at3d:
+                    txt.points.face_to_camera(about_point=p, inverse=True, rotate=PI)
+                g.add(txt)
+            except PointError:
+                pass
+
+            g.points.shift(OUT * 0.802)
+            return g
+        
+        lines = lines_updater()
+
+        line_axis = DashedLine(ORIGIN, OUT * 5, color=BLUE).apply_depth_test()
+        arrow_axis = Arrow(DOWN * 0.3 + OUT * 1.8, UP * 0.3 + OUT * 1.8, path_arc=PI, buff=0).apply_distance_sort()
+        arrow_axis.points.rotate(-20 * DEGREES, about_point=ORIGIN)
+
+        txt_axis = Text('旋\n转\n轴', font_size=12).fix_in_frame()
+        txt_axis.points.shift([0.3, 2, 0])
+
+        def Updaters(at3d=False):
+            return AnimGroup(
+                ItemUpdater(lines, partial(lines_updater, at3d=at3d)),
+                DataUpdater(con3d if at3d else con3d[0], con3d_updater, root_only=False)
+            )
+
+        ####################################################
+
+        self.play(
+            FadeIn(con3d[0])
+        )
+        
+        self.play(
+            Create(lines[0])
+        )
+        self.play(
+            Aligned(
+                Succession(
+                    degtr.anim.set_value(50 * DEGREES),
+                    degtr.anim(rate_func=ease_inout_quint).set_value(20 * DEGREES),
+                    degtr.anim(duration=0.5).set_value(0 * DEGREES),
+                ),
+                Updaters()
+            )
+        )
+        con3d.show()
+        self.play(
+            self.camera.anim.points.set(orientation=Quaternion(0.88, 0.35, 0.12, 0.3)),
+            Create(line_axis, lag_ratio=0.9),
+        )
+        self.play(
+            GrowArrow(arrow_axis),
+            FadeIn(txt_axis),
+            degtr.anim.set_value(35 * DEGREES),
+            Updaters(True)
+        )
+        self.play(
+            Indicate(lines[-1])
+        )
+        self.play(
+            Indicate(txt_axis)
+        )
+        con3d.points.rotate(-35 * DEGREES)
+        self.play(
+            degtr.anim.set_value(140 * DEGREES),
+            Updaters(True)
+        )
+        self.play(
+            FadeOut(Group(con3d, lines, line_axis, arrow_axis, txt_axis))
+        )
+
+        self.forward()
+
+
+class TL16(SharpDelimTemplate):
+    def construct(self):
+        ####################################################
+
+        mattypes = MatTypes().show()
+        mattypes[3].set(fill_color=YELLOW)
+
+        plane = NumberPlane(faded_line_ratio=0)
+        plane(VItem).color.fade(0.5)
+
+        vec_orig = Vector([2,1], color=BLUE_A)
+        vec = vec_orig.copy().set(depth=-1)
+        vec_orig.color.fade(0.5)
+
+        def angle_updater(p: UpdaterParams | None = None):
+            try:
+                angle = Angle(vec_orig, vec.current(), color=BLUE)
+                typ = TypstMath('theta', color=BLUE)
+                typ.points.next_to(angle.points.pfp(0.5), UR, buff=0.05)
+                return Group(angle, typ)
+            except PointError:
+                return Group()
+        
+        angle = angle_updater()
+
+        typ = TypstMath('cos theta wide sin theta', scale=2.5)
+        typ['theta', ...].set(color=BLUE)
+        typ.points.shift([0.0, -1.26, 0.0])
+
+        ####################################################
+
+        self.play(
+            FadeIn(plane),
+            GrowArrow(vec)
+        )
+        vec_orig.show()
+        self.play(
+            vec.update.points.rotate(50 * DEGREES, about_point=ORIGIN),
+            ItemUpdater(angle, angle_updater)
+        )
+        self.play(
+            Write(typ)
+        )
+
+        self.forward()
+
+        self.play(
+            FadeOut(Group(plane, vec_orig, vec, angle, typ))
+        )
+
+        self.forward()
+
+
+class TL17(SharpDelimTemplate):
+    def construct(self):
+        ####################################################
+
+        mattypes = MatTypes().show()
+        mattypes[3].set(fill_color=YELLOW)
+
+        typ1 = TypstText(
+            R'''
+            #let dot = box(circle(radius: 0.5em, fill: white.transparentize(50%)), baseline: 20%)
+            $
+                mat(
+                    gap: #0.35em,
+                    dot, dot, dot, 0;
+                    dot, dot, dot, 0;
+                    dot, dot, dot, 0;
+                    0, 0, 0, 1;
+                )
+            $
+            '''
+        )
+
+        hl = HighlightRect(Group(typ1[5:8], typ1[9:12], typ1[13:16]), glow_alpha=0.5)
+
+        typ2 = TypstText(
+            R'''
+            #let ss(body) = {
+                set text(size: 0.8em)
+                body
+            }
+            #box[$
+                mat(
+                    1, 0, 0, 0;
+                    0, cos theta, -sin theta, 0;
+                    0, sin theta, cos theta, 0;
+                    0, 0, 0, 1;
+                )
+                vec(x, y, z, 1)
+                =
+                vec(
+                    x, 
+                    ss(cos theta dot y - sin theta dot z), 
+                    ss(sin theta dot y + cos theta dot z), 
+                    1
+                )
+            $] <eq1>
+
+            #box[$
+                mat(
+                    cos theta, 0, sin theta, 0;
+                    0, 1, 0, 0;
+                    -sin theta, 0, cos theta, 0;
+                    0, 0, 0, 1;
+                )
+                vec(x, y, z, 1)
+                =
+                vec(
+                    ss(cos theta dot x + sin theta dot z),
+                    y,
+                    ss(-sin theta dot x + cos theta dot z),
+                    1
+                )
+            $] <eq2>
+
+            #box[$
+                mat(
+                    cos theta, -sin theta, 0, 0;
+                    sin theta, cos theta, 0, 0;
+                    0, 0, 1, 0;
+                    0, 0, 0, 1;
+                )
+                vec(x, y, z, 1)
+                =
+                vec(
+                    ss(cos theta dot x - sin theta dot y),
+                    ss(sin theta dot x + cos theta dot y),
+                    z,
+                    1
+                )
+            $] <eq3>
+            ''',
+        )
+        Group(typ2[5], typ2[9], typ2[19], typ2[30], typ2[105:109], typ2[116], typ2[120:124], typ2[130], typ2[165:169], typ2[172:176], typ2[206:210], typ2[216:221], typ2[227], typ2[231], typ2[266:270], typ2[273:277]).set(color=RED)
+        Group(typ2[6], typ2[10:14], typ2[20:25], typ2[31], typ2[66:70], typ2[73:77], typ2[109], typ2[117], typ2[124], typ2[131], typ2[210:214], typ2[221:225], typ2[228], typ2[232], typ2[279:283], typ2[286:290]).set(color=GREEN)
+        Group(typ2[7], typ2[14:18], typ2[25:29], typ2[32], typ2[79:83], typ2[86:90], typ2[110:115], typ2[118], typ2[125:129], typ2[132], typ2[179:184], typ2[187:191], typ2[214], typ2[225], typ2[229], typ2[233]).set(color=BLUE)
+        typ2[8, 18, 29, 33, 115, 119, 129, 133, 215, 226, 230, 234].set(color=MAROON)
+
+        parts = Group(
+            typ2.get_label('eq1'),
+            typ2.get_label('eq2'),
+            typ2.get_label('eq3'),
+        )
+        for part in parts:
+            part.points.to_center()
+
+        r1 = SurroundingRect(parts[2][:57])
+        r2 = SurroundingRect(parts[2][58:])
+
+        ####################################################
+
+        self.play(
+            FadeIn(typ1)
+        )
+        self.play(
+            FadeIn(hl)
+        )
+        self.play(
+            FadeOut(hl)
+        )
+        self.play(
+            FadeOut(typ1),
+            FadeIn(parts[2])
+        )
+        self.play(
+            Create(r1, auto_close_path=False),
+        )
+        self.play(
+            Transform(r1, r2)
+        )
+        self.play(
+            FadeOut(r2)
+        )
+        self.play(
+            Aligned(
+                WiggleOutThenIn(parts[2][91], scale=2),
+                DataUpdater(
+                    parts[2][91], 
+                    lambda data, p: data.fill.mix(YELLOW, p.alpha), 
+                    rate_func=there_and_back
+                ),
+                duration=2.5
+            )
+        )
+
+        ####################################################
+
+        _Rect = partial(Rect, color=YELLOW, depth=10, fill_alpha=0.2, stroke_alpha=0)
+        r1 = _Rect([-3.48, 0.04, 0], [-0.64, 0.89, 0])
+        r2 = _Rect([-3.47, -0.9, 0], [-1.4, 0.88, 0])
+        r3 = _Rect([0.9, -0.01, 0], [3.43, 0.83, 0])
+        rs = Group(r1, r2, r3)
+
+        txt0 = TypstText('绕 $x$ 轴旋转 $theta$', scale=0.7)
+        txt1 = TypstText('绕 $y$ 轴旋转 $theta$', scale=0.7)
+        txt2 = TypstText('绕 $z$ 轴旋转 $theta$', scale=0.7)
+
+        ####################################################
+
+        self.play(
+            FadeIn(rs)
+        )
+        self.play(
+            Group(rs, parts[2]).anim.points.scale(0.55).to_border(UR).shift(DOWN),
+            FadeOut(rs),
+        )
+        txt2.points.next_to(parts[2], DOWN, buff=SMALL_BUFF)
+        self.play(
+            FadeIn(txt2)
+        )
+
+        ####################################################
+
+        r1 = _Rect([-3.47, -0.38, 0], [-0.63, 0.43, 0])
+        r2 = _Rect([-3.05, -0.92, 0], [-1.05, 0.91, 0])
+        r3 = _Rect([0.89, -0.41, 0], [3.44, 0.42, 0])
+        rs = Group(r1, r2, r3)
+
+        ####################################################
+
+        self.play(
+            FadeIn(parts[0])
+        )
+        self.play(
+            FadeIn(rs)
+        )
+        self.play(
+            Group(rs, parts[0]).anim.points.scale(0.55).to_border(UL).shift(DOWN),
+            FadeOut(rs)
+        )
+        txt0.points.next_to(parts[0], DOWN, buff=SMALL_BUFF)
+        self.play(
+            FadeIn(txt0)
+        )
+
+        self.play(
+            FadeIn(parts[1])
+        )
+        self.play(
+            parts[1].anim.points.scale(0.55).to_border(UP).shift(DOWN),
+        )
+        txt1.points.next_to(parts[1], DOWN, buff=SMALL_BUFF)
+        self.play(
+            FadeIn(txt1)
+        )
+
+        ####################################################
+
+        typ3 = TypstMath(
+            R'''
+            mat(
+                cos theta_2, 0, sin theta_2, 0;
+                0, 1, 0, 0;
+                -sin theta_2, 0, cos theta_2, 0;
+                0, 0, 0, 1;
+            )
+            mat(
+                1, 0, 0, 0;
+                0, cos theta_1, -sin theta_1, 0;
+                0, sin theta_1, cos theta_1, 0;
+                0, 0, 0, 1;
+            )
+            vec(x,y,z,1)
+            '''
+        )
+        typ3.points.shift(DOWN * 0.5)
+        Group(typ3[5:10], typ3[18], typ3[22:27], typ3[34], typ3[48], typ3[52], typ3[64], typ3[77]).set(color=RED)
+        Group(typ3[10], typ3[19], typ3[27], typ3[35], typ3[49], typ3[53:58], typ3[65:71], typ3[78]).set(color=GREEN)
+        Group(typ3[11:17], typ3[20], typ3[28:33], typ3[36], typ3[50], typ3[58:63], typ3[71:76], typ3[79]).set(color=BLUE)
+        typ3[17, 21, 33, 37, 51, 63, 76, 80].set(color=MAROON)
+
+        alphaeff = AlphaEffect(typ2, txt0, txt1, txt2).show()
+
+        ####################################################
+
+        self.play(
+            Aligned(
+                FadeIn(typ3[86:]),
+                TransformMatchingDiff(parts[0][:39].copy(), typ3[43:86], path_arc=80 * DEGREES),
+            )
+        )
+        self.play(
+            TransformMatchingDiff(parts[1][:39].copy(), typ3[:43], path_arc=50 * DEGREES),
+        )
+        self.play(
+            FadeOut(typ3),
+            alphaeff.anim.alpha.set(0.5)
+        )
+
+        ####################################################
+
+        tl = TL17_Sub1().build().to_item(keep_last_frame=True).show()
+        tlalpha = AlphaEffect(tl).show()
+        tlalpha.alpha.set(0)
+
+        ####################################################
+
+        self.play(
+            tlalpha.anim.alpha.set(1)
+        )
+        self.forward()
+        self.play(
+            tlalpha.anim.alpha.set(0)
+        )
+        tlalpha.hide()
+        tl.hide()
+
+        ####################################################
+
+        typ4 = TypstMath(
+            R'''
+            mat(
+                gap: #0.75em,
+                cos theta + R_x^2 (1 - cos theta),
+                R_x R_y (1 - cos theta) - R_z sin theta,
+                R_x R_z (1 - cos theta) + R_y sin theta,
+                0;
+
+                R_y R_x (1 - cos theta) + R_z sin theta,
+                cos theta + R_y^2 (1 - cos theta),
+                R_y R_z (1 - cos theta) - R_x sin theta,
+                0;
+
+                R_z R_x (1 - cos theta) - R_y sin theta,
+                R_z R_y (1 - cos theta) + R_x sin theta,
+                cos theta + R_z^2 (1 - cos theta),
+                0;
+
+                0, 0, 0, 1;
+            )
+            ''',
+            scale=0.9
+        )
+        typ4.points.shift(DOWN * 0.2)
+        typ4.patterns(('R_x', ...), 'R_x^2').set(color=RED)
+        typ4.patterns(('R_y', ...), 'R_y^2').set(color=GREEN)
+        typ4.patterns(('R_z', ...), 'R_z^2').set(color=BLUE)
+        typ4['""^2', ...].set(color=WHITE)
+
+        txt41 = TypstText('绕任意轴 $(R_x, R_y, R_z)$ 旋转')
+        txt41.points.next_to(typ4, DOWN, buff=SMALL_BUFF)
+        txt41['$R_x$', ...].set(color=RED)
+        txt41['$R_y$', ...].set(color=GREEN)
+        txt41['$R_z$', ...].set(color=BLUE)
+
+        txt42 = TypstMath('(R_x^2 + R_y^2 + R_z^2 = 1)', scale=0.7)
+        txt42(VItem).color.fade(0.5)
+        txt42.points.next_to(txt41, DOWN, buff=SMALL_BUFF)
+        txt42['R_x^2'].set(color=RED)
+        txt42['R_y^2'].set(color=GREEN)
+        txt42['R_z^2'].set(color=BLUE)
+        txt42['""^2', ...].set(color=WHITE)
+
+        g4 = Group(typ4, txt41, txt42)
+
+        tip = TypstText(
+            R'''
+            #set page(width: 34em)
+            #set text(size: 0.8em)
+            #set par(first-line-indent: (amount: 2em, all: true))
+            即使这样一个矩阵也不能完全解决万向节死锁问题（尽管会极大地避免）。
+            避免万向节死锁的真正解决方案是使用四元数(Quaternion)，它不仅更安全，而且计算会更有效率。
+            '''
+        )
+
+        tip.points.shift(DOWN)
+
+        ####################################################
+
+        self.show(g4)
+        self.forward()
+
+        self.play(
+            FadeOut(Group(typ2, txt0, txt1, txt2)),
+            g4.anim.points.scale(0.65).to_border(UP).shift(DOWN)
+        )
+        self.play(
+            Write(tip)
+        )
+        self.play(
+            Pause(4)
+        )
+        self.play(
+            FadeOut(tip)
+        )
+
+        self.forward()
+
+        self.play(
+            FadeOut(Group(mattypes, g4))
+        )
+
+        self.forward()
+
+
+class TL17_Sub1(SharpDelimTemplate):
+    def construct(self):
+        con3d = Container3D().apply_depth_test().show()
+        con3d(ImageItem).color.fade(0.2)
+        base = np.array([0.662, 0.2, 0.7222])
+        axis = DashedLine(base * -4, base * 4, color=BLUE_A, dashed_ratio=0.4).apply_depth_test().show()
+        # self.camera.points.set(orientation=Quaternion(0.8, 0.3, -0.05, 0.52))
+        # self.camera.points.shift([-0.52, 0.49, 0.46])
+        self.camera.points.set(orientation=Quaternion(0.92, 0.32, 0.08, 0.23))
+
+        typ = TypstMath('hat(n) = vec(0.662, 0.2, 0.7222)', depth=-20).fix_in_frame().show()
+        typ['hat(n)'].set(color=YELLOW)
+        typ.points.shift([2.58, 0.37, 0])
+
+        self.forward()
+
+
+class TL18(SharpDelimTemplate):
+    def construct(self):
+        ####################################################
+
+        typ1 = TypstText(
+            R'''
+            #let bo(body) = box(width: 4em, height: 3em, align(horizon, body))
+            #let bm(n) = $mat(#bo[矩阵 $#n$])$
+            $
+                bm(n)
+                bm(text(size: #0.7em, n-1))
+                dots.c
+                bm(2)
+                bm(1)
+            $
+            '''
+        ).show()
+
+        typ2 = TypstMath(
+            R'''
+            mat(
+                #box(width: 4em, height: 3em, align(horizon)[单个矩阵])
+            )
+            '''
+        )
+
+        ####################################################
+
+        self.play(Write(typ1[::-1]))
+        self.play(
+            Transform(typ1, typ2)
+        )
+
+        typ1.show()
+        typ1.points.shift(UP * 0.3)
+        alphaeff = AlphaEffect(typ1)
+        alphaeff.alpha.set(0)
+
+        self.play(
+            alphaeff.anim.alpha.set(0.25),
+            typ2.anim.points.shift(DOWN * 0.3)
+        )
+
+        self.forward()
+
+
+class TL19(SharpDelimTemplate):
+    def construct(self):
+        ####################################################
+
+        typ1 = TypstText(
+            R'''
+            缩放两倍：
+            #box(baseline: 40%)[$
+                mat(2,0,0,0;0,2,0,0;0,0,2,0;0,0,0,1)
+            $]
+            ''',
+            color=YELLOW_A
+        )
+
+        typ2 = TypstText(
+            R'''
+            位移 $vec(1,2,3)$ 个单位：
+            #box(baseline: 40%)[$
+                mat(1,0,0,1;0,1,0,2;0,0,1,3;0,0,0,1)
+            $]
+            ''',
+            color=PURPLE_A
+        )
+        g1 = Group(typ1, typ2)
+        g1.points.arrange(buff=LARGE_BUFF).to_border(UP)
+
+        part1 = typ1[5:].copy()
+        part2 = typ2[11:].copy()
+
+        vec1 = TypstMath('vec(x,y,z,1)')
+
+        g2 = Group(part2, part1, vec1)
+        g2.points.arrange()
+
+        arrow = Arrow(RIGHT * 2, LEFT * 2, color=YELLOW)
+        arrow.points.next_to(g2, DOWN)
+
+        vec2 = TypstMath('vec(2x,2y,2z,1)')
+        vec2.points.move_to(vec1)
+        vec2.generate_target().points.next_to(part2)
+
+        vec3 = TypstMath('vec(2x+1,2y+2,2z+3,1)')
+        vec3.points.move_to(vec2.target)
+
+        ####################################################
+
+        self.forward()
+        self.show(typ1)
+        self.forward()
+        self.show(typ2)
+        self.forward()
+
+        self.play(
+            FadeIn(vec1)
+        )
+        self.play(
+            Transform(typ1[5:], part1, hide_src=False, path_arc=60 * DEGREES)
+        )
+        self.play(
+            Transform(typ2[11:], part2, hide_src=False, path_arc=60 * DEGREES)
+        )
+        self.play(
+            GrowArrow(arrow)
+        )
+        self.play(
+            TransformMatchingDiff(g2[1, 2], vec2)
+        )
+        self.play(
+            MoveToTarget(vec2)
+        )
+        self.play(
+            TransformMatchingDiff(Group(part2, vec2), vec3)
+        )
+        self.play(
+            vec3.anim.points.to_border(LEFT, buff=LARGE_BUFF),
+            FadeOut(arrow)
+        )
+
+        ####################################################
+
+        g12 = Group(typ1, typ2)
+        g12.generate_target()
+        for item, dir in zip(g12.target, [UR, UL]):
+            item.points.scale(0.6, about_edge=dir)
+
+        prefix_str = '缩放两倍然后位移 $vec(1,2,3)$ 个单位：'
+
+        typ3 = TypstText(
+            fR'''
+            {prefix_str}
+            #box(baseline: 40%)[$
+                mat(1,0,0,1;0,1,0,2;0,0,1,3;0,0,0,1)
+                mat(2,0,0,0;0,2,0,0;0,0,2,0;0,0,0,1)
+            $]
+            '''
+        )
+        typ3.points.next_to(g12.target, DOWN, buff=SMALL_BUFF).shift(UP * 0.3)
+        typ3['$ mat(1,0,0,1;0,1,0,2;0,0,1,3;0,0,0,1) $'].set(color=PURPLE_A)
+        typ3['$ mat(2,0,0,0;0,2,0,0;0,0,2,0;0,0,0,1) $'].set(color=YELLOW_A)
+
+        typ3part2 = typ3[17:43]
+        typ3part1 = typ3[43:]
+
+        typ4 = TypstText(
+            fR'''
+            {prefix_str}
+            #box(baseline: 40%)[$
+                mat(2,0,0,1;0,2,0,2;0,0,2,3;0,0,0,1)
+            $]
+            '''
+        )
+        typ4.match_pattern(typ3, prefix_str)
+
+        for t in (typ3, typ4):
+            prefix = t[prefix_str]
+            prefix.set(color=YELLOW_A)
+            cnt = len(prefix)
+            for i, item in enumerate(prefix):
+                item.color.mix(PURPLE_A, i / (cnt - 1))
+
+        ####################################################
+
+        self.play(
+            MoveToTarget(g12),
+            Write(typ3[prefix_str])
+        )
+        self.play(
+            Transform(typ1[5:], typ3part1, hide_src=False),
+            Transform(typ2[11:], typ3part2, hide_src=False, duration=0.7),
+            lag_ratio=0.8
+        )
+        self.play(
+            # Transform(typ3[prefix_str], typ4[prefix_str]),
+            TransformMatchingDiff(typ3, typ4),
+            FadeOut(g12, UP, at=0.5)
+        )
+        self.play(
+            typ4.anim.points.shift(UP)
+        )
+
+        ####################################################
+
+        typ5 = TypstMath(
+            R'''
+            mat(2,0,0,1;0,2,0,2;0,0,2,3;0,0,0,1)
+            vec(x,y,z,1)
+            '''
+        )
+        typ5parts = Group(typ5[:26], typ5[26:])
+
+        typ6 = TypstMath('vec(2x+1,2y+2,2z+3,1)')
+
+        ####################################################
+        
+        self.play(
+            FadeIn(typ5parts[1]),
+            Transform(typ4[17:], typ5parts[0], hide_src=False, path_arc=30 * DEGREES),
+            lag_ratio=0.6
+        )
+        self.play(
+            TransformMatchingDiff(typ5, typ6)
+        )
+
+        ####################################################
+
+        g = Group(vec3, typ6)
+        eq = TypstMath('=')
+        eq.points.shift(LEFT * 2)
+
+        ####################################################
+
+        self.play(
+            g.anim.points.arrange(buff=LARGE_BUFF),
+            Write(eq),
+            eq.update.points.shift(RIGHT * 2)
+        )
+
+        self.play(
+            FadeOut(Group(g, eq, typ4))
+        )
+
+        self.forward()
+
+
+class TL20(SharpDelimTemplate):
+    def construct(self):
+        ####################################################
+
+        plane = NumberPlane(faded_line_ratio=1)
+
+        container = ImageItem('container.jpg', height=1.6)
+
+        vec1 = Vector([2, 1])
+        vec2 = Vector([6, 1.5], color=RED, glow_alpha=0.6, glow_color=RED)
+
+        ####################################################
+
+        self.play(
+            FadeIn(Group(plane, container))
+        )
+        self.play(
+            container.anim(rate_func=ease_inout_quint).points.shift(RIGHT * 2 + UP),
+            GrowArrow(vec1, rate_func=ease_inout_quint)
+        )
+        self.play(
+            Group(Group(plane, container)).anim.points.scale([3, 1.5, 1]),
+            Transform(vec1, vec2)
+        )
+        self.play(
+            FadeOut(Group(plane, container, vec2))
+        )
+
+        ####################################################
+
+        glm = ImageItem('glm.png', height=2)
+
+        ####################################################
+
+        self.play(
+            FadeIn(glm)
+        )
+        self.forward()
+        self.play(
+            FadeOut(glm)
+        )
+
+        self.forward()
+
+
 class All(AboveTimelines):
-    pass
+    excludes = [TL17_Sub1]
