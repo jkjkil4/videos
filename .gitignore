@@ -7,7 +7,7 @@
 *.mov
 ._*
 
-test.*
+test*
 
 __pycache__
 
