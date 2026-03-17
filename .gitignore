@@ -7,6 +7,10 @@
 *.mov
 ._*
 
+test.*
+
+__pycache__
+
 /.VSCodeCounter
 /env_osbpy
 /2024/Bezier
@@ -15,13 +19,4 @@
 /logo.png
 /2024/*/cover.png
 /2025/*/cover.png
-
-__pycache__
-test.py
-/result.json
-/2024/LearnOpenGL-5-HelloTriangle/code_simple.py
-/2024/LearnOpenGL-9-Texture/awesomeface.png
-/2024/LearnOpenGL-9-Texture/container.jpg
-/2024/LearnOpenGL-9-Texture/wall.jpg
-/2024/LearnOpenGL-7-Shader/test.glsl
-/2024/ZbsViolin/assets
+/result*.json
