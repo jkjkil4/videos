@@ -2883,20 +2883,6 @@ class TL20(SharpDelimTemplate):
             FadeOut(Group(plane, container, vec2))
         )
 
-        ####################################################
-
-        glm = ImageItem('glm.png', height=2)
-
-        ####################################################
-
-        self.play(
-            FadeIn(glm)
-        )
-        self.forward()
-        self.play(
-            FadeOut(glm)
-        )
-
         self.forward()
 
 
