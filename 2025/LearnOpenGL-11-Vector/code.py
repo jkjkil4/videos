@@ -13,7 +13,7 @@ from utils.template import *
 class Wiggle(DataUpdater[Points]):
     def __init__(self, item: Points, amount: float = 0.05, times: float = 2, **kwargs):
         super().__init__(
-            item, 
+            item,
             lambda data, p: data.points.shift(math.sin(TAU * times * p.alpha) * amount * RIGHT),
             **kwargs
         )
@@ -28,7 +28,7 @@ class Cursor(MarkedItem, SVGItem):
 class OutlinedDot(Dot):
     def __init__(
         self,
-        point=ORIGIN, 
+        point=ORIGIN,
         radius=DEFAULT_DOT_RADIUS,
         stroke_alpha=1,
         fill_color=BLACK,
@@ -61,7 +61,7 @@ class TL1(Template):
         rect1 = Rect(stroke_alpha=0, fill_alpha=1, depth=1, color=ORANGE)
         rect1.points.replace(container, stretch=True)
         rect2 = ImageItem('blank.png', width=2.2, height=2, color=[RED, GREEN, GREEN, BLUE], depth=1)
-        
+
         phycenter_dot = Dot(radius=0.06, stroke_alpha=1, stroke_color=BLACK, stroke_radius=0.01, color=ORANGE)
 
         cursor = Cursor()
@@ -154,8 +154,8 @@ class TL1(Template):
         txt_mat.points.shift(LEFT * 3)
 
         arrow = Arrow(
-            txt_mat.points.box.top, 
-            grg.points.box.top, 
+            txt_mat.points.box.top,
+            grg.points.box.top,
             path_arc=-PI * 0.7,
             buff=0.7,
             color=ORANGE
@@ -196,7 +196,7 @@ class TL1(Template):
         txt_mat.generate_target() \
             .points.scale(0.6).next_to(arrow2, DOWN) \
             .r(VItem).color.set(ORANGE)
-        
+
         gpu = SVGItem('gpu.svg')
         gpu.points.next_to(arrows)
 
@@ -212,6 +212,7 @@ class TL1(Template):
             FadeOut(Group(container, arrow, arrow_txt)),
             FadeOut(hl),
         )
+
         self.play(
             GrowArrow(arrow1),
             GrowArrow(arrow2),
@@ -304,7 +305,7 @@ class TL3(Template):
         typ3d1d2.points.next_to(axes.c2p(3,1), UR, buff=SMALL_BUFF).shift(OUT * 2)
 
         trpos = ValueTracker([0, 0, 0])
-        
+
         def posg_updater(p=None):
             pos = trpos.current().get_value()
             p = axes.c2p(*pos)
@@ -499,7 +500,7 @@ class TL3(Template):
 
 class TL4(Template):
     def construct(self):
-        
+
         ####################################################
 
         self.camera.points.shift([1.93, 2.16, 0.0])
@@ -721,7 +722,7 @@ class TL5(Template):
 class VecOpersTypes(Text):
     def __init__(self):
         super().__init__(
-            '向量与标量计算\n向量取反\n向量加减\n向量长度\n向量相乘', 
+            '向量与标量计算\n向量取反\n向量加减\n向量长度\n向量相乘',
             color=BLUE_A,
             depth=-1000
         )
@@ -775,7 +776,7 @@ class TL6(Template):
                 Group(eq[20], eq[23], eq[26]),
                 eq[27:],
             )
-        
+
         parts = get_parts(0)
 
         hl = boolean_ops.Union(
@@ -795,7 +796,7 @@ class TL6(Template):
 
         def opin(eqidx: int):
             return FadeIn(equations[eqidx][11], DOWN * 0.3, rate_func=rush_from)
-        
+
         def opout(eqidx: int):
             return FadeOut(equations[eqidx][11], DOWN * 0.3, rate_func=rush_from)
 
@@ -1040,7 +1041,7 @@ class TL7(Template):
         opertypes = VecOpersTypes().show()
         opertypes[:2](VItem).color.set(GREY)
         opertypes[2].color.set(YELLOW)
-        
+
         self.camera.points.shift([2, 1.5, 0])
 
         plane = NumberPlane(
@@ -1133,7 +1134,7 @@ class TL8(Template):
             -
             vec(4,5,6)
             =
-            vec(1+(-4), 2+(-5), 3+(-6)) 
+            vec(1+(-4), 2+(-5), 3+(-6))
             =
             vec(-3,-3,-3)
             '''
@@ -1311,7 +1312,7 @@ class TL9(Template):
 
         def pline(p1, p2, **kwargs):
             return Line(plane.c2p(*p1), plane.c2p(*p2), **kwargs)
-        
+
         xline = pline((0,0), (4,0), color=RED)
         yline = pline((4,0), (4,2), color=GREEN)
 
@@ -1325,7 +1326,7 @@ class TL9(Template):
 
         txt = Text('<c RED_A>向量</c>的长度    <c GREY><fs 0.7>使用勾股定理即可</fs></c>', format='rich')
         txt.points.next_to(gg, UP, aligned_edge=LEFT, buff=SMALL_BUFF * 1.5)
-        
+
         ggbg = SurroundingRect(Group(gg, txt), depth=5, **Rect.preset_shadow)
 
         ####################################################
@@ -1416,7 +1417,7 @@ class TL10(Template):
 
         vec = Vector(color=RED_A)
         vec.points.rotate(30 * DEGREES, about_point=ORIGIN)
-        
+
         ####################################################
 
         _Rotate = partial(Rotate, about_point=ORIGIN, rate_func=ease_inout_quart)
@@ -1475,7 +1476,7 @@ class TL10(Template):
             vec = Vector(value, color=color)
             vec.color.fade(1-alpha)
             return vec
-        
+
         tvec_updater = partial(vec_updater, alpha=0.4)
         nvec_updater = partial(vec_updater, normalized=True, color=YELLOW)
 
@@ -1503,7 +1504,7 @@ class TL10(Template):
                     value = normalize(value)
                 group.points.next_to(value, dir, buff=SMALL_BUFF)
             return GroupUpdater(item, updater)
-        
+
         cursor = Cursor(depth=-10)
         cursor.mark.set(curval())
 
@@ -1512,13 +1513,13 @@ class TL10(Template):
                 None,
                 lambda p: Dot(curval(), color=YELLOW, fill_alpha=0.5, glow_alpha=0.5, depth=-5)
             )
-        
+
         def CursorFollow():
             return GroupUpdater(
                 cursor,
                 lambda group, p: group.mark.set(curval())
             )
-        
+
         def Updaters():
             return AnimGroup(
                 Holding(),
@@ -1660,7 +1661,7 @@ class TL11(Template):
             R'''
             #import "@preview/fletcher:0.5.8": diagram, node, edge
             #set text(size: 0.8em)
-            
+
             #diagram(
                 edge-stroke: white,
                 spacing: (1em, 0.2em),
@@ -1773,17 +1774,17 @@ class TL11(Template):
                 anim,
                 Wait(wait)
             )
-        
+
         def FlashArrow(arrow: Arrow):
             return ShowPassingFlash(
                 arrow.copy().set(color=YELLOW, depth=-1, stroke_radius=0.04),
                 time_width=0.5
             )
-        
+
         _CircleIndicate = partial(CircleIndicate, circle_kwargs={ 'depth': -20 })
 
         ####################################################
-        
+
         self.play(Write(typ[:5]))
         self.play(Write(typ[5:]))
         self.play(
@@ -1908,7 +1909,7 @@ class TL11(Template):
             typ.match_pattern(typsim2, '=')
             typ.points.next_to(typsim2, buff=SMALL_BUFF, coor_mask=(1, 0, 0))
             return typ
-        
+
         cosval = cosval_updater()
 
         def Updaters():
@@ -1916,7 +1917,7 @@ class TL11(Template):
                 ItemUpdater(cosval, cosval_updater),
                 ItemUpdater(angle, angle_updater),
                 GroupUpdater(
-                    angle_txt, 
+                    angle_txt,
                     lambda data, p: data.points.next_to(angle_updater().points.pfp(0.5), UR, buff=0.07)
                 )
             )
@@ -1946,7 +1947,7 @@ class TL11(Template):
         )
         self.play(
             ShowPassingFlashAround(
-                cosval, 
+                cosval,
                 surrounding_rect_config={ 'depth': -20 },
                 time_width=0.5
             )
@@ -1964,9 +1965,9 @@ class TL11(Template):
             typ = TypstMath(f'{dot:.2f}', scale=3, color=YELLOW, depth=2, fill_alpha=0.25)
             typ.points.move_to_by_indicator(typ['.'], [-0.1, -0.3, 0])
             return typ
-        
+
         bgcosval = bgcosval_updater()
-        
+
         def Updaters2():
             return AnimGroup(
                 Updaters(),
@@ -1997,7 +1998,7 @@ class TL11(Template):
             Updaters2(),
             duration=3
         )
-        
+
         for axis in plane.get_axes():
             axis.remove(axis.numbers)
         self.play(
@@ -2102,7 +2103,7 @@ class TL11(Template):
             FadeOut(typ1[-1]),
             typ4.anim.points.shift(UP * 0.5)
         )
-        
+
         self.play(
             Create(tick1)
         )
@@ -2123,8 +2124,8 @@ class TL11(Template):
         ####################################################
 
         plane = NumberPlane(
-            (-5, 5), (-5, 5), 
-            faded_line_ratio=0, 
+            (-5, 5), (-5, 5),
+            faded_line_ratio=0,
             background_line_style={ 'alpha': 0.5 },
             depth=20
         )
@@ -2157,28 +2158,28 @@ class TL11(Template):
         def FaceToCamera(fnkwargs={}, become_at_end=False, **kwargs):
             return AnimGroup(
                 GroupUpdater(
-                    typ1, 
+                    typ1,
                     lambda group, p: group.points.face_to_camera(about_point=vec1.current().points.get_end(), **fnkwargs),
                     **kwargs,
                     show_at_begin=False,
                     become_at_end=become_at_end
                 ),
                 GroupUpdater(
-                    typ2, 
+                    typ2,
                     lambda group, p: group.points.face_to_camera(about_point=vec2.current().points.get_end(), **fnkwargs),
                     **kwargs,
                     show_at_begin=False,
                     become_at_end=become_at_end
                 ),
                 GroupUpdater(
-                    typ3, 
+                    typ3,
                     lambda group, p: group.points.face_to_camera(about_point=vec3.current().points.get_end(), **fnkwargs),
                     **kwargs,
                     show_at_begin=False,
                     become_at_end=become_at_end
                 ),
             )
-        
+
         elbow1 = RightAngle(vec1, vec3, length=0.3)
         elbow2 = RightAngle(vec2, vec3, length=0.3)
 
@@ -2235,8 +2236,8 @@ class TL11(Template):
         typ3.become_current()
         self.play(
             Group(vec1, typ1, elbow1).update.points.rotate(
-                -22 * DEGREES, 
-                about_point=ORIGIN, 
+                -22 * DEGREES,
+                about_point=ORIGIN,
                 axis=vec3.points.vector
             ),
             typ1.update.points.rotate(22 * DEGREES, axis=self.camera.points.info.camera_axis),

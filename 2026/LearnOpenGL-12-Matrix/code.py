@@ -10,61 +10,6 @@ with reloads():
 from utils.template import *
 
 
-class SweepRect(SurroundingRect):
-    def __init__(self, *items: Points, direction=..., **kwargs):
-        super().__init__(
-            Group(*items),
-            **merge_dicts_recursively(
-                Rect.preset_highlight_fill,
-                {
-                    'fill_alpha': 0.25
-                }
-            ),
-            depth=1,
-            **kwargs
-        )
-
-        if direction is ...:
-            w, h = self.points.box.size
-            direction = RIGHT if w > h else DOWN
-
-        self.direction = np.array(direction)
-        self.dim = np.where(self.direction != 0)[0][0]
-
-    def anim_in(self, rate_func=rush_from, **kwargs):
-        return DataUpdater(
-            self,
-            lambda data, p: data.points.stretch(p.alpha, dim=self.dim, about_edge=-self.direction),
-            rate_func=rate_func,
-            become_at_end=False,
-            **kwargs,
-            name='SweepRect in'
-        )
-    
-    def anim_out(self, rate_func=rush_into, **kwargs):
-        return DataUpdater(
-            self,
-            lambda data, p: data.points.stretch(1 - p.alpha, dim=self.dim, about_edge=self.direction),
-            rate_func=rate_func,
-            hide_at_end=True,
-            become_at_end=False,
-            **kwargs,
-            name='SweepRect out'
-        )
-    
-    def ins(*rects: SweepRect, **kwargs):
-        return AnimGroup(
-            *[rect.anim_in() for rect in rects],
-            **kwargs
-        )
-    
-    def outs(*rects: SweepRect, **kwargs):
-        return AnimGroup(
-            *[rect.anim_out() for rect in rects],
-            **kwargs
-        )
-    
-
 def colorize_typ(typ: TypstDoc) -> None:
     patterns = [
         ('i', RED),
@@ -138,7 +83,7 @@ class TL1(SharpDelimTemplate):
         typj = TypstMath(R'j = 2 \ arrow.b')
 
         typij = TypstMath('(i, j)')
-        
+
         typi2 = TypstMath('i = 2 ->')
         typj2 = TypstMath(R'j = 1 \ arrow.b')
 
@@ -258,9 +203,9 @@ class TL2(SharpDelimTemplate):
             typ1.points.next_to(item, LEFT if reverse else UP, buff=0.4)
             typ2 = TypstMath(y, color=GREEN, scale=1.5, glow_alpha=0.7, glow_color=GREEN)
             typ2.points.next_to(item, UP if reverse else LEFT, buff=0.4)
-            
+
             return typ1, typ2
-        
+
         typi, typj = get_xy('i', 'j', typ1, True)
         typx, typy = get_xy('x', 'y', img)
 
@@ -326,7 +271,7 @@ class OpersTypes(Text):
             '矩阵与标量计算\n'
             '矩阵与矩阵加减\n'
             '矩阵乘法: 矩阵与向量相乘\n'
-            '矩阵乘法: 矩阵与矩阵相乘', 
+            '矩阵乘法: 矩阵与矩阵相乘',
             color=BLUE_A,
             depth=-1000
         )
@@ -368,7 +313,7 @@ class TL3(SharpDelimTemplate):
             for t in typ[f'{typop} 3', ...]:
                 t[1:].set(color=GREEN_D)
             return typ
-        
+
         typ1 = get_typ('+')
         typ2 = get_typ('-')
         typ3 = get_typ('*')
@@ -396,7 +341,7 @@ class TL3(SharpDelimTemplate):
 
         self.play(Write(opertypes))
         self.play(opertypes[0].anim.color.set(YELLOW))
-        
+
         self.play(Write(typ1_parts[:5]))
         self.play(
             Write(typ1_parts[5]),
@@ -416,7 +361,7 @@ class TL3(SharpDelimTemplate):
             )
 
         self.play(FadeOut(typ4))
-        
+
         self.forward()
 
 
@@ -748,7 +693,7 @@ class TL6(SharpDelimTemplate):
                     f'#text({c}, ${sfy_x(x)}$)'
                     for x, c in zip(lst, ['RED', 'GREEN'])
                 )
-            
+
             v = tr.current().get_value()
             v1 = stringify(v['v1'])
             v2 = stringify(v['v2'])
@@ -761,7 +706,7 @@ class TL6(SharpDelimTemplate):
             typfj.points.next_to([-4.64, -1.75, 0])
             apply_bgshadow(typfj(VItem))
             return typfj
-        
+
         typfj = typfj_updater()
 
         typml = TypstMath('mat(3, 1; 1, 2)')
@@ -838,8 +783,8 @@ class TL6(SharpDelimTemplate):
 
         typeq = TypstMath(
             R'''
-            mat(3, 1; 1, 2) vec(-1,2) 
-            = 
+            mat(3, 1; 1, 2) vec(-1,2)
+            =
             (-1) dot vec(3, 1) + 2 dot vec(1, 2)
             =
             vec(-1, 3)
@@ -875,7 +820,7 @@ class TL6(SharpDelimTemplate):
         self.play(
             Flash(dot2, flash_radius=0.4)
         )
-        
+
         self.forward()
         self.play(
             FadeOut(g2),
@@ -1102,7 +1047,7 @@ class TL8(SharpDelimTemplate):
         )
         mat2 = Group(
             TypstMath('mat(3,0;0,1)', scale=1.5, depth=-10),
-            Text('拉伸'), 
+            Text('拉伸'),
             color=MAROON_A
         )
         for m in (mat1, mat2):
@@ -1132,7 +1077,7 @@ class TL8(SharpDelimTemplate):
             apply_matrix(g, [[0,-1],[1,0]]),
             FadeIn(mat1, DOWN * 0.5)
         )
-        
+
         self.forward()
 
         self.play(
@@ -1176,7 +1121,7 @@ class TL9(SharpDelimTemplate):
         )
         mat2 = Group(
             TypstMath('mat(3,0;0,1)', scale=1.5, depth=-10),
-            Text('拉伸'), 
+            Text('拉伸'),
             color=MAROON_A
         )
         other = Text('......')
@@ -1544,7 +1489,7 @@ class TL12(SharpDelimTemplate):
             mat.get_element(1, 0).set(color=GREEN)
             mat.get_element(1, 1).set(color=GREEN)
             return mat
-        
+
         mat1 = get_mat(2, 0.7)
         mat2 = get_mat(3, 3)
 
@@ -1756,10 +1701,10 @@ class TL13(SharpDelimTemplate):
 
         typ2 = TypstMath(
             R'''
-            mat(#box(width: 4em, height: 4em, align(horizon)[?])) 
-            dot 
-            vec(#box(width: 1em, height: 4em, align(horizon)[?])) 
-            = 
+            mat(#box(width: 4em, height: 4em, align(horizon)[?]))
+            dot
+            vec(#box(width: 1em, height: 4em, align(horizon)[?]))
+            =
             vec(#box(width: 1em, height: 4em, align(horizon)[?]))
             '''
         )
@@ -1791,7 +1736,7 @@ class TL13(SharpDelimTemplate):
             GrowArrow(arrow),
             Write(typplus)
         )
-        
+
         self.play(
             Transform(dot1, dot2, hide_src=False),
             dot1.anim(duration=0.3).color.fade(0.7)
@@ -1847,9 +1792,9 @@ class TL14(SharpDelimTemplate):
                 typ = TypstMath(typ_str, color=c, scale=1.4)
                 typ.points.move_to(label).shift(DOWN * 0.06 + RIGHT * 0.03)
                 b.add(typ)
-            
+
             return a, b
-        
+
         els1, typs1 = getels([
             [0, 0, 'S_1', RED],
             [1, 1, 'S_2', GREEN],
@@ -2091,7 +2036,7 @@ class TL15(SharpDelimTemplate):
         tick1.points.shift([-3.1, 1.64, 0.0])
         tick2.points.shift([-0.49, 1.64, 0.0])
         tick3.points.shift([2.12, 1.64, 0.0])
-        
+
         ####################################################
 
         self.play(
@@ -2127,7 +2072,7 @@ class TL15(SharpDelimTemplate):
             line1 = Line(ORIGIN, RIGHT * 1.5, color=BLUE, stroke_radius=0.015)
             line2 = line1.copy()
             line2.points.rotate(deg, about_point=ORIGIN)
-            
+
             g = Group(
                 line1, line2
             )
@@ -2147,7 +2092,7 @@ class TL15(SharpDelimTemplate):
 
             g.points.shift(OUT * 0.802)
             return g
-        
+
         lines = lines_updater()
 
         line_axis = DashedLine(ORIGIN, OUT * 5, color=BLUE).apply_depth_test()
@@ -2168,7 +2113,7 @@ class TL15(SharpDelimTemplate):
         self.play(
             FadeIn(con3d[0])
         )
-        
+
         self.play(
             Create(lines[0])
         )
@@ -2233,7 +2178,7 @@ class TL16(SharpDelimTemplate):
                 return Group(angle, typ)
             except PointError:
                 return Group()
-        
+
         angle = angle_updater()
 
         typ = TypstMath('cos theta wide sin theta', scale=2.5)
@@ -2304,9 +2249,9 @@ class TL17(SharpDelimTemplate):
                 vec(x, y, z, 1)
                 =
                 vec(
-                    x, 
-                    ss(cos theta dot y - sin theta dot z), 
-                    ss(sin theta dot y + cos theta dot z), 
+                    x,
+                    ss(cos theta dot y - sin theta dot z),
+                    ss(sin theta dot y + cos theta dot z),
                     1
                 )
             $] <eq1>
@@ -2390,8 +2335,8 @@ class TL17(SharpDelimTemplate):
             Aligned(
                 WiggleOutThenIn(parts[2][91], scale=2),
                 DataUpdater(
-                    parts[2][91], 
-                    lambda data, p: data.fill.mix(YELLOW, p.alpha), 
+                    parts[2][91],
+                    lambda data, p: data.fill.mix(YELLOW, p.alpha),
                     rate_func=there_and_back
                 ),
                 duration=2.5
@@ -2824,7 +2769,7 @@ class TL19(SharpDelimTemplate):
         typ6 = TypstMath('vec(2x+1,2y+2,2z+3,1)')
 
         ####################################################
-        
+
         self.play(
             FadeIn(typ5parts[1]),
             Transform(typ4[17:], typ5parts[0], hide_src=False, path_arc=30 * DEGREES),
