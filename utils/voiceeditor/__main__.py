@@ -1,3 +1,8 @@
+# flake8: noqa
+import sys
+
+sys.path.append('.')
+
 from janim.gui.application import Application
 
 from main_window import MainWindow
