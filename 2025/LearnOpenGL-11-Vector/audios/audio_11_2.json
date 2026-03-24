@@ -1,0 +1,152 @@
+[
+    {
+        "text": "我们已经知道 我们会用比如",
+        "range": [0.9, 3.84],
+        "contains_math": false
+    },
+    {
+        "text": "{数学公式} 来表示空间中的一个位置",
+        "range": [3.83, 5.76],
+        "contains_math": true
+    },
+    {
+        "text": "又或者是使用 {数学公式}",
+        "range": [6.09, 8.56],
+        "contains_math": true
+    },
+    {
+        "text": "来表示三维空间中的一个位置",
+        "range": [8.55, 10.35],
+        "contains_math": false
+    },
+    {
+        "text": "我们习惯将 {数学公式}",
+        "range": [10.89, 12.96],
+        "contains_math": true
+    },
+    {
+        "text": "或 {数学公式} 这种结构称之为一个向量",
+        "range": [12.96, 15.63],
+        "contains_math": true
+    },
+    {
+        "text": "并将其表现为从原点指向这个位置的一个箭头",
+        "range": [16.11, 19.08],
+        "contains_math": false
+    },
+    {
+        "text": "也就是告诉你 从起始位置开始",
+        "range": [20.88, 23.67],
+        "contains_math": false
+    },
+    {
+        "text": "在水平方向上向右走三步",
+        "range": [23.97, 26.4],
+        "contains_math": false
+    },
+    {
+        "text": "在竖直方向向上走一步",
+        "range": [26.64, 28.98],
+        "contains_math": false
+    },
+    {
+        "text": "就会到我指出来的这个位置",
+        "range": [29.22, 31.17],
+        "contains_math": false
+    },
+    {
+        "text": "可以发现 向量最根本来说就是一组数字",
+        "range": [32.19, 35.91],
+        "contains_math": false
+    },
+    {
+        "text": "向量中带有的数字个数就是这个向量的维数",
+        "range": [36.18, 40.03],
+        "contains_math": false
+    },
+    {
+        "text": "我们通常也就使用2至4维的向量",
+        "range": [40.47, 43.47],
+        "contains_math": false
+    },
+    {
+        "text": "现在你能在画面中看到两个向量",
+        "range": [44.76, 46.71],
+        "contains_math": false
+    },
+    {
+        "text": "每个向量我们都用一个箭头表示",
+        "range": [47.37, 49.77],
+        "contains_math": false
+    },
+    {
+        "text": "我们现在是在一个平面上演示向量",
+        "range": [50.25, 52.68],
+        "contains_math": false
+    },
+    {
+        "text": "当然你也可以把它们当作 {数学公式} 坐标为0的3D向量",
+        "range": [53.07, 56.73],
+        "contains_math": true
+    },
+    {
+        "text": "我们还是回到这个更易理解的2D平面中",
+        "range": [57.84, 60.78],
+        "contains_math": false
+    },
+    {
+        "text": "由于我们在使用箭头来表示一个向量时",
+        "range": [61.35, 63.78],
+        "contains_math": false
+    },
+    {
+        "text": "只关心箭头从开始到结束位置的移动量",
+        "range": [64.38, 67.86],
+        "contains_math": false
+    },
+    {
+        "text": "所以无论我们在画面上将向量怎么平移",
+        "range": [68.19, 70.92],
+        "contains_math": false
+    },
+    {
+        "text": "{数学公式} 仍然还是 {数学公式}",
+        "range": [71.15, 73.59],
+        "contains_math": true
+    },
+    {
+        "text": "{数学公式} 仍然还是 {数学公式}",
+        "range": [74.01, 76.2],
+        "contains_math": true
+    },
+    {
+        "text": "这种起始位置不是原点的向量 在后面的演示中表达起来会比较方便",
+        "range": [76.7, 80.02],
+        "contains_math": false
+    },
+    {
+        "text": "你只要知道平移后的向量和原来的向量是相等的就好了",
+        "range": [82.2, 86.79],
+        "contains_math": false
+    },
+    {
+        "text": "数学家喜欢在字母上面加一横表示向量",
+        "range": [87.69, 90.93],
+        "contains_math": false
+    },
+    {
+        "text": "比如现在这两个向量上面都有一个横线",
+        "range": [91.2, 94.08],
+        "contains_math": false
+    },
+    {
+        "text": "并且将向量中的各个数字竖着写 从而长成这样",
+        "range": [94.83, 99.12],
+        "contains_math": false
+    },
+    {
+        "text": "在接下来的表述中 我们都会使用这种竖着写的方式",
+        "range": [99.81, 103.29],
+        "contains_math": false
+    }
+]

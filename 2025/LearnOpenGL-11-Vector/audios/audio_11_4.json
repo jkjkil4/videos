@@ -1,0 +1,97 @@
+[
+    {
+        "text": "两个向量相乘是一种很奇怪的情况",
+        "range": [0.48, 3.3],
+        "contains_math": false
+    },
+    {
+        "text": "普通的乘法在向量上一般是没有意义的",
+        "range": [3.84, 6.84],
+        "contains_math": false
+    },
+    {
+        "text": "所以我们也不会这样去计算",
+        "range": [7.14, 9.0],
+        "contains_math": false
+    },
+    {
+        "text": "我们定义了两种特殊的向量乘法",
+        "range": [9.48, 11.31],
+        "contains_math": false
+    },
+    {
+        "text": "一个是点乘 记作 {数学公式}",
+        "range": [11.56, 14.88],
+        "contains_math": true
+    },
+    {
+        "text": "另一个是叉乘 记作 {数学公式}",
+        "range": [15.54, 18.72],
+        "contains_math": true
+    },
+    {
+        "text": "我们现在说明一下这两种向量乘法都是如何运作的",
+        "range": [19.77, 23.61],
+        "contains_math": false
+    },
+    {
+        "text": "向量点乘的公式是这样的",
+        "range": [25.74, 27.72],
+        "contains_math": false
+    },
+    {
+        "text": "向量点乘的结果是 {数学公式} 的长度",
+        "range": [28.35, 31.62],
+        "contains_math": true
+    },
+    {
+        "text": "乘上 {数学公式} 的长度 再乘上这两个向量之间夹角的余弦值",
+        "range": [31.92, 36.87],
+        "contains_math": true
+    },
+    {
+        "text": "为什么这很有用 你想象如果 {数学公式} 和 {数学公式} 都是单位向量",
+        "range": [37.44, 41.58],
+        "contains_math": true
+    },
+    {
+        "text": "还记得吧 单位向量的长度是1",
+        "range": [42.06, 44.16],
+        "contains_math": false
+    },
+    {
+        "text": "那么上面的公式就会简化成 {数学公式}",
+        "range": [44.52, 46.74],
+        "contains_math": true
+    },
+    {
+        "text": "现在点积只定义了两个向量的夹角",
+        "range": [47.58, 51.69],
+        "contains_math": false
+    },
+    {
+        "text": "这是一个非常有用的信息",
+        "range": [52.08, 58.5],
+        "contains_math": false
+    },
+    {
+        "text": "如果你不知道两个单位向量之间的夹角 只要计算出点积",
+        "range": [58.98, 63.48],
+        "contains_math": false
+    },
+    {
+        "text": "那么我们就可以推知 {数学公式}",
+        "range": [63.93, 66.16],
+        "contains_math": true
+    },
+    {
+        "text": "你也许记得夹角90度时余弦值是0",
+        "range": [66.59, 69.39],
+        "contains_math": false
+    },
+    {
+        "text": "所以我们使用点乘就很容易测试两个向量是否垂直",
+        "range": [69.56, 73.59],
+        "contains_math": false
+    }
+]

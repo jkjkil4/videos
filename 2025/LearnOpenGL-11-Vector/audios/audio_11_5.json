@@ -1,0 +1,97 @@
+[
+    {
+        "text": "并且除了这个特点之外 我们继续观察这个数值",
+        "range": [0.27, 3.72],
+        "contains_math": false
+    },
+    {
+        "text": "我现在先把向量的方向对齐",
+        "range": [4.05, 6.63],
+        "contains_math": false
+    },
+    {
+        "text": "此时余弦值为1",
+        "range": [6.87, 8.52],
+        "contains_math": false
+    },
+    {
+        "text": "当我慢慢地让其中一个向量偏离 余弦值逐渐减小",
+        "range": [8.97, 13.23],
+        "contains_math": false
+    },
+    {
+        "text": "先到达我们刚刚提到垂直时候的0",
+        "range": [13.53, 16.32],
+        "contains_math": false
+    },
+    {
+        "text": "接着继续减小 到完全反向时候的-1",
+        "range": [16.77, 20.13],
+        "contains_math": false
+    },
+    {
+        "text": "事情有意思了起来 我们通过单位向量的点乘",
+        "range": [20.85, 23.67],
+        "contains_math": false
+    },
+    {
+        "text": "便可以衡量它们方向的一致程度",
+        "range": [24.45, 27.33],
+        "contains_math": false
+    },
+    {
+        "text": "从完全一致的1 再到完全不一致的-1",
+        "range": [27.66, 31.47],
+        "contains_math": false
+    },
+    {
+        "text": "我们刚刚简单介绍了一下点乘的经典应用场景",
+        "range": [32.46, 35.97],
+        "contains_math": false
+    },
+    {
+        "text": "那么点乘具体可以怎么算出来呢",
+        "range": [36.18, 38.35],
+        "contains_math": false
+    },
+    {
+        "text": "其实很简单 比如对于这两个三维向量",
+        "range": [39.03, 41.7],
+        "contains_math": false
+    },
+    {
+        "text": "我们只要将每个分量依次相乘 再加起来就好了",
+        "range": [41.91, 45.18],
+        "contains_math": false
+    },
+    {
+        "text": "比如我们可以这样计算单位向量",
+        "range": [46.08, 48.0],
+        "contains_math": false
+    },
+    {
+        "text": "{数学公式} 和 {数学公式} 的点乘",
+        "range": [48.0, 52.56],
+        "contains_math": true
+    },
+    {
+        "text": "我们算出来这两个向量的点乘是-0.8",
+        "range": [54.3, 58.02],
+        "contains_math": false
+    },
+    {
+        "text": "从而我们知道了角度的余弦值 {数学公式}",
+        "range": [58.02, 61.92],
+        "contains_math": true
+    },
+    {
+        "text": "如果我们进一步用反余弦函数",
+        "range": [63.39, 66.6],
+        "contains_math": false
+    },
+    {
+        "text": "可以算出这两个向量的夹角 {数学公式}",
+        "range": [66.66, 69.69],
+        "contains_math": true
+    }
+]

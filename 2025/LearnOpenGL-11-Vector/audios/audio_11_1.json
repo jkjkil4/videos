@@ -1,0 +1,147 @@
+[
+    {
+        "text": "现在我们已经了解了如何创建一个物体",
+        "range": [0.36, 3.16],
+        "contains_math": false
+    },
+    {
+        "text": "着色 加入纹理 给出一些细节的表现",
+        "range": [3.18, 6.63],
+        "contains_math": false
+    },
+    {
+        "text": "但是它们都还是静态的物体",
+        "range": [7.08, 9.06],
+        "contains_math": false
+    },
+    {
+        "text": "我们很可能会想要让它们动起来",
+        "range": [9.15, 11.52],
+        "contains_math": false
+    },
+    {
+        "text": "我们一开始也许会想 在每一帧改变物体的顶点",
+        "range": [12.0, 15.45],
+        "contains_math": false
+    },
+    {
+        "text": "重新传递给GPU",
+        "range": [15.78, 17.43],
+        "contains_math": false
+    },
+    {
+        "text": "但是我们知道 GPU数据传递效率是比较低的",
+        "range": [17.79, 21.39],
+        "contains_math": false
+    },
+    {
+        "text": "因此我们想要尽可能避免重复传递顶点数据",
+        "range": [21.6, 25.26],
+        "contains_math": false
+    },
+    {
+        "text": "我们现在有一个很好的解决方案",
+        "range": [26.01, 28.47],
+        "contains_math": false
+    },
+    {
+        "text": "使用矩阵可以很好地变换一个物体",
+        "range": [28.86, 32.31],
+        "contains_math": false
+    },
+    {
+        "text": "比如我们可以用矩阵表示旋转 拉伸以及位移",
+        "range": [32.72, 37.03],
+        "contains_math": false
+    },
+    {
+        "text": "我们每次移动物体 只要重新给GPU传递这些矩阵",
+        "range": [37.4, 41.58],
+        "contains_math": false
+    },
+    {
+        "text": "就可以应用上现在物体的状态",
+        "range": [41.97, 44.58],
+        "contains_math": false
+    },
+    {
+        "text": "而不用每次都传递变化后的顶点位置",
+        "range": [44.91, 48.42],
+        "contains_math": false
+    },
+    {
+        "text": "总之我们需要认识到",
+        "range": [49.59, 51.36],
+        "contains_math": false
+    },
+    {
+        "text": "向GPU提供原始顶点数据",
+        "range": [51.69, 54.69],
+        "contains_math": false
+    },
+    {
+        "text": "和物件变换情况这两大成分",
+        "range": [54.93, 58.11],
+        "contains_math": false
+    },
+    {
+        "text": "并通过更新后者",
+        "range": [58.65, 60.21],
+        "contains_math": false
+    },
+    {
+        "text": "来让物件动起来 是最普遍的做法",
+        "range": [60.54, 63.78],
+        "contains_math": false
+    },
+    {
+        "text": "矩阵不仅能方便我们表示物件运动",
+        "range": [64.98, 67.77],
+        "contains_math": false
+    },
+    {
+        "text": "矩阵还是一种GPU计算起来非常快的表示形式",
+        "range": [68.01, 72.09],
+        "contains_math": false
+    },
+    {
+        "text": "并且在显示三维画面时",
+        "range": [72.54, 74.67],
+        "contains_math": false
+    },
+    {
+        "text": "矩阵更是不可或缺的",
+        "range": [75.27, 76.98],
+        "contains_math": false
+    },
+    {
+        "text": "通过以上叙述 你能够大概了解",
+        "range": [78.0, 80.49],
+        "contains_math": false
+    },
+    {
+        "text": "我们使用矩阵的动机",
+        "range": [80.48, 82.47],
+        "contains_math": false
+    },
+    {
+        "text": "那么它具体是啥样的呢",
+        "range": [83.46, 85.02],
+        "contains_math": false
+    },
+    {
+        "text": "这会涉及一些线性代数的知识",
+        "range": [85.38, 87.6],
+        "contains_math": false
+    },
+    {
+        "text": "但是不要害怕",
+        "range": [87.84, 88.83],
+        "contains_math": false
+    },
+    {
+        "text": "接下来我会慢慢地向你展开关于向量以及矩阵的知识",
+        "range": [89.19, 93.09],
+        "contains_math": false
+    }
+]

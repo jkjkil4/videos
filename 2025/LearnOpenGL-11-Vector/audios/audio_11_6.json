@@ -1,0 +1,77 @@
+[
+    {
+        "text": "刚刚我们介绍完了点乘 现在我们介绍一下叉乘",
+        "range": [0.15, 3.3],
+        "contains_math": false
+    },
+    {
+        "text": "叉乘只在三维空间中有定义 会比点乘复杂一些",
+        "range": [4.38, 8.49],
+        "contains_math": false
+    },
+    {
+        "text": "它需要两个不平行向量作为输入",
+        "range": [9.0, 11.49],
+        "contains_math": false
+    },
+    {
+        "text": "产生一个垂直于两个输入向量的第三个向量",
+        "range": [11.7, 15.3],
+        "contains_math": false
+    },
+    {
+        "text": "如果输入的两个向量已经是垂直的",
+        "range": [15.93, 18.52],
+        "contains_math": false
+    },
+    {
+        "text": "那么叉乘后这三个向量就会刚好互相垂直",
+        "range": [18.75, 22.14],
+        "contains_math": false
+    },
+    {
+        "text": "那么叉乘要怎么算呢",
+        "range": [22.62, 23.97],
+        "contains_math": false
+    },
+    {
+        "text": "是不是看起来毫无头绪",
+        "range": [26.22, 27.81],
+        "contains_math": false
+    },
+    {
+        "text": "不过你只要按这个公式来算",
+        "range": [28.05, 31.08],
+        "contains_math": false
+    },
+    {
+        "text": "你就能得到一个垂直于两个输入向量的第三个向量",
+        "range": [31.08, 33.28],
+        "contains_math": false
+    },
+    {
+        "text": "就算记不住也没有问题",
+        "range": [34.86, 36.33],
+        "contains_math": false
+    },
+    {
+        "text": "因为我们的程序里有可以直接使用的函数",
+        "range": [36.36, 39.24],
+        "contains_math": false
+    },
+    {
+        "text": "没必要自己手算",
+        "range": [39.39, 40.6],
+        "contains_math": false
+    },
+    {
+        "text": "叉乘的性质会非常有用",
+        "range": [41.56, 43.41],
+        "contains_math": false
+    },
+    {
+        "text": "关于叉乘的优点我们会在之后继续展开",
+        "range": [43.59, 46.17],
+        "contains_math": false
+    }
+]

@@ -1,0 +1,197 @@
+[
+    {
+        "text": "接下来我们介绍一些与向量有关的计算",
+        "range": [0.96, 4.12],
+        "contains_math": false
+    },
+    {
+        "text": "首先是向量与标量的计算",
+        "range": [5.79, 8.43],
+        "contains_math": false
+    },
+    {
+        "text": "标量只是一个数字",
+        "range": [8.69, 10.41],
+        "contains_math": false
+    },
+    {
+        "text": "当我们把一个向量加减乘除一个标量",
+        "range": [10.77, 13.74],
+        "contains_math": false
+    },
+    {
+        "text": "我们可以简单地把向量的每个分量分别进行该运算",
+        "range": [13.92, 18.09],
+        "contains_math": false
+    },
+    {
+        "text": "其中比如乘法 你可以形象地把它理解成",
+        "range": [19.44, 22.68],
+        "contains_math": false
+    },
+    {
+        "text": "是在缩放这个向量 缩放两倍 三倍",
+        "range": [22.86, 25.77],
+        "contains_math": false
+    },
+    {
+        "text": "而加减法就没有什么直观的理解方式了",
+        "range": [26.4, 29.16],
+        "contains_math": false
+    },
+    {
+        "text": "单纯就是对每个分量加上或者减去某个数",
+        "range": [29.43, 32.43],
+        "contains_math": false
+    },
+    {
+        "text": "对一个向量取反会将其方向逆转",
+        "range": [33.81, 36.39],
+        "contains_math": false
+    },
+    {
+        "text": "一个指向东北的向量取反后就指向西南方向了",
+        "range": [36.81, 40.65],
+        "contains_math": false
+    },
+    {
+        "text": "我们在一个向量的每个分量前加负号就可以实现取反了",
+        "range": [40.95, 45.42],
+        "contains_math": false
+    },
+    {
+        "text": "向量的加法可以定义为逐个分量的相加",
+        "range": [47.04, 50.4],
+        "contains_math": false
+    },
+    {
+        "text": "就像这样",
+        "range": [50.49, 51.24],
+        "contains_math": false
+    },
+    {
+        "text": "在计算时 我们将各个分量对应地相加就好了",
+        "range": [52.59, 56.28],
+        "contains_math": false
+    },
+    {
+        "text": "不过我们也有一种直观的理解方式",
+        "range": [56.64, 59.13],
+        "contains_math": false
+    },
+    {
+        "text": "我们将 {数学公式} 和 {数学公式} 这两个向量放在平面上",
+        "range": [59.43, 63.66],
+        "contains_math": true
+    },
+    {
+        "text": "它们两个相加可以理解为将它们首尾连接",
+        "range": [63.66, 68.52],
+        "contains_math": false
+    },
+    {
+        "text": "从原点指向终点的这个向量就是计算结果",
+        "range": [69.15, 72.48],
+        "contains_math": false
+    },
+    {
+        "text": "就像普通数字的加减一样 向量的减法等于",
+        "range": [74.28, 77.49],
+        "contains_math": false
+    },
+    {
+        "text": "加上第二个向量的相反向量",
+        "range": [77.48, 80.46],
+        "contains_math": false
+    },
+    {
+        "text": "同样我们也可以在平面上直观理解向量减法",
+        "range": [81.15, 84.81],
+        "contains_math": false
+    },
+    {
+        "text": "我们看看将 {数学公式} 和 {数学公式} 相减的结果",
+        "range": [85.29, 90.99],
+        "contains_math": true
+    },
+    {
+        "text": "对于向量长度 使用勾股定理即可",
+        "range": [93.96, 96.99],
+        "contains_math": false
+    },
+    {
+        "text": "我们使用双竖线这种记号来表示向量的长度",
+        "range": [97.35, 101.28],
+        "contains_math": false
+    },
+    {
+        "text": "比如对于 {数学公式} 这个向量 我们可以算出其长度",
+        "range": [101.67, 105.69],
+        "contains_math": true
+    },
+    {
+        "text": "约为4.47",
+        "range": [108.51, 110.01],
+        "contains_math": false
+    },
+    {
+        "text": "对于三维的向量也很简单",
+        "range": [110.55, 112.74],
+        "contains_math": false
+    },
+    {
+        "text": "只要把 {数学公式} 也放进这个根号里即可",
+        "range": [112.89, 116.07],
+        "contains_math": true
+    },
+    {
+        "text": "你可以简单思考一下是为什么",
+        "range": [116.34, 118.92],
+        "contains_math": false
+    },
+    {
+        "text": "有一种特殊类型的向量叫做单位向量",
+        "range": [119.97, 122.85],
+        "contains_math": false
+    },
+    {
+        "text": "单位向量有一个特别的性质",
+        "range": [123.3, 125.67],
+        "contains_math": false
+    },
+    {
+        "text": "它的长度是1",
+        "range": [125.97, 127.17],
+        "contains_math": false
+    },
+    {
+        "text": "我们可以用任意向量的每个分量除以向量的长度",
+        "range": [127.44, 131.62],
+        "contains_math": false
+    },
+    {
+        "text": "得到同方向的单位向量 {数学公式}",
+        "range": [131.82, 133.83],
+        "contains_math": true
+    },
+    {
+        "text": "我们把这种方法叫做一个向量的标准化",
+        "range": [135.24, 138.31],
+        "contains_math": false
+    },
+    {
+        "text": "单位向量头上有一个尖号样子的记号",
+        "range": [138.69, 141.72],
+        "contains_math": false
+    },
+    {
+        "text": "通常单位向量会变得很有用",
+        "range": [142.16, 144.51],
+        "contains_math": false
+    },
+    {
+        "text": "特别是在我们只关心方向不关心长度的时候",
+        "range": [144.87, 148.32],
+        "contains_math": false
+    }
+]
