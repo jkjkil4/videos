@@ -7,7 +7,7 @@ from janim.imports import *
 from PIL import ImageFilter
 
 with reloads():
-    from utils.template import *
+    from template import *
 
 s1 = '<fs 0.7><c GREY_A>'
 s2 = '</c></fs>'
@@ -118,7 +118,7 @@ class NewVBODataHighlight(Template):
         rect = Rect([-3.8, -0.3, 0], [-2.61, -1.51, 0], color=YELLOW)
         self.play(
             ShowCreationThenFadeOut(
-                rect, 
+                rect,
                 create_kwargs=dict(
                     auto_close_path=False
                 )
@@ -143,10 +143,10 @@ class NewVBODataNote(Template):
         tip2.points.next_to(p2, buff=0)
 
         tip2_arrow = Arrow(
-            [-1.38, 0.32, 0], [-2.95, -0.52, 0], 
-            path_arc=-65 * DEGREES, 
-            stroke_radius=0.015, 
-            max_length_to_tip_length_ratio=0.08, 
+            [-1.38, 0.32, 0], [-2.95, -0.52, 0],
+            path_arc=-65 * DEGREES,
+            stroke_radius=0.015,
+            max_length_to_tip_length_ratio=0.08,
             buff=0.15,
             color=GREY
         )
@@ -233,14 +233,14 @@ class SamplerDesc(Template):
         title = Title('采样器')
         txt = Text('sampler1D\nsampler2D\nsampler3D')
         txt.points.arrange(DOWN)
-        
+
         self.play(FadeIn(rect), Write(title, at=0.4))
         self.forward()
         self.play(Write(txt[0]))
         self.play(Write(txt[2]))
         self.forward()
         self.play(
-            Write(txt[1]), 
+            Write(txt[1]),
             txt[0, 2](VItem).anim(duration=0.6).color.set(GREY)
         )
         self.forward()
@@ -274,8 +274,8 @@ class SamplerHighlight(Template):
         self.play(Create(ul1))
         self.forward()
         self.play(
-            Destruction(ul1, rate_func=rush_into), 
-            Create(ul2, rate_func=rush_from), 
+            Destruction(ul1, rate_func=rush_into),
+            Create(ul2, rate_func=rush_from),
             lag_ratio=0.8
         )
         self.forward()
@@ -396,7 +396,7 @@ class TextureLocation(Template):
             rect.anim(at=0.5)
                 .points.replace(SurroundingRect(g2), stretch=True)
         )
-        
+
         self.forward(2)
 
 
@@ -537,7 +537,7 @@ class GLSLMix(Template):
         line.points.shift(UP)
 
         tracker = ValueTracker(0.2)
-        
+
         def tip_updater(data: ArrowTip, p=None):
             data.points.next_to(line.n2p(tracker.current().data.get()), UP, buff=SMALL_BUFF)
 
@@ -549,7 +549,7 @@ class GLSLMix(Template):
             txt = Text(f'{value:.2f}', font_size=18)
             txt.points.next_to(tip.current(), UP, buff=SMALL_BUFF)
             return txt
-        
+
         tip_txt = tip_txt_updater()
 
         img1 = ImageItem('container.jpg', height=1.5)
@@ -601,7 +601,7 @@ class GLSLMix(Template):
         self.forward()
 
         ##############################################################
-        
+
 
 class TextureLocation2(Template):
     def construct(self):
@@ -732,7 +732,7 @@ class RemoveColorCode(MOVTemplate):
 
         pyline = Text(
             "<fc #9cdcfe>vao</fc> <fc #d4d4d4>=</fc> <fc #9cdcfe>ctx</fc><fc #cccccc>.</fc><fc #dcdcaa>vertex_array</fc><fc #cccccc>(</fc><fc #9cdcfe>prog</fc><fc #cccccc>, </fc><fc #9cdcfe>vbo</fc><fc #cccccc>, </fc><fc #ce9178>'in_vert'</fc><fc #cccccc>, </fc><fc #ce9178>'in_color'</fc><fc #cccccc>, </fc><fc #ce9178>'in_texcoord'</fc><fc #cccccc>, </fc><fc #9cdcfe>index_buffer</fc><fc #d4d4d4>=</fc><fc #9cdcfe>ibo</fc><fc #cccccc>)</fc>",
-            format=Text.Format.RichText, 
+            format=Text.Format.RichText,
             font_size=12
         )
         pyline.points.to_border(UR)
@@ -748,8 +748,8 @@ class RemoveColorCode(MOVTemplate):
 
         def del_line(item: Points):
             return Line(
-                item.points.box.left, 
-                item.points.box.right, 
+                item.points.box.left,
+                item.points.box.right,
                 color=YELLOW,
                 stroke_radius=0.01,
                 alpha=0.8
@@ -759,9 +759,9 @@ class RemoveColorCode(MOVTemplate):
             del_line(code1[2][20:32]),
             *[del_line(code1[i][22:36]) for i in range(3, 7)]
         )
-        
+
         del_line2 = Group.from_iterable(del_line(code2[i]) for i in (5, 8, 14, 22))
-                
+
         del_line3 = del_line(pyline[0][45:55])
 
         self.show(code1, rect1, del_line1)
@@ -786,7 +786,7 @@ class ImageAndOpenGLCoords(MOVTemplate):
                     axis_config=dict(
                         include_tip=True,
                         include_ticks=False,
-                    ), 
+                    ),
                     **kwargs
                 )
                 self.x_axis.set(color=RED)
@@ -799,7 +799,7 @@ class ImageAndOpenGLCoords(MOVTemplate):
                 self.y_label.points.next_to(self.y_axis, DOWN if inverse_y else UP)
 
                 self.add(self.x_label, self.y_label)
-        
+
         axes_img = ColoredAxes(inverse_y=True)
         axes_opengl = ColoredAxes()
 
@@ -818,9 +818,9 @@ class ImageAndOpenGLCoords(MOVTemplate):
             .to_border(RIGHT, buff=LARGE_BUFF)
 
         rect = SurroundingRect(
-            g, 
-            **Rect.preset_shadow, 
-            depth=2, 
+            g,
+            **Rect.preset_shadow,
+            depth=2,
             buff=0.5
         )
 
@@ -855,16 +855,16 @@ class ImageAndOpenGLCoords(MOVTemplate):
         self.forward()
 
         center = (
-            axes_img.c2p() + 
+            axes_img.c2p() +
             axes_opengl.c2p()
         ) / 2
 
         self.play(
             Rotate(img, PI, axis=RIGHT, about_point=center)
         )
-        
+
         self.forward()
-        
+
         self.play(
             Rotate(img, -PI, axis=RIGHT, about_point=center),
             duration=0.7

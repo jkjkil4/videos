@@ -7,7 +7,7 @@ sys.path.append('.')
 from colour import Color
 from janim.imports import *
 
-from utils.template import *
+from template import *
 
 code1_src = '''<fc #dcdcaa>glBindBuffer</fc><fc #cccccc>(</fc><fc #4fc1ff>GL_ARRAY_BUFFER</fc><fc #cccccc>, </fc><fc #b5cea8>0</fc><fc #cccccc>)</fc>
 <fc #dcdcaa>glBindBuffer</fc><fc #cccccc>(</fc><fc #4fc1ff>GL_ELEMENT_ARRAY_BUFFER</fc><fc #cccccc>, </fc><fc #b5cea8>0</fc><fc #cccccc>)</fc>

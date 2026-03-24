@@ -6,7 +6,7 @@ sys.path.append('.')
 
 from janim.imports import *
 
-from utils.template import *
+from template import *
 
 
 class TitleTl(TitleTemplate):

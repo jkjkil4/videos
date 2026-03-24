@@ -11,7 +11,7 @@ sys.path.append('.')
 
 from janim.imports import *
 
-from utils.template import *
+from template import *
 
 s1 = '<fs 0.7><c GREY_A>'
 s2 = '</c></fs>'

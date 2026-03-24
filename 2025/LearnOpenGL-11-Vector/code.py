@@ -6,8 +6,8 @@ sys.path.append('.')
 from janim.imports import *
 
 with reloads():
-    from utils.template import *
-from utils.template import *
+    from template import *
+from template import *
 
 
 class Wiggle(DataUpdater[Points]):
