@@ -12,7 +12,23 @@ except ImportError:
     msvcrt = None
 
 
+def confirm_overwrite(paths: list[Path]) -> bool:
+    existing_files = [path for path in paths if path.exists()]
+    if not existing_files:
+        return True
+
+    print('以下文件已存在:')
+    for path in existing_files:
+        print(f'  - {path}')
+
+    answer = input('是否覆盖这些文件？[y/N]: ').strip().lower()
+    return answer in ('y', 'yes')
+
+
 def main(output_path: str) -> None:
+    assert output_path.endswith('.wav')
+    output_path = output_path.removesuffix('.wav')
+
     sample_rate = 48000
     channels = 1
     block_size = 1024
@@ -21,6 +37,9 @@ def main(output_path: str) -> None:
     orig_file.parent.mkdir(parents=True, exist_ok=True)
 
     output_file = Path(output_path + '.wav')
+    if not confirm_overwrite([orig_file, output_file]):
+        print('已取消操作。')
+        return
 
     frames: list[bytes] = []
     error_points: list[float] = []
@@ -68,6 +87,6 @@ def main(output_path: str) -> None:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='录制音频并保存为 WAV 文件')
-    parser.add_argument('output_path', help='输出 WAV 文件（不含后缀），例如 output')
+    parser.add_argument('output_path', help='输出 WAV 文件，例如 output.wav')
     args = parser.parse_args()
     main(args.output_path)
