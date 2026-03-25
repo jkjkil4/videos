@@ -13,8 +13,8 @@ class Template(Timeline):
         wnd_pos='OO',
         typst_shared_preamble=t_(
             R'''
-            #set text(font: "Noto Sans S Chinese")
-            #show math.equation: set text(font: ("New Computer Modern Math", "Noto Sans S Chinese"))
+            #set text(font: "Noto Sans S Chinese", weight: "medium")
+            #show math.equation: set text(font: ("New Computer Modern Math", "Noto Sans S Chinese"), weight: "medium")
             '''
         )
     )

@@ -65,7 +65,7 @@
         "contains_math": false
     },
     {
-        "text": "而不用每次都传递变化后的顶点位置",
+        "text": "而不用每次都传递变换后的顶点位置了",
         "range": [44.91, 48.42],
         "contains_math": false
     },
@@ -121,7 +121,7 @@
     },
     {
         "text": "我们使用矩阵的动机",
-        "range": [80.48, 82.47],
+        "range": [80.49, 82.47],
         "contains_math": false
     },
     {

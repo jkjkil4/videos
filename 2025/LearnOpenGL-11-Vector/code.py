@@ -7,7 +7,9 @@ from janim.imports import *
 
 with reloads():
     from template import *
+    from template.audio import play_audio_with_subtitles
 from template import *
+from template.audio import play_audio_with_subtitles
 
 
 class Wiggle(DataUpdater[Points]):
@@ -53,6 +55,9 @@ class TL1(Template):
     )
 
     def construct(self):
+        play_audio_with_subtitles(self, 'audio_11_1.wav', 0, 12, delay=1)
+        play_audio_with_subtitles(self, 'audio_11_1.wav', 12, 85.1, delay=1 + (12) + 2)
+
         ####################################################
 
         container = ImageItem('container.jpg', width=2.2, height=2)
@@ -60,7 +65,7 @@ class TL1(Template):
 
         rect1 = Rect(stroke_alpha=0, fill_alpha=1, depth=1, color=ORANGE)
         rect1.points.replace(container, stretch=True)
-        rect2 = ImageItem('blank.png', width=2.2, height=2, color=[RED, GREEN, GREEN, BLUE], depth=1)
+        rect2 = ImageItem('blank.png', width=2.2, height=2, color=[PURE_RED, GREEN, PURE_GREEN, PURE_BLUE], depth=1)
 
         phycenter_dot = Dot(radius=0.06, stroke_alpha=1, stroke_color=BLACK, stroke_radius=0.01, color=ORANGE)
 
@@ -72,31 +77,38 @@ class TL1(Template):
 
         ####################################################
 
+        self.forward(0.5)
+        self.play(FadeIn(rect1), duration=1.5)
         with self.shows(rect1):
-            self.forward()
+            self.forward(2.2)
         with self.shows(rect2):
             self.forward()
         container.show()
-        self.forward()
+        self.forward(3)
         self.play(FadeIn(phycenter_dot, scale=0.2))
         self.play(Wiggle(phycenter_dot))
         self.play(
             cursor.anim(path_arc=50 * DEGREES)
-                .mark.set(ORIGIN)
+                .mark.set(ORIGIN),
+            duration=0.7
         )
         self.play(
-            boxc.anim.points.shift([-2.21, -0.7, -0.0])
+            boxc.anim.points.shift([-2.21, -0.7, -0.0]),
+            duration=0.5
         )
         self.play(
-            boxc.anim.points.shift([4.15, 0.54, 0.0])
+            boxc.anim.points.shift([4.15, 0.54, 0.0]),
+            duration=0.7
         )
         self.play(
-            cursor.anim.points.shift([1.1, 0.94, 0.0])
+            cursor.anim.points.shift([1.1, 0.94, 0.0]),
+            duration=0.5
         )
         self.play(
             box.update.points.rotate(-40 * DEGREES),
             cursor.anim(path_arc=-40 * DEGREES)
-                .points.shift([0.39, -0.92, 0.0])
+                .points.shift([0.39, -0.92, 0.0]),
+            duration=0.8
         )
 
         ####################################################
@@ -125,7 +137,8 @@ class TL1(Template):
             container.anim.load_state()
                 .points.shift(RIGHT * 2),
             gr.anim.load_state(),
-            FadeIn(gr)
+            FadeIn(gr),
+            duration=2.2
         )
 
         grg.save_state()
@@ -133,10 +146,10 @@ class TL1(Template):
         prev_coords = get_coords()
         self.play(Write(prev_coords), duration=1)
 
-        for _ in range(10):
+        for _ in range(20):
             self.prepare(Destruction(prev_coords), duration=0.1)
             self.forward(0.05)
-            grg.points.rotate(-4 * DEGREES)
+            grg.points.rotate(-2 * DEGREES)
             new_coords = get_coords()
             self.play(Write(new_coords), duration=0.3)
             prev_coords = new_coords
@@ -146,7 +159,8 @@ class TL1(Template):
             grg.anim.load_state()
         )
         new_coords = get_coords()
-        self.play(Write(new_coords), duration=0.3)
+        self.play(Write(new_coords), duration=0.5)
+        self.forward(6.6)
 
         ####################################################
 
@@ -165,11 +179,13 @@ class TL1(Template):
         ####################################################
 
         self.play(FadeIn(txt_mat))
+        self.forward(1.3)
         self.play(
             GrowArrow(arrow),
             Write(arrow_txt),
             gr.anim.color.fade(0.5)
         )
+        self.forward(2)
         self.play(
             container.update.points.rotate(-40 * DEGREES),
             container.anim.points.scale([1.5, 0.7, 1]),
@@ -208,37 +224,48 @@ class TL1(Template):
         ####################################################
 
         self.play(FadeIn(hl))
+        self.forward(10.6)
         self.play(
             FadeOut(Group(container, arrow, arrow_txt)),
             FadeOut(hl),
+            duration=1.5
         )
+        self.forward(2)
 
         self.play(
             GrowArrow(arrow1),
             GrowArrow(arrow2),
             MoveToTarget(box),
             MoveToTarget(txt_mat),
-            FadeIn(gpu)
+            FadeIn(gpu),
+            duration=2
         )
+        self.forward(4.5)
         new_con.points.shift([3.58, 0.02, 0.0])
-        self.play(
-            AnimGroup(
-                ShowPassingFlash(circle.copy()),
-                Do(new_con.show),
-                lag_ratio=0.8
-            ),
-            AnimGroup(
-                ShowPassingFlash(circle.copy()),
-                Do(lambda: new_con.points.rotate(-20 * DEGREES)),
-                lag_ratio=0.8
-            ),
-            AnimGroup(
-                ShowPassingFlash(circle.copy()),
-                Do(lambda: new_con.points.scale([1.5, 0.8, 1])),
-                lag_ratio=0.8
-            ),
-            lag_ratio=1.2
-        )
+        new_con.save_state()
+        for _ in range(3):
+            new_con.load_state()
+            self.play(
+                AnimGroup(
+                    ShowPassingFlash(circle.copy()),
+                    Do(new_con.show),
+                    lag_ratio=0.8
+                ),
+                AnimGroup(
+                    ShowPassingFlash(circle.copy()),
+                    Do(lambda: new_con.points.rotate(-20 * DEGREES)),
+                    lag_ratio=0.8
+                ),
+                AnimGroup(
+                    ShowPassingFlash(circle.copy()),
+                    Do(lambda: new_con.points.scale([1.5, 0.8, 1])),
+                    lag_ratio=0.8
+                ),
+                lag_ratio=1.2,
+                duration=2.4
+            )
+            self.forward(0.8)
+        self.forward()
 
         ####################################################
 
@@ -264,13 +291,17 @@ class TL1(Template):
             GrowArrow(arrow_fast),
             FadeIn(arrow_fast_txt)
         )
+        self.forward(2.7)
         with self.shows(coordsys):
-            self.forward()
+            self.forward(3)
         self.play(
             FadeOut(Group(arrow_fast, arrow_fast_txt, gpu)),
             txt_mat.anim.points.to_center().scale(1.5)
         )
+        self.forward(4.5)
         self.play(Write(quest))
+        self.forward(1.5)
+        self.play(FadeOut(Group(quest, txt_mat), duration=0.6))
 
     @contextmanager
     def shows(self, item: Item):
@@ -281,13 +312,24 @@ class TL1(Template):
 
 class TL2(Template):
     def construct(self):
+        play_audio_with_subtitles(self, 'audio_11_1.wav', 85.1, 93.3, delay=0.5)
+
         typ = TypstText(R'向量#h(4em)矩阵', scale=2)
+
+        self.forward(6)
         self.play(Write(typ))
-        self.forward()
+        self.forward(2.5)
+
+
+class TLTitle(TitleTemplate):
+    str1 = 'Learn OpenGL'
+    str2 = '向量'
 
 
 class TL3(Template):
     def construct(self):
+        play_audio_with_subtitles(self, 'audio_11_2.wav', 0, 43.5, delay=0.3, mul=1.25)
+
         ####################################################
 
         axes = Axes(
@@ -341,6 +383,7 @@ class TL3(Template):
             )
         )
         self.play(Write(typ3d1))
+        self.forward(2)
         self.camera.save_state()
         self.play(
             self.camera.anim.points.set(orientation=Quaternion(0.9, 0.36, 0.09, 0.22))
@@ -350,6 +393,7 @@ class TL3(Template):
             ItemUpdater(posg, posg_updater),
             TransformMatchingDiff(typ3d1, typ3d1d2, duration=1)
         )
+        self.forward(2)
         self.play(
             self.camera.anim.load_state(),
             trpos.anim.set_value([3, 1, 0]),
@@ -393,13 +437,17 @@ class TL3(Template):
         self.play(
             Write(typ_vecdesc['$(3,1,2)$'])
         )
+        self.forward(0.5)
         self.play(
             Write(typ_vecdesc['向量'])
         )
+        self.forward(2.5)
         self.play(
             FadeOut(frect),
-            GrowArrow(vec)
+            GrowArrow(vec),
+            duration=1.5
         )
+        self.forward(2)
 
         g1 = Group(axes.x_axis, typ3d1[1])
         g1.save_state()
@@ -411,8 +459,10 @@ class TL3(Template):
             g[1].set(glow_alpha=0.7)
 
         self.play(
-            g1.anim.do(apply_glow)
+            g1.anim.do(apply_glow),
+            duration=1.5
         )
+        self.forward()
 
         for p1, p2 in it.pairwise([(0,0), (1,0), (2,0), (3,0)]):
             line = Line(axes.c2p(*p1), axes.c2p(*p2), stroke_radius=0.04, color=YELLOW)
@@ -428,14 +478,17 @@ class TL3(Template):
             self.play(ShowPassingFlash(line, time_width=0.4))
 
         self.play(
-            g2.anim.load_state()
+            g2.anim.load_state(),
+            FocusOn(posg[0]),
+            lag_ratio=0.6
         )
-        self.play(FocusOn(posg[0]))
+        self.forward()
 
         self.play(
             FadeOut(Group(posg, typ_vecdesc, axes)),
             Write(vec_txt)
         )
+        self.forward()
 
         ####################################################
 
@@ -467,39 +520,45 @@ class TL3(Template):
         self.play(
             cursor.anim(path_arc=20 * DEGREES, rate_func=rush_from)
                 .points.shift([-0.4, 1.45, 0.0]),
-            FadeIn(cursor)
+            FadeIn(cursor),
+            duration=0.5
         )
         self.play(
             cursor.anim(path_arc=PI * 0.8)
                 .points.shift([0.33, -0.03, 0.0]),
-            cursor_scale()
+            cursor_scale(),
+            duration=0.7
         )
-        self.play(Write(txt2d))
-        self.play(Write(typ3d1d2))
+        self.play(Write(txt2d), duration=0.7)
+        self.play(Write(typ3d1d2), duration=0.7)
 
         self.play(
             cursor.anim(path_arc=20 * DEGREES, rate_func=linear)
                 .points.shift([-0.69, -0.84, -0.0]),
             cursor_scale(),
-            rate_func=rush_from
+            rate_func=rush_from,
+            duration=0.5
         )
         self.play(
             cursor.anim(path_arc=PI * 0.8)
                 .points.shift([0.36, -0.01, 0.0]),
-            cursor_scale()
+            cursor_scale(),
+            duration=0.7
         )
         self.play(
             cursor.anim(path_arc=PI * 0.8)
                 .points.shift([0.34, 0.0, 0.0]),
-            cursor_scale()
+            cursor_scale(),
+            duration=0.7
         )
-        self.play(Write(txt3d))
+        self.play(Write(txt3d), duration=0.7)
 
-        self.forward()
+        self.forward(2)
 
 
 class TL4(Template):
     def construct(self):
+        play_audio_with_subtitles(self, 'audio_11_2.wav', 44, 104, delay=1, mul=1.25)
 
         ####################################################
 
@@ -536,35 +595,53 @@ class TL4(Template):
 
         ####################################################
 
+        self.forward(0.5)
         self.play(
             GrowArrow(vec1),
             Write(txt1),
             GrowArrow(vec2),
-            Write(txt2)
+            Write(txt2),
+            duration=1.5
         )
+        self.forward(3.5)
+        self.play(
+            ApplyWave(vec1),
+            ApplyWave(vec2),
+            lag_ratio=0.8
+        )
+        self.forward(2.5)
 
         plane.hide()
         large_plane.show()
         self.camera.save_state()
         self.play(
-            self.camera.anim
-                .points.set(orientation=Quaternion(0.9, 0.39, 0.07, 0.17))
-                       .shift([-0.53, -1.63, 0.05]),
-            TransformMatchingDiff(txt1, txt1_3d),
-            TransformMatchingDiff(txt2, txt2_3d),
+            Aligned(
+                self.camera.anim
+                    .points.set(orientation=Quaternion(0.9, 0.39, 0.07, 0.17))
+                        .shift([-0.53, -1.63, 0.05]),
+                TransformMatchingDiff(txt1, txt1_3d),
+                TransformMatchingDiff(txt2, txt2_3d),
+                duration=4
+            )
         )
+        self.forward()
         self.play(
-            self.camera.anim.load_state(),
-            TransformMatchingDiff(txt1_3d, txt1),
-            TransformMatchingDiff(txt2_3d, txt2),
+            Aligned(
+                self.camera.anim.load_state(),
+                TransformMatchingDiff(txt1_3d, txt1),
+                TransformMatchingDiff(txt2_3d, txt2),
+            )
         )
         large_plane.hide()
         plane.show()
+        self.forward(2.6)
 
         self.play(
             ShowPassingFlash(vec1.copy().set(color=YELLOW, depth=-1), time_width=0.3),
             ShowPassingFlash(vec2.copy().set(color=YELLOW, depth=-1), time_width=0.3),
+            duration=1.5
         )
+        self.forward(1.6)
 
         self.play(
             FadeIn(dot11, scale=0.05, hide_at_end=True),
@@ -572,6 +649,7 @@ class TL4(Template):
             FadeOut(dot12, scale=20, rate_func=rush_from),
             lag_ratio=0.9
         )
+        self.forward(1.7)
 
         ####################################################
 
@@ -584,12 +662,16 @@ class TL4(Template):
         self.play(
             FadeOut(vecsg),
             vec1g.anim.points.shift([1, 3, 0]),
-            vec2g.anim.points.shift([6, 3, 0])
+            vec2g.anim.points.shift([6, 3, 0]),
+            duration=2
         )
+        self.forward(12)
         vecsg(VItem).color.fade(0.35)
         self.play(
             FadeIn(vecsg),
+            duration=1.5
         )
+        self.forward(2)
 
         ####################################################
 
@@ -598,6 +680,9 @@ class TL4(Template):
         bvecs['macron(n) = vec(-3,0,0)'].set(color=GREEN_A)
         bvecs.points.move_to(self.camera)
 
+        r1 = SweepRect(bvecs[7:10])
+        r2 = SweepRect(bvecs[21:25])
+
         ####################################################
 
         self.play(
@@ -605,11 +690,27 @@ class TL4(Template):
             TransformMatchingDiff(Group(txt1, txt2), bvecs, path_arc=-PI * 0.7)
         )
 
-        self.forward()
+        self.forward(3)
+        self.play(
+            Indicate(bvecs[0], scale_factor=2),
+            Indicate(bvecs[14], scale_factor=2),
+            duration=2
+        )
+        self.forward(2)
+        self.play(
+            SweepRect.ins(r1, r2, lag_ratio=0.4)
+        )
+        self.forward(2)
+        self.play(
+            SweepRect.outs(r1, r2)
+        )
+        self.forward(4)
 
 
 class TL5(Template):
     def construct(self):
+        play_audio_with_subtitles(self, 'audio_11_3.wav', 0, 5, delay=0, mul=1.25)
+
         ####################################################
 
         typ = TypstText(
@@ -701,14 +802,17 @@ class TL5(Template):
 
         ####################################################
 
+        self.forward(0.5)
         self.play(Write(title))
         self.play(
             *[
                 FadeIn(part, scale=1.5, rate_func=rush_from)
                 for part in parts
             ],
-            lag_ratio=0.4
+            lag_ratio=0.4,
+            duration=3
         )
+        self.forward()
         self.play(
             FadeOut(title),
             FadeOut(fade_items),

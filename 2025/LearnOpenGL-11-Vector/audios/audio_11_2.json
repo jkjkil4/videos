@@ -1,37 +1,37 @@
 [
     {
         "text": "我们已经知道 我们会用比如",
-        "range": [0.9, 3.84],
+        "range": [0.9, 3.1],
         "contains_math": false
     },
     {
-        "text": "{数学公式} 来表示空间中的一个位置",
-        "range": [3.83, 5.76],
+        "text": "$(3,1)$ 来表示空间中的一个位置",
+        "range": [3.1, 5.76],
         "contains_math": true
     },
     {
-        "text": "又或者是使用 {数学公式}",
-        "range": [6.09, 8.56],
+        "text": "又或者是使用 $(3,1,2)$",
+        "range": [6.09, 8],
         "contains_math": true
     },
     {
         "text": "来表示三维空间中的一个位置",
-        "range": [8.55, 10.35],
+        "range": [8, 10.35],
         "contains_math": false
     },
     {
-        "text": "我们习惯将 {数学公式}",
+        "text": "我们习惯将 $(3,1)$",
         "range": [10.89, 12.96],
         "contains_math": true
     },
     {
-        "text": "或 {数学公式} 这种结构称之为一个向量",
+        "text": "或 $(3,1,2)$ 这种结构称之为一个向量",
         "range": [12.96, 15.63],
         "contains_math": true
     },
     {
         "text": "并将其表现为从原点指向这个位置的一个箭头",
-        "range": [16.11, 19.08],
+        "range": [16.11, 19.8],
         "contains_math": false
     },
     {
@@ -85,7 +85,7 @@
         "contains_math": false
     },
     {
-        "text": "当然你也可以把它们当作 {数学公式} 坐标为0的3D向量",
+        "text": "当然你也可以把它们当作 $z$ 坐标为0的3D向量",
         "range": [53.07, 56.73],
         "contains_math": true
     },
@@ -110,18 +110,18 @@
         "contains_math": false
     },
     {
-        "text": "{数学公式} 仍然还是 {数学公式}",
+        "text": "$(3,2)$ 仍然还是 $(3,2)$",
         "range": [71.15, 73.59],
         "contains_math": true
     },
     {
-        "text": "{数学公式} 仍然还是 {数学公式}",
+        "text": "$(-3,0)$ 仍然还是 $(-3,0)$",
         "range": [74.01, 76.2],
         "contains_math": true
     },
     {
         "text": "这种起始位置不是原点的向量 在后面的演示中表达起来会比较方便",
-        "range": [76.7, 80.02],
+        "range": [76.7, 81.2],
         "contains_math": false
     },
     {
