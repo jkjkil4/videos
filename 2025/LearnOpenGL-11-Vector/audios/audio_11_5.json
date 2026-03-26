@@ -80,18 +80,18 @@
         "contains_math": false
     },
     {
-        "text": "从而我们知道了角度的余弦值 {数学公式}",
+        "text": "从而我们知道了角度的余弦值 $cos theta = -0.8$",
         "range": [58.02, 61.92],
         "contains_math": true
     },
     {
         "text": "如果我们进一步用反余弦函数",
-        "range": [63.39, 66.6],
+        "range": [63.39, 66],
         "contains_math": false
     },
     {
-        "text": "可以算出这两个向量的夹角 {数学公式}",
-        "range": [66.66, 69.69],
+        "text": "可以算出这两个向量的夹角 $theta approx 143.1 degree$",
+        "range": [66, 69.69],
         "contains_math": true
     }
 ]

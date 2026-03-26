@@ -80,13 +80,13 @@
         "contains_math": false
     },
     {
-        "text": "我们将 {数学公式} 和 {数学公式} 这两个向量放在平面上",
-        "range": [59.43, 63.66],
+        "text": "我们将 $macron(v) = vec(4,2)$ 和 $macron(k) = vec(1,2)$ 这两个向量放在平面上",
+        "range": [59.43, 64.8],
         "contains_math": true
     },
     {
         "text": "它们两个相加可以理解为将它们首尾连接",
-        "range": [63.66, 68.52],
+        "range": [65, 68.52],
         "contains_math": false
     },
     {
@@ -96,7 +96,7 @@
     },
     {
         "text": "就像普通数字的加减一样 向量的减法等于",
-        "range": [74.28, 77.49],
+        "range": [74.28, 77.48],
         "contains_math": false
     },
     {
@@ -110,7 +110,7 @@
         "contains_math": false
     },
     {
-        "text": "我们看看将 {数学公式} 和 {数学公式} 相减的结果",
+        "text": "我们看看将 $macron(w) = vec(0.5,3.5)$ 和 $macron(v) = vec(3,2)$ 相减的结果",
         "range": [85.29, 90.99],
         "contains_math": true
     },
@@ -125,7 +125,7 @@
         "contains_math": false
     },
     {
-        "text": "比如对于 {数学公式} 这个向量 我们可以算出其长度",
+        "text": "比如对于 $vec(4,2)$ 这个向量 我们可以算出其长度",
         "range": [101.67, 105.69],
         "contains_math": true
     },
@@ -140,7 +140,7 @@
         "contains_math": false
     },
     {
-        "text": "只要把 {数学公式} 也放进这个根号里即可",
+        "text": "只要把 $z^2$ 也放进这个根号里即可",
         "range": [112.89, 116.07],
         "contains_math": true
     },
@@ -170,8 +170,8 @@
         "contains_math": false
     },
     {
-        "text": "得到同方向的单位向量 {数学公式}",
-        "range": [131.82, 133.83],
+        "text": "得到同方向的单位向量 $hat(n)$",
+        "range": [131.82, 134.2],
         "contains_math": true
     },
     {

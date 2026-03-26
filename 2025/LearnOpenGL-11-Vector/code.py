@@ -846,6 +846,9 @@ class TL6(Template):
     # )
 
     def construct(self):
+        play_audio_with_subtitles(self, 'audio_11_3.wav', 5, 19, delay=0, mul=1.25)
+        play_audio_with_subtitles(self, 'audio_11_3.wav', 19, 59.2, delay=(19-5) + 2, mul=1.25)
+
         ####################################################
 
         opertypes = VecOpersTypes().show()
@@ -909,7 +912,7 @@ class TL6(Template):
         self.play(ShowPassingFlashAround(parts[4]))
         self.play(opin(0))
         for i1, i2 in it.pairwise([0, 1, 2, 3]):
-            self.play(opout(i1), opin(i2))
+            self.play(opout(i1), opin(i2), duration=0.4)
         self.play(opout(3))
 
         self.play(Write(parts[3]))
@@ -917,15 +920,17 @@ class TL6(Template):
             Transform(parts[1], parts[-4], path_arc=70 * DEGREES, flatten=True, hide_src=False),
             FadeIn(parts[-5, -1]),
         )
+        self.forward(0.6)
         self.play(
             Transform(parts[3], parts[-3], flatten=True, hide_src=False),
             Transform(parts[4], parts[-2], flatten=True, hide_src=False),
-            FadeIn(parts[5], scale=0.5, at=0.5)
+            FadeIn(parts[5], scale=0.5, at=0.5, duration=0.6)
         )
-        self.play(FadeIn(hl))
+        self.play(FadeIn(hl), duration=0.6)
         for eq1, eq2 in it.pairwise(equations):
             self.play(
-                Transform(eq1, eq2)
+                Transform(eq1, eq2),
+                duration=0.6
             )
         self.play(FadeOut(hl))
 
@@ -974,23 +979,27 @@ class TL6(Template):
                 at=0.5
             )
         )
+        self.forward(1.5)
         vec.save_state()
         vec.generate_target().points.scale(2, about_point=vec.points.get_start()).r.place_tip()
         mul2.points.next_to(vec.target.points.get_end(), UR, buff=SMALL_BUFF)
         self.play(
             MoveToTarget(vec),
-            TransformMatchingDiff(mul1, mul2, duration=1)
+            TransformMatchingDiff(mul1, mul2, duration=1),
+            duration=0.7
         )
         vec.generate_target().points.scale(3 / 2, about_point=vec.points.get_start()).r.place_tip()
         mul3.points.next_to(vec.target.points.get_end(), UR, buff=SMALL_BUFF)
         self.play(
             MoveToTarget(vec),
-            TransformMatchingDiff(mul2, mul3, duration=1)
+            TransformMatchingDiff(mul2, mul3, duration=1),
+            duration=0.7
         )
-        self.play(
-            vec.anim.load_state(),
-            TransformMatchingDiff(mul3, mul1, duration=1)
-        )
+        # self.play(
+        #     vec.anim.load_state(),
+        #     TransformMatchingDiff(mul3, mul1, duration=1)
+        # )
+        vec.load_state()
 
         ####################################################
 
@@ -1001,11 +1010,13 @@ class TL6(Template):
         ####################################################
 
         self.play(
-            FadeOut(vec1),
+            FadeOut(Group(vec, mul3)),
             TransformMatchingDiff(veq, vpeq, duration=1),
         )
+        self.forward(4)
         self.play(FadeIn(tip))
-        self.play(FadeOut(tip))
+        self.forward(2)
+        self.prepare(FadeOut(tip), duration=0.6)
 
         ####################################################
 
@@ -1047,13 +1058,16 @@ class TL6(Template):
             FadeOut(vpeq[2:]),
             FadeOut(txt2),
             FadeIn(minus, RIGHT * 0.2),
-            FadeIn(vec1)
+            FadeIn(vec1),
+            at=0.3
         )
         self.play(
             Transform(vec, vecm, hide_src=False),
             TransformMatchingDiff(mul1.copy(), mulm, duration=1, path_arc=40 * DEGREES),
-            vec1(VItem).anim(duration=0.5).color.fade(0.7)
+            vec1(VItem).anim(duration=0.5).color.fade(0.7),
+            duration=2
         )
+        self.forward(3)
         self.play(
             FadeOut(Group(vec1, vecm, mulm)),
         )
@@ -1064,6 +1078,7 @@ class TL6(Template):
             FadeIn(parts[-4, -1]),
             Transform(parts[2], parts[-2], hide_src=False, path_arc=70 * DEGREES)
         )
+        self.forward()
         self.play(
             Transform(parts[0], parts[-3], flatten=True, hide_src=False),
             FadeIn(parts[-5], scale=0.5, at=0.5)
@@ -1119,6 +1134,7 @@ class TL6(Template):
         self.play(
             FadeIn(parts1)
         )
+        self.forward()
         self.play(
             FadeIn(parts2[0, 1, -1]),
             Transform(parts1[1], parts2[2], hide_src=False, path_arc=70 * DEGREES),
@@ -1133,13 +1149,17 @@ class TL6(Template):
         self.play(
             Write(parts3[-2])
         )
+        self.forward(3)
         self.play(
             FadeOut(typp)
         )
+        self.forward(3)
 
 
 class TL7(Template):
     def construct(self):
+        play_audio_with_subtitles(self, 'audio_11_3.wav', 59.2, 73, delay=0.5, mul=1.25)
+
         ####################################################
 
         opertypes = VecOpersTypes().show()
@@ -1187,18 +1207,27 @@ class TL7(Template):
         ####################################################
 
         self.play(Create(plane, lag_ratio=0.05))
+        self.forward(0.5)
         self.play(
-            GrowArrow(vec_v),
-            Write(typ_v),
-            GrowArrow(vec_k),
-            Write(typ_k),
+            AnimGroup(
+                GrowArrow(vec_v),
+                Write(typ_v),
+            ),
+            AnimGroup(
+                GrowArrow(vec_k),
+                Write(typ_k),
+            ),
+            lag_ratio=1.2
         )
+        self.forward(4)
         self.play(
             gk.anim.points.shift([4, 2, 0]),
-            self.camera.anim.points.shift(UR)
+            self.camera.anim.points.shift(UR),
+            duration=1.2
         )
         self.play(
-            TransformMatchingShapes(Group(typ_v, typ_k), typ_vk1)
+            TransformMatchingShapes(Group(typ_v, typ_k), typ_vk1),
+            duration=1
         )
         self.play(
             FadeOut(typ_vk1[9:12], scale=0.1),
@@ -1210,12 +1239,14 @@ class TL7(Template):
             GrowArrow(vec_vk),
             Group(vec_v, vec_k)(VItem).anim.color.fade(0.75)
         )
+        self.forward(0.5)
         self.play(
             ShowPassingFlash(d1, time_width=0.8, lag_ratio=0.1),
             ShowPassingFlash(d2, time_width=0.8, lag_ratio=0.1),
             lag_ratio=0.7,
             duration=1
         )
+        self.forward(2.5)
 
         self.play(
             FadeOut(Group(plane, vec_vk, typ_vk2, vec_v, vec_k))
@@ -1226,6 +1257,8 @@ class TL7(Template):
 
 class TL8(Template):
     def construct(self):
+        play_audio_with_subtitles(self, 'audio_11_3.wav', 74, 91, delay=0.5, mul=1.25)
+
         ####################################################
 
         opertypes = VecOpersTypes().show()
@@ -1253,13 +1286,16 @@ class TL8(Template):
 
         self.play(
             SpinInFromNothing(parts[0], path_arc=40 * DEGREES),
+            Wait(1.5),
             Write(parts[1]),
+            Wait(),
             SpinInFromNothing(parts[2], path_arc=40 * DEGREES),
             Write(parts[3]),
             SpinInFromNothing(parts[4], path_arc=40 * DEGREES),
-            lag_ratio=1.2
+            lag_ratio=1
         )
         self.play(Destruction(typ))
+        self.forward(2)
 
         ####################################################
 
@@ -1327,17 +1363,21 @@ class TL8(Template):
             FadeIn(gw),
             FadeIn(gv),
         )
+        self.forward(6.4)
 
         self.play(
             vec_v.anim.points.scale(-1),
             TransformMatchingDiff(typ_v, typ_nv, duration=1),
             Flash(typ_nv[0], at=0.5)
         )
+        self.forward(0.4)
 
         self.play(
-            GrowArrow(vec_res),
-            g(VItem).anim.color.fade(0.5),
-            TransformMatchingShapes(typg, typ),
+            Aligned(
+                GrowArrow(vec_res),
+                g(VItem).anim.color.fade(0.5),
+                TransformMatchingShapes(typg, typ),
+            ),
             FadeIn(typbg, at=0.5),
         )
 
@@ -1373,6 +1413,10 @@ class TL8(Template):
 
 class TL9(Template):
     def construct(self):
+        play_audio_with_subtitles(self, 'audio_11_3.wav', 93.5, 97, delay=1.5, mul=1.25)
+        play_audio_with_subtitles(self, 'audio_11_3.wav', 97, 106, delay=1.5 + (97-93.5) + 1, mul=1.25)
+        play_audio_with_subtitles(self, 'audio_11_3.wav', 108.3, 119, delay=1.5 + (97-93.5) + 1 + (106-97) + -0.4, mul=1.25)
+
         ####################################################
 
         opertypes = VecOpersTypes().show()
@@ -1405,11 +1449,13 @@ class TL9(Template):
         )
 
         self.play(
-            Create(plane, lag_ratio=0.5)
+            Create(plane, lag_ratio=0.05),
+            duration=0.6
         )
         self.play(
             GrowArrow(vec),
-            Write(typ)
+            Write(typ),
+            duration=1
         )
 
         ####################################################
@@ -1438,7 +1484,8 @@ class TL9(Template):
         self.play(
             Transform(typ['4'][0], xline, hide_src=False, path_arc=-PI * 0.6),
             Transform(typ['2'][0], yline, hide_src=False, path_arc=-PI * 0.6),
-            lag_ratio=0.5
+            lag_ratio=0.5,
+            duration=1
         )
         self.play(
             ShowPassingFlash(poly)
@@ -1449,7 +1496,14 @@ class TL9(Template):
             FadeIn(txt[0][5:]),
             FadeIn(gg[:4])
         )
-        self.play(Write(gg[4:]))
+        self.play(
+            FocusOn(gg[:4]),
+            at=0.5,
+            duration=2
+        )
+        self.forward(6)
+        self.play(Write(gg[4:]), duration=2)
+        self.forward(0.7)
 
         ####################################################
 
@@ -1486,10 +1540,13 @@ class TL9(Template):
                 .color.fade(0.5),
             FadeIn(shadow),
             TransformMatchingDiff(typ, typ3d, duration=1),
-            Create(dl, lag_ratio=1.2)
+            Create(dl, lag_ratio=1.2),
+            duration=1.5
         )
+        self.forward(0.6)
 
         self.play(Write(comp3d))
+        self.forward(5)
 
         self.play(
             *[
@@ -1499,11 +1556,15 @@ class TL9(Template):
             ]
         )
 
-        self.forward()
+        self.forward(0.2)
 
 
 class TL10(Template):
     def construct(self):
+        play_audio_with_subtitles(self, 'audio_11_3.wav', 119.9, 127.2, delay=0.5, mul=1.25)
+        play_audio_with_subtitles(self, 'audio_11_3.wav', 127.2, 134.5, delay=0.5 + (127.2-119.9) + 2, mul=1.25)
+        play_audio_with_subtitles(self, 'audio_11_3.wav', 134.5, 148.5, delay=0.5 + (127.2-119.9) + 2 + (134.5-127.2) + 4.6, mul=1.25)
+
         ####################################################
 
         opertypes = VecOpersTypes().show()
@@ -1527,6 +1588,7 @@ class TL10(Template):
         _Rotate = partial(Rotate, about_point=ORIGIN, rate_func=ease_inout_quart)
 
         self.play(GrowArrow(vec, rate_func=rush_from))
+        self.forward(2)
         self.play(
             _Rotate(vec, 40 * DEGREES)
         )
@@ -1640,16 +1702,19 @@ class TL10(Template):
             GrowArrow(vec),
             Write(typ1)
         )
+        self.forward()
         self.play(
             Transform(vec, nvec, hide_src=False),
             vec.anim.color.fade(0.6),
             Transform(typ1, typ2, hide_src=False, path_arc=-50 * DEGREES)
         )
-        self.play(
-            FadeIn(cursor, UL * 0.3 + UP * 0.2)
-        )
+        self.forward(2)
         self.play(
             ShowCreationThenDestructionAround(typ2[:2])
+        )
+        self.play(
+            FadeIn(cursor, UL * 0.3 + UP * 0.2),
+            duration=0.6
         )
         self.play(
             tr_vec.anim.set_value([2, -2.4, 0]),
@@ -1668,6 +1733,7 @@ class TL10(Template):
             Updaters()
         )
         self.play(FadeOut(cursor))
+        self.forward(1.2)
 
         ####################################################
 
@@ -1684,18 +1750,23 @@ class TL10(Template):
             GrowArrow(arrow),
             Write(arrowtxt)
         )
+        self.forward(2)
         self.play(
             self.camera.anim
                 .points.scale(0.58)
                        .shift([1.02, 0.43, 0.0]),
-            FadeOut(desc)
+            FadeOut(desc),
+            ShowCreationThenDestructionAround(typ2[0], at=0.5, duration=0.5),
+            duration=1.6
         )
+        self.forward(4)
         self.play(
             FadeOut(Group(arrow, arrowtxt, vec, typ1))
         )
         self.play(
             ShowPassingFlash(line, rate_func=rush_into, time_width=0.4, duration=0.6)
         )
+        self.forward(1.2)
 
         self.play(
             *[
@@ -1733,6 +1804,12 @@ def Tick(**kwargs):
 
 class TL11(Template):
     def construct(self):
+        play_audio_with_subtitles(self, 'audio_11_4.wav', 0, 66.5, delay=0.5, mul=1.25)
+        play_audio_with_subtitles(self, 'audio_11_4.wav', 66.5, 74, delay=0.5 + (66.5) + 1, mul=1.25)
+        play_audio_with_subtitles(self, 'audio_11_5.wav', 0, 32.2, delay=0.5 + (66.5) + 1 + (74-66.5) + 0.5, mul=1.25)
+        play_audio_with_subtitles(self, 'audio_11_5.wav', 32.2, 45.2, delay=0.5 + (66.5) + 1 + (74-66.5) + 0.5 + (32.2) + 1, mul=1.25)
+        play_audio_with_subtitles(self, 'audio_11_5.wav', 54.2, 70, delay=0.5 + (66.5) + 1 + (74-66.5) + 0.5 + (32.2) + 1 + (45.2-32.2) + 1.5, mul=1.25)
+
         ####################################################
 
         opertypes = VecOpersTypes().show()
@@ -1812,27 +1889,33 @@ class TL11(Template):
             FadeIn(typ2, LEFT)
         )
         self.play(Write(txtt))
+        self.forward(2.5)
         self.play(
             FadeOut(txtt),
             FadeTransform(Group(typ1, typ2), typ12),
             FadeIn(quests, scale=0.7, lag_ratio=0.4, rate_func=linear)
         )
+        self.forward(2)
         self.play(
             FadeOut(Group(quests, typ12))
         )
+        self.forward(3)
 
         self.play(
             Write(type1)
         )
+        self.forward(2.8)
         self.play(
             Write(type2)
         )
+        self.forward(3)
         self.play(
             Transform(type1, multypes_parts[1]),
             Transform(type2, multypes_parts[2]),
             FadeIn(multypes_parts[0]),
             duration=1.6
         )
+        self.forward(4)
 
         ####################################################
 
@@ -1891,6 +1974,7 @@ class TL11(Template):
 
         self.play(Write(typ[:5]))
         self.play(Write(typ[5:]))
+        self.forward(0.2)
         self.play(
             FadeIn(typbg),
             MoveToTarget(typ),
@@ -1899,19 +1983,21 @@ class TL11(Template):
         self.play(
             GrowArrow(vec_v),
             GrowArrow(vec_k),
-            lag_ratio=0.5
+            lag_ratio=0.5,
+            duration=1
         )
 
         self.play(
             _CircleIndicate(parts[0]),
             Squeezed(FlashArrow(vec_v), factor=0.5),
-            duration=2
+            duration=1.7
         )
         self.play(
             _CircleIndicate(parts[1]),
             Squeezed(FlashArrow(vec_k), factor=0.5),
-            duration=2
+            duration=1.7
         )
+        self.forward(0.7)
         self.play(
             _CircleIndicate(parts[2]),
             Squeezed(
@@ -1921,6 +2007,7 @@ class TL11(Template):
             ),
             duration=2
         )
+        self.forward()
 
         self.camera.save_state()
 
@@ -1936,6 +2023,7 @@ class TL11(Template):
             vec_k.anim.points.scale(1 / vec_k.points.length, about_point=ORIGIN).r.place_tip(),
             angg(VItem).anim.points.scale(0.7, scale_stroke_radius=True, about_point=ORIGIN),
         )
+        self.forward(2.5)
 
         ####################################################
 
@@ -1968,6 +2056,7 @@ class TL11(Template):
         self.play(
             Write(typnorm),
         )
+        self.forward(2)
         self.play(
             nparts[0].copy().anim(hide_at_end=True).points.move_to(parts[0]),
             nparts[1].copy().anim(hide_at_end=True).points.move_to(parts[1]),
@@ -1976,19 +2065,24 @@ class TL11(Template):
         self.play(
             TransformMatchingDiff(typ, typsim1)
         )
+        self.forward(2)
         self.play(
             TransformMatchingDiff(typsim1, typsim2)
         )
+        self.forward(0.6)
         self.play(
             FadeIn(cursor, LEFT + UP * 2),
+            duration=1.3
         )
+        self.forward(7.3)
         self.play(
             Create(tick1)
         )
+        self.forward(1)
         self.play(
             Create(tick2)
         )
-        self.play(
+        self.prepare(
             FadeOut(Group(tick1, tick2, cursor))
         )
 
@@ -2033,11 +2127,13 @@ class TL11(Template):
             Write(cosval),
             lag_ratio=0.6
         )
+        self.forward(0.5)
         self.play(
             vec_k.update.points.rotate(45 * DEGREES, about_point=ORIGIN),
-            Updaters()
+            Updaters(),
+            duration=0.7
         )
-        self.play(
+        self.prepare(
             *[
                 ShowPassingFlash(
                     angle.copy().set(color=YELLOW, depth=-20, stroke_radius=0.03),
@@ -2054,8 +2150,11 @@ class TL11(Template):
                 cosval,
                 surrounding_rect_config={ 'depth': -20 },
                 time_width=0.5
-            )
+            ),
+            at=0.7,
+            duration=1.4
         )
+        self.forward(3)
 
         ####################################################
 
@@ -2080,6 +2179,15 @@ class TL11(Template):
 
         ####################################################
 
+        self.forward(4)
+        self.play(
+            ShowPassingFlashAround(
+                cosval,
+                surrounding_rect_config={ 'depth': -20 },
+                time_width=0.5
+            ),
+            duration=1.6
+        )
         self.play(FadeIn(sur))
 
         self.play(
@@ -2087,11 +2195,18 @@ class TL11(Template):
             Updaters2(),
             duration=2
         )
+        self.forward(1.4)
         self.play(
-            vec_k.update.points.rotate(PI - 2e-3, about_point=ORIGIN),
-            Updaters2(),
-            duration=7
+            Aligned(
+                Succession(
+                    vec_k.update(duration=6.5).points.rotate(PI / 2 - 2e-3, about_point=ORIGIN),
+                    Wait(1.5),
+                    vec_k.update(duration=5).points.rotate(PI / 2, about_point=ORIGIN),
+                ),
+                Updaters2()
+            )
         )
+        self.forward(5.6)
         self.play(
             vec_k.update.points.rotate(-(PI - 2e-3), about_point=ORIGIN),
             Updaters2(),
@@ -2109,6 +2224,7 @@ class TL11(Template):
             FadeOut(Group(cosval, bgcosval, vec_v, vec_k, plane, angle, angle_txt, sur))
         )
         self.camera.load_state()
+        self.forward(0.5)
 
         ####################################################
 
@@ -2126,14 +2242,17 @@ class TL11(Template):
         ####################################################
 
         self.play(Write(typ0))
+        self.forward(5)
         self.play(
             FadeTransform(typ0[:2], typ1[:16]),
             Transform(typ0[2], typ1[16]),
             FadeTransform(typ0[3:], typ1[17:-1]),
         )
+        self.forward(0.2)
         self.play(
             typ1.anim(show_at_begin=False).points.shift(LEFT * 1)
         )
+        self.forward(0.2)
 
         ####################################################
 
@@ -2171,6 +2290,7 @@ class TL11(Template):
             _TsMatchingDiff(typ1_parts[0, 3], typ2_parts[0], path_arc=-PI * 0.3),
             _TsMatchingDiff(typ1_parts[1, 4], typ2_parts[1], path_arc=-PI * 0.3),
             _TsMatchingDiff(typ1_parts[2, 5], typ2_parts[2], path_arc=-PI * 0.3),
+            duration=1.3
         )
 
         ####################################################
@@ -2197,8 +2317,10 @@ class TL11(Template):
         ####################################################
 
         self.play(
-            TransformMatchingDiff(typ2[1:], typ3[1:], path_arc=PI / 2)
+            TransformMatchingDiff(typ2[1:], typ3[1:], path_arc=PI / 2),
+            duration=1
         )
+        self.forward(0.5)
         self.play(
             Write(typ4)
         )
@@ -2211,6 +2333,7 @@ class TL11(Template):
         self.play(
             Create(tick1)
         )
+        self.forward(2.2)
 
         tick2.points.shift(DOWN * 0.2)
         self.play(
@@ -2220,10 +2343,13 @@ class TL11(Template):
         self.play(
             Write(typeq)
         )
+        self.forward(5.5)
 
         self.play(Write(typtheta))
+        self.forward(3)
 
         self.play(FadeOut(Group(tick1, tick2, typsim2, typeq, typtheta, typ1[:-1], typ4, hint, typbg)))
+        self.forward(2)
 
         ####################################################
 

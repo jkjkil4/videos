@@ -20,12 +20,12 @@
         "contains_math": false
     },
     {
-        "text": "一个是点乘 记作 {数学公式}",
+        "text": "一个是点乘 记作 $macron(v) dot macron(k)$",
         "range": [11.56, 14.88],
         "contains_math": true
     },
     {
-        "text": "另一个是叉乘 记作 {数学公式}",
+        "text": "另一个是叉乘 记作 $macron(v) times macron(k)$",
         "range": [15.54, 18.72],
         "contains_math": true
     },
@@ -40,17 +40,17 @@
         "contains_math": false
     },
     {
-        "text": "向量点乘的结果是 {数学公式} 的长度",
+        "text": "向量点乘的结果是 $macron(v)$ 的长度",
         "range": [28.35, 31.62],
         "contains_math": true
     },
     {
-        "text": "乘上 {数学公式} 的长度 再乘上这两个向量之间夹角的余弦值",
+        "text": "乘上 $macron(k)$ 的长度 再乘上这两个向量之间夹角的余弦值",
         "range": [31.92, 36.87],
         "contains_math": true
     },
     {
-        "text": "为什么这很有用 你想象如果 {数学公式} 和 {数学公式} 都是单位向量",
+        "text": "为什么这很有用 你想象如果 $macron(v)$ 和 $macron(k)$ 都是单位向量",
         "range": [37.44, 41.58],
         "contains_math": true
     },
@@ -60,18 +60,23 @@
         "contains_math": false
     },
     {
-        "text": "那么上面的公式就会简化成 {数学公式}",
-        "range": [44.52, 46.74],
+        "text": "那么上面的公式就会简化成 $macron(v) dot macron(k) = 1 dot 1 dot cos(theta)$",
+        "range": [44.52, 51],
         "contains_math": true
     },
     {
-        "text": "现在点积只定义了两个向量的夹角",
-        "range": [47.58, 51.69],
+        "text": "就是等于 $cos(theta)$",
+        "range": [51.1, 52.5],
+        "contains_math": true
+    },
+    {
+        "text": "现在点乘只定义了两个向量的夹角",
+        "range": [53.3, 56.2],
         "contains_math": false
     },
     {
         "text": "这是一个非常有用的信息",
-        "range": [52.08, 58.5],
+        "range": [56.6, 58.5],
         "contains_math": false
     },
     {
@@ -80,7 +85,7 @@
         "contains_math": false
     },
     {
-        "text": "那么我们就可以推知 {数学公式}",
+        "text": "那么我们就可以推知 $cos(theta)$",
         "range": [63.93, 66.16],
         "contains_math": true
     },
