@@ -245,13 +245,13 @@
         "contains_math": false
     },
     {
-        "text": "当然我们肯定不是只为了位移（口误）这种小角色",
-        "range": [181.68, 184.17],
+        "text": "当然我们肯定不是只为了位移这种小角色",
+        "range": [181.68, 185.3],
         "contains_math": false
     },
     {
         "text": "才用四维的矩阵",
-        "range": [184.17, 186.66],
+        "range": [185.3, 186.66],
         "contains_math": false
     },
     {

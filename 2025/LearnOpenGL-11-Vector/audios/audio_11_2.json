@@ -120,8 +120,13 @@
         "contains_math": true
     },
     {
-        "text": "这种起始位置不是原点的向量 在后面的演示中表达起来会比较方便",
-        "range": [76.7, 81.2],
+        "text": "这种起始位置不是原点的向量",
+        "range": [76.7, 78.8],
+        "contains_math": false
+    },
+    {
+        "text": "在后面的一些演示中表达起来会比较方便",
+        "range": [78.8, 81.5],
         "contains_math": false
     },
     {

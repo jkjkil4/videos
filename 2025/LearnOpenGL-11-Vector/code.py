@@ -58,8 +58,8 @@ class TL1(Template):
         seq_play_audio_with_subtitles(
             self,
             [
-                { 'file': 'audio_11_1.wav', 'begin': 0, 'end': 12, 'delay': 1 },
-                { 'file': ..., 'begin': 12, 'end': 85.1, 'delay': 2 },
+                { 'file': 'audio_11_1.wav', 'begin': 0, 'end': 12, 'delay': 1, 'mul': 1.2 },
+                { 'file': ..., 'begin': 12, 'end': 85.1, 'delay': 2, 'mul': 1.2 },
             ]
         )
 
@@ -320,7 +320,7 @@ class TL2(Template):
         seq_play_audio_with_subtitles(
             self,
             [
-                { 'file': 'audio_11_1.wav', 'begin': 85.1, 'end': 93.3, 'delay': 0.5 },
+                { 'file': 'audio_11_1.wav', 'begin': 85.1, 'end': 93.3, 'delay': 0.5, 'mul': 1.15 },
             ]
         )
 
@@ -1863,6 +1863,9 @@ class TL11(Template):
                 { 'file': 'audio_11_5.wav', 'begin': 0, 'end': 32.2, 'delay': 0.5, 'mul': 1.25 },
                 { 'file': ..., 'begin': 32.2, 'end': 45.2, 'delay': 1, 'mul': ... },
                 { 'file': ..., 'begin': 54.2, 'end': 70, 'delay': 1.5, 'mul': ... },
+                { 'file': 'audio_11_6.wav', 'begin': 0, 'end': 15.9, 'delay': 0.5, 'mul': 1.25 },
+                { 'file': ..., 'begin': 15.9, 'end': 22.5, 'delay': 4.2, 'mul': ... },
+                { 'file': ..., 'begin': 22.5, 'end': 47, 'delay': 1.6, 'mul': ... },
             ]
         )
 
@@ -2406,7 +2409,7 @@ class TL11(Template):
         self.forward(3)
 
         self.play(FadeOut(Group(tick1, tick2, typsim2, typeq, typtheta, typ1[:-1], typ4, hint, typbg)))
-        self.forward(2)
+        self.forward(8)
 
         ####################################################
 
@@ -2479,7 +2482,8 @@ class TL11(Template):
             FadeIn(plane),
             GrowArrow(vec1),
             GrowArrow(vec2),
-            self.camera.anim.points.set(orientation=Quaternion(0.87, 0.36, 0.12, 0.29))
+            self.camera.anim.points.set(orientation=Quaternion(0.87, 0.36, 0.12, 0.29)),
+            duration=1.5
         )
 
         self.prepare(
@@ -2495,11 +2499,13 @@ class TL11(Template):
             FadeIn(typ1),
             FadeIn(typ2),
         )
+        self.forward()
         self.play(
             FadeIn(dl),
             GrowArrow(vec3),
             FadeIn(typ3),
-            lag_ratio=0.5
+            lag_ratio=0.5,
+            duration=2.6
         )
         self.play(
             Create(elbow1),
@@ -2530,7 +2536,8 @@ class TL11(Template):
             typ1.update.points.rotate(22 * DEGREES, axis=self.camera.points.info.camera_axis),
             vec1.tip.update.points.rotate(-12 * DEGREES, axis=vec1.points.vector),
             vec3.anim.points.scale(1.2, about_point=ORIGIN).r.place_tip(),
-            typ3.anim.points.shift(v * 0.2)
+            typ3.anim.points.shift(v * 0.2),
+            duration=2
         )
 
         ####################################################
@@ -2549,7 +2556,7 @@ class TL11(Template):
                     lag_ratio=0.3
                 ),
                 FaceToCamera(),
-                duration=3,
+                duration=2.4,
             )
         )
         g.load_state()
@@ -2593,20 +2600,31 @@ class TL11(Template):
 
         ####################################################
 
-        self.play(Write(typx1))
+        self.play(Write(typx1), duration=0.6)
         self.play(
             TransformMatchingDiff(typx1, typx2[:29], duration=1)
         )
+        self.forward(0.5)
         self.play(
             FadeIn(typx2[29:], LEFT)
         )
+        self.forward(4.2)
         self.play(
             typx2(VItem).anim.color.fade(0.5),
             FadeIn(g)
         )
 
-        self.forward()
+        self.forward(16)
+
+        self.play(
+            FadeOut(Group(opertypes, multypes, g, typx2))
+        )
+        self.forward(0.6)
 
 
-class All(AboveTimelines):
+class All(Template, AboveTimelines):
     pass
+
+
+# class Test(ListedTimelines):
+#     includes = [TL3, TL4, TL5]

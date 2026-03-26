@@ -3193,15 +3193,16 @@ class TL20(SharpDelimTemplate):
         )
         self.play(
             Group(Group(plane, container)).anim.points.scale([3, 1.5, 1]),
-            Transform(vec1, vec2)
+            Transform(vec1, vec2),
+            duration=2.5
         )
-        self.forward(4)
+        self.forward(2.5)
         self.play(
             FadeOut(Group(plane, container, vec2))
         )
 
-        self.forward(8)
+        self.forward(8.5)
 
 
-class All(AboveTimelines):
+class All(Template, AboveTimelines):
     excludes = [TL17_Sub1]
