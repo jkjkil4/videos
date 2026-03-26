@@ -1,0 +1,192 @@
+[
+    {
+        "text": "但是到了矩阵乘法事情就开始不一样了",
+        "range": [0.56, 3.48],
+        "contains_math": false
+    },
+    {
+        "text": "关于乘法我们会首先需要理解矩阵和向量相乘",
+        "range": [3.9, 8.49],
+        "contains_math": false
+    },
+    {
+        "text": "然后是矩阵和矩阵相乘让我们一步步展开",
+        "range": [8.49, 11.46],
+        "contains_math": false
+    },
+    {
+        "text": "首先这是刚刚已经出现过的矩阵和标量之间的数乘",
+        "range": [12.51, 16.45],
+        "contains_math": false
+    },
+    {
+        "text": "那如果右边乘的不是一个数而是一个向量会发生什么呢",
+        "range": [17.04, 20.76],
+        "contains_math": false
+    },
+    {
+        "text": "对于矩阵和向量相乘的情况我们先以二维为例",
+        "range": [21.69, 26.16],
+        "contains_math": false
+    },
+    {
+        "text": "它们两个相乘的结果是如何定义的呢",
+        "range": [27.66, 30.21],
+        "contains_math": false
+    },
+    {
+        "text": "我们需要用一个新的方式来理解这个 {数学公式} 的矩阵",
+        "range": [30.42, 33.72],
+        "contains_math": true
+    },
+    {
+        "text": "我们先看这个很熟悉的平面坐标系",
+        "range": [34.59, 37.26],
+        "contains_math": false
+    },
+    {
+        "text": "这里有两个特殊的向量 {数学公式} 和 {数学公式}",
+        "range": [37.77, 42.3],
+        "contains_math": true
+    },
+    {
+        "text": "这两个向量相当于这个坐标系的基本单位",
+        "range": [42.3, 45.09],
+        "contains_math": false
+    },
+    {
+        "text": "在这个 {数学公式} 矩阵中如果单独看每一列都像二维向量",
+        "range": [46.14, 53.55],
+        "contains_math": true
+    },
+    {
+        "text": "我们将这两个向量画在坐标轴上就是这两个箭头",
+        "range": [53.97, 57.69],
+        "contains_math": false
+    },
+    {
+        "text": "关键的地方来了如果拖拽原来的两个单位向量",
+        "range": [58.74, 63.78],
+        "contains_math": false
+    },
+    {
+        "text": "在保持网格线平行的前提下拖拽到矩阵的这两个向量",
+        "range": [64.08, 71.7],
+        "contains_math": false
+    },
+    {
+        "text": "原来的坐标系变浅放在背景可以看到坐标系被拉伸变形了",
+        "range": [72.63, 79.3],
+        "contains_math": false
+    },
+    {
+        "text": "并且这个变形就是完全由这个矩阵来决定的",
+        "range": [80.09, 83.58],
+        "contains_math": false
+    },
+    {
+        "text": "现在我们再讨论 {数学公式} 相乘的结果",
+        "range": [86.07, 89.43],
+        "contains_math": true
+    },
+    {
+        "text": "其实就是在问原来的向量 {数学公式} 通过变形后变到哪个向量",
+        "range": [89.79, 95.52],
+        "contains_math": true
+    },
+    {
+        "text": "我们可以将向量 {数学公式} 表示为一倍的 {数学公式} 加上一倍的 {数学公式}",
+        "range": [96.9, 102.78],
+        "contains_math": true
+    },
+    {
+        "text": "当单位向量被拖拽后倍数关系仍然不变",
+        "range": [103.53, 108.78],
+        "contains_math": false
+    },
+    {
+        "text": "因此可以通过一倍的 {数学公式} 加上一倍的 {数学公式} 算出结果是 {数学公式}",
+        "range": [109.23, 116.4],
+        "contains_math": true
+    },
+    {
+        "text": "同样如果计算 {数学公式} 被矩阵 {数学公式} 变形后的结果",
+        "range": [118.53, 122.31],
+        "contains_math": true
+    },
+    {
+        "text": "就是负一倍的 {数学公式} 加上两倍的 {数学公式} 结果是 {数学公式}",
+        "range": [122.64, 128.37],
+        "contains_math": true
+    },
+    {
+        "text": "通过以上说明矩阵作用可以看成一种空间的变形",
+        "range": [130.41, 136.5],
+        "contains_math": false
+    },
+    {
+        "text": "并且在计算上是依次左乘的比如 {数学公式}",
+        "range": [137.04, 141.18],
+        "contains_math": true
+    },
+    {
+        "text": "要从右向左读先算最近矩阵作用后的结果再继续变换",
+        "range": [141.18, 153.0],
+        "contains_math": false
+    },
+    {
+        "text": "实际上也可以先计算两个矩阵相乘",
+        "range": [154.62, 158.4],
+        "contains_math": false
+    },
+    {
+        "text": "将右边矩阵看成两列向量就可以分别看两个向量变换结果",
+        "range": [159.0, 170.16],
+        "contains_math": false
+    },
+    {
+        "text": "最后把两个向量放回矩阵里就是相乘结果",
+        "range": [171.51, 177.03],
+        "contains_math": false
+    },
+    {
+        "text": "并且你会发现矩阵乘法不满足交换律对调后结果不同",
+        "range": [177.48, 184.89],
+        "contains_math": false
+    },
+    {
+        "text": "你可以自行验证",
+        "range": [185.04, 186.24],
+        "contains_math": false
+    },
+    {
+        "text": "直观来说先横向拉伸再逆时针旋转九十度和先旋转再拉伸效果不同",
+        "range": [187.35, 196.38],
+        "contains_math": false
+    },
+    {
+        "text": "定义矩阵乘法不是逐分量相乘因为我们需要这种变换性质",
+        "range": [198.57, 205.44],
+        "contains_math": false
+    },
+    {
+        "text": "矩阵乘法看似反常规但实则正是我们需要的",
+        "range": [205.95, 209.85],
+        "contains_math": false
+    },
+    {
+        "text": "矩阵计算太麻烦了会涉及大量数字运算尤其规模更大时",
+        "range": [211.02, 218.34],
+        "contains_math": false
+    },
+    {
+        "text": "实践中通常让计算机做这件事",
+        "range": [218.64, 222.03],
+        "contains_math": false
+    },
+    {
+        "text": "答应我别手撕矩阵计算，好吗",
+        "range": [222.33, 224.73],
+        "contains_math": false
+    }
+]

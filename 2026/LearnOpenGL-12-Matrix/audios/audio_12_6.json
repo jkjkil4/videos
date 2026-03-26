@@ -1,0 +1,132 @@
+[
+    {
+        "text": "使用矩阵进行变换的真正力量在于",
+        "range": [0.24, 3.06],
+        "contains_math": false
+    },
+    {
+        "text": "根据矩阵之间的乘法可以把多个变换组合到一个矩阵中",
+        "range": [3.54, 8.79],
+        "contains_math": false
+    },
+    {
+        "text": "并在后续操作中只用一个矩阵表示共同作用效果",
+        "range": [9.06, 15.03],
+        "contains_math": false
+    },
+    {
+        "text": "比如我们想进行两个变换",
+        "range": [15.63, 17.52],
+        "contains_math": false
+    },
+    {
+        "text": "首先是整体缩放两倍",
+        "range": [17.79, 19.18],
+        "contains_math": false
+    },
+    {
+        "text": "其次是位移 {数学公式} 个单位",
+        "range": [19.73, 22.41],
+        "contains_math": true
+    },
+    {
+        "text": "对于要变换的向量可以先左乘缩放矩阵再左乘位移矩阵",
+        "range": [22.98, 29.94],
+        "contains_math": false
+    },
+    {
+        "text": "始终记住矩阵乘法没有交换律",
+        "range": [30.33, 33.06],
+        "contains_math": false
+    },
+    {
+        "text": "理解矩阵乘法应当从右向左看",
+        "range": [33.47, 36.0],
+        "contains_math": false
+    },
+    {
+        "text": "先是缩放矩阵作用在向量上",
+        "range": [36.45, 39.24],
+        "contains_math": false
+    },
+    {
+        "text": "计算出 {数学公式} 然后再作用位移矩阵",
+        "range": [39.42, 43.89],
+        "contains_math": true
+    },
+    {
+        "text": "最后结果是 {数学公式}",
+        "range": [44.07, 48.06],
+        "contains_math": true
+    },
+    {
+        "text": "刚刚过程是将各个矩阵依次作用在向量上",
+        "range": [49.2, 53.13],
+        "contains_math": false
+    },
+    {
+        "text": "但也可以先把所有矩阵合体",
+        "range": [53.49, 56.46],
+        "contains_math": false
+    },
+    {
+        "text": "也就是先算两个矩阵相乘结果",
+        "range": [57.18, 60.18],
+        "contains_math": false
+    },
+    {
+        "text": "最后拿着一个矩阵想怎么玩怎么玩",
+        "range": [60.9, 63.51],
+        "contains_math": false
+    },
+    {
+        "text": "可以看到合体后的矩阵作用在 {数学公式} 上",
+        "range": [63.84, 67.92],
+        "contains_math": true
+    },
+    {
+        "text": "结果同样是 {数学公式}",
+        "range": [68.19, 71.64],
+        "contains_math": true
+    },
+    {
+        "text": "当需要使用的矩阵越来越多",
+        "range": [72.54, 74.73],
+        "contains_math": false
+    },
+    {
+        "text": "合并成单个矩阵的益处会更凸显",
+        "range": [75.39, 78.16],
+        "contains_math": false
+    },
+    {
+        "text": "顺便一提实践上建议先缩放再旋转最后位移",
+        "range": [79.2, 83.55],
+        "contains_math": false
+    },
+    {
+        "text": "否则它们会消极地互相影响",
+        "range": [83.88, 86.1],
+        "contains_math": false
+    },
+    {
+        "text": "比如先位移再缩放位移同样会被缩放",
+        "range": [87.54, 91.68],
+        "contains_math": false
+    },
+    {
+        "text": "这不一定是你想要的结果",
+        "range": [91.83, 93.63],
+        "contains_math": false
+    },
+    {
+        "text": "以上就是坐标变换相关数学理论",
+        "range": [96.15, 98.58],
+        "contains_math": false
+    },
+    {
+        "text": "下一节编写代码把这些知识利用起来",
+        "range": [98.76, 102.75],
+        "contains_math": false
+    }
+]

@@ -1,0 +1,217 @@
+[
+    {
+        "text": "现在变换工具箱中已经有了缩放矩阵和位移矩阵",
+        "range": [0.24, 4.77],
+        "contains_math": false
+    },
+    {
+        "text": "接下来介绍的旋转矩阵会复杂一些",
+        "range": [5.25, 8.37],
+        "contains_math": false
+    },
+    {
+        "text": "这里不讨论旋转矩阵如何构造出来",
+        "range": [8.88, 12.06],
+        "contains_math": false
+    },
+    {
+        "text": "有兴趣可以另行了解",
+        "range": [12.48, 14.52],
+        "contains_math": false
+    },
+    {
+        "text": "这里只做简单介绍",
+        "range": [14.76, 16.32],
+        "contains_math": false
+    },
+    {
+        "text": "先明确空间中的旋转是什么",
+        "range": [18.51, 21.93],
+        "contains_math": false
+    },
+    {
+        "text": "旋转需要一个角度表示旋转程度",
+        "range": [22.38, 27.48],
+        "contains_math": false
+    },
+    {
+        "text": "但在三维空间旋转有两个关键要素",
+        "range": [28.02, 35.28],
+        "contains_math": false
+    },
+    {
+        "text": "旋转角度和旋转轴",
+        "range": [35.54, 37.68],
+        "contains_math": false
+    },
+    {
+        "text": "随着角度增加会绕旋转轴逆时针逐渐转动",
+        "range": [38.61, 43.41],
+        "contains_math": false
+    },
+    {
+        "text": "角度越大转动也就越多",
+        "range": [44.46, 46.56],
+        "contains_math": false
+    },
+    {
+        "text": "从计算上对于任给向量都可算出旋转后的向量",
+        "range": [46.95, 54.69],
+        "contains_math": false
+    },
+    {
+        "text": "这通常由一系列正弦和余弦函数巧妙组合得到",
+        "range": [55.05, 60.51],
+        "contains_math": false
+    },
+    {
+        "text": "这种对向量的旋转变换同样可用矩阵表示",
+        "range": [61.77, 66.12],
+        "contains_math": false
+    },
+    {
+        "text": "我们称之为旋转矩阵",
+        "range": [66.39, 68.1],
+        "contains_math": false
+    },
+    {
+        "text": "但教程中不会具体涉及其构造方式",
+        "range": [68.61, 73.8],
+        "contains_math": false
+    },
+    {
+        "text": "大概看一下它们什么样就好",
+        "range": [74.13, 76.83],
+        "contains_math": false
+    },
+    {
+        "text": "在旋转矩阵中我们关心左上角这 {数学公式} 的部分",
+        "range": [77.84, 81.99],
+        "contains_math": true
+    },
+    {
+        "text": "准备好往里面塞各种三角函数吧",
+        "range": [82.35, 84.9],
+        "contains_math": false
+    },
+    {
+        "text": "先看沿各个坐标轴的旋转长什么样",
+        "range": [85.8, 89.22],
+        "contains_math": false
+    },
+    {
+        "text": "首先是绕 {数学公式} 轴旋转",
+        "range": [90.36, 93.39],
+        "contains_math": true
+    },
+    {
+        "text": "左边是矩阵作用在原始向量上右边是旋转后的结果",
+        "range": [93.69, 98.91],
+        "contains_math": false
+    },
+    {
+        "text": "因为绕 {数学公式} 轴旋转不改变 {数学公式} 坐标",
+        "range": [99.24, 101.82],
+        "contains_math": true
+    },
+    {
+        "text": "所以矩阵中只有与 {数学公式} 和 {数学公式} 相关位置有三角函数",
+        "range": [102.03, 107.76],
+        "contains_math": true
+    },
+    {
+        "text": "对于绕 {数学公式} 轴旋转也一样",
+        "range": [109.02, 111.45],
+        "contains_math": true
+    },
+    {
+        "text": "只在与 {数学公式} 和 {数学公式} 有关位置有三角函数",
+        "range": [111.93, 115.26],
+        "contains_math": true
+    },
+    {
+        "text": "对于绕 {数学公式} 轴旋转也是同理",
+        "range": [115.59, 117.63],
+        "contains_math": true
+    },
+    {
+        "text": "再强调一下你不需要记住这些矩阵",
+        "range": [118.86, 121.68],
+        "contains_math": false
+    },
+    {
+        "text": "因为我们会用代码直接算",
+        "range": [121.98, 123.9],
+        "contains_math": false
+    },
+    {
+        "text": "不过了解原理后能加深我们对过程的理解",
+        "range": [124.83, 128.7],
+        "contains_math": false
+    },
+    {
+        "text": "利用这些旋转矩阵可以沿一个单位旋转轴旋转",
+        "range": [129.72, 133.74],
+        "contains_math": false
+    },
+    {
+        "text": "也可以将多个矩阵复合",
+        "range": [134.04, 135.96],
+        "contains_math": false
+    },
+    {
+        "text": "比如先沿着 {数学公式} 轴旋转再沿着 {数学公式} 轴旋转",
+        "range": [136.29, 139.89],
+        "contains_math": true
+    },
+    {
+        "text": "但这种方法在特殊情况下会导致万向节死锁",
+        "range": [140.37, 145.2],
+        "contains_math": false
+    },
+    {
+        "text": "可以另行了解这里不展开介绍",
+        "range": [145.53, 147.99],
+        "contains_math": false
+    },
+    {
+        "text": "三维空间旋转更好的模型是沿任意指定轴旋转",
+        "range": [148.88, 153.72],
+        "contains_math": false
+    },
+    {
+        "text": "例如沿单位向量 {数学公式} 旋转",
+        "range": [154.08, 155.94],
+        "contains_math": true
+    },
+    {
+        "text": "而不是对一系列旋转矩阵复合",
+        "range": [156.33, 158.85],
+        "contains_math": false
+    },
+    {
+        "text": "这样一个超级麻烦的矩阵是存在的",
+        "range": [159.38, 162.6],
+        "contains_math": false
+    },
+    {
+        "text": "具体公式就是这样其中 {数学公式} 代表任意旋转轴",
+        "range": [163.11, 170.52],
+        "contains_math": true
+    },
+    {
+        "text": "在数学上讨论如何生成这样的矩阵超出本节内容",
+        "range": [173.79, 178.26],
+        "contains_math": false
+    },
+    {
+        "text": "只要知道有这么一回事就好",
+        "range": [178.53, 180.72],
+        "contains_math": false
+    },
+    {
+        "text": "具体生成可以直接用现成代码",
+        "range": [181.11, 184.41],
+        "contains_math": false
+    }
+]

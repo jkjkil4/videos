@@ -1,0 +1,32 @@
+[
+    {
+        "text": "矩阵和标量的四则运算和前面的向量一样",
+        "range": [1.35, 4.8],
+        "contains_math": false
+    },
+    {
+        "text": "只要逐个元素分别计算即可没什么特别的",
+        "range": [5.09, 7.86],
+        "contains_math": false
+    },
+    {
+        "text": "两个矩阵之间加减仍然很普通",
+        "range": [9.18, 11.64],
+        "contains_math": false
+    },
+    {
+        "text": "都是逐个元素计算加减即可",
+        "range": [12.54, 14.4],
+        "contains_math": false
+    },
+    {
+        "text": "不过这有一个显然的前提",
+        "range": [14.7, 16.44],
+        "contains_math": false
+    },
+    {
+        "text": "也就是两个矩阵的行列数一样",
+        "range": [16.64, 18.45],
+        "contains_math": false
+    }
+]
