@@ -2284,6 +2284,13 @@ def Tick(**kwargs):
 
 class TL15(SharpDelimTemplate):
     def construct(self):
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_12_5.wav', 'begin': 0, 'end': 46.6, 'delay': 1, 'mul': 1.25 },
+            ]
+        )
+
         ####################################################
 
         mattypes = MatTypes().show()
@@ -2297,24 +2304,38 @@ class TL15(SharpDelimTemplate):
         tick2.points.shift([-0.49, 1.64, 0.0])
         tick3.points.shift([2.12, 1.64, 0.0])
 
+        txt = Text('简单介绍', font_size=48, color=GREY_A)
+
         ####################################################
 
         self.play(
             mattypes[2].anim.set(fill_color=GREY),
-            mattypes[3].anim.set(fill_color=YELLOW)
+            mattypes[3].anim.set(fill_color=YELLOW),
+            # FocusOn(mattypes[3], duration=1.5)
         )
+        self.forward(1)
 
         self.play(
             Create(tick1, rate_func=rush_from),
             Create(tick2, rate_func=rush_from),
             Create(tick3, rate_func=rush_from),
-            lag_ratio=0.8
+            lag_ratio=1.5
         )
+        self.forward()
         self.play(
-            ShowPassingFlashAround(mattypes[-1])
+            FocusOn(mattypes[-1]),
+            ShowCreationThenFadeAround(mattypes[-1])
         )
         self.play(
             FadeOut(Group(tick1, tick2, tick3))
+        )
+        self.forward(5)
+        self.play(
+            Write(txt, duration=2)
+        )
+        self.forward()
+        self.play(
+            FadeOut(txt, duration=2)
         )
 
         ####################################################
@@ -2377,6 +2398,7 @@ class TL15(SharpDelimTemplate):
         self.play(
             Create(lines[0])
         )
+        self.forward(2)
         self.play(
             Aligned(
                 Succession(
@@ -2385,18 +2407,22 @@ class TL15(SharpDelimTemplate):
                     degtr.anim(duration=0.5).set_value(0 * DEGREES),
                 ),
                 Updaters()
-            )
+            ),
+            duration=6
         )
+        self.forward()
         con3d.show()
         self.play(
             self.camera.anim.points.set(orientation=Quaternion(0.88, 0.35, 0.12, 0.3)),
             Create(line_axis, lag_ratio=0.9),
         )
+        self.forward(3)
         self.play(
             GrowArrow(arrow_axis),
             FadeIn(txt_axis),
             degtr.anim.set_value(35 * DEGREES),
-            Updaters(True)
+            Updaters(True),
+            duration=2
         )
         self.play(
             Indicate(lines[-1])
@@ -2404,20 +2430,28 @@ class TL15(SharpDelimTemplate):
         self.play(
             Indicate(txt_axis)
         )
+        self.forward(0.5)
         con3d.points.rotate(-35 * DEGREES)
         self.play(
             degtr.anim.set_value(140 * DEGREES),
-            Updaters(True)
+            Updaters(True),
+            duration=8
         )
         self.play(
             FadeOut(Group(con3d, lines, line_axis, arrow_axis, txt_axis))
         )
-
-        self.forward()
+        self.forward(0.5)
 
 
 class TL16(SharpDelimTemplate):
     def construct(self):
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_12_5.wav', 'begin': 46.6, 'end': 61, 'delay': 0, 'mul': 1.25 },
+            ]
+        )
+
         ####################################################
 
         mattypes = MatTypes().show()
@@ -2447,30 +2481,43 @@ class TL16(SharpDelimTemplate):
 
         ####################################################
 
+        self.forward(0.7)
         self.play(
             FadeIn(plane),
-            GrowArrow(vec)
+            GrowArrow(vec),
+            duration=2
         )
+        self.forward(2)
         vec_orig.show()
         self.play(
             vec.update.points.rotate(50 * DEGREES, about_point=ORIGIN),
-            ItemUpdater(angle, angle_updater)
+            ItemUpdater(angle, angle_updater),
+            duration=2
         )
+        self.forward(3.5)
         self.play(
-            Write(typ)
+            Write(typ),
+            duration=1.5
         )
 
-        self.forward()
+        self.forward(2)
 
         self.play(
             FadeOut(Group(plane, vec_orig, vec, angle, typ))
         )
 
-        self.forward()
-
 
 class TL17(SharpDelimTemplate):
     def construct(self):
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_12_5.wav', 'begin': 61, 'end': 115.3, 'delay': 0, 'mul': 1.25 },
+                { 'file': 'audio_12_5.wav', 'begin': 115.3, 'end': 171, 'delay': 1, 'mul': 1.25 },
+                { 'file': 'audio_12_5.wav', 'begin': 173.5, 'end': 185, 'delay': 5, 'mul': 1.25 },
+            ]
+        )
+
         ####################################################
 
         mattypes = MatTypes().show()
@@ -2569,28 +2616,38 @@ class TL17(SharpDelimTemplate):
 
         ####################################################
 
+        self.forward(2)
         self.play(
-            FadeIn(typ1)
+            FadeIn(typ1),
+            duration=3
         )
+        self.forward(12)
         self.play(
-            FadeIn(hl)
+            FadeIn(hl),
+            duration=2
         )
+        self.forward(4)
         self.play(
             FadeOut(hl)
         )
+        self.forward(5.5)
         self.play(
             FadeOut(typ1),
             FadeIn(parts[2])
         )
+        self.forward(2)
         self.play(
             Create(r1, auto_close_path=False),
         )
+        self.forward(2)
         self.play(
             Transform(r1, r2)
         )
+        self.forward()
         self.play(
             FadeOut(r2)
         )
+        self.forward(0.5)
         self.play(
             Aligned(
                 WiggleOutThenIn(parts[2][91], scale=2),
@@ -2602,6 +2659,7 @@ class TL17(SharpDelimTemplate):
                 duration=2.5
             )
         )
+        self.forward(2)
 
         ####################################################
 
@@ -2620,6 +2678,7 @@ class TL17(SharpDelimTemplate):
         self.play(
             FadeIn(rs)
         )
+        self.forward()
         self.play(
             Group(rs, parts[2]).anim.points.scale(0.55).to_border(UR).shift(DOWN),
             FadeOut(rs),
@@ -2628,6 +2687,7 @@ class TL17(SharpDelimTemplate):
         self.play(
             FadeIn(txt2)
         )
+        self.forward()
 
         ####################################################
 
@@ -2641,16 +2701,20 @@ class TL17(SharpDelimTemplate):
         self.play(
             FadeIn(parts[0])
         )
+        self.forward()
         self.play(
             FadeIn(rs)
         )
+        self.forward(2)
         self.play(
             Group(rs, parts[0]).anim.points.scale(0.55).to_border(UL).shift(DOWN),
-            FadeOut(rs)
+            FadeOut(rs),
+            # duration=0.6
         )
         txt0.points.next_to(parts[0], DOWN, buff=SMALL_BUFF)
         self.play(
-            FadeIn(txt0)
+            FadeIn(txt0),
+            # duration=0.6
         )
 
         self.play(
@@ -2663,6 +2727,7 @@ class TL17(SharpDelimTemplate):
         self.play(
             FadeIn(txt1)
         )
+        self.forward(17.5)
 
         ####################################################
 
@@ -2702,10 +2767,12 @@ class TL17(SharpDelimTemplate):
         self.play(
             TransformMatchingDiff(parts[1][:39].copy(), typ3[:43], path_arc=50 * DEGREES),
         )
+        self.forward(9.5)
         self.play(
             FadeOut(typ3),
             alphaeff.anim.alpha.set(0.5)
         )
+        self.forward(4)
 
         ####################################################
 
@@ -2718,12 +2785,13 @@ class TL17(SharpDelimTemplate):
         self.play(
             tlalpha.anim.alpha.set(1)
         )
-        self.forward()
+        self.forward(4)
         self.play(
             tlalpha.anim.alpha.set(0)
         )
         tlalpha.hide()
         tl.hide()
+        self.forward(3.5)
 
         ####################################################
 
@@ -2788,29 +2856,29 @@ class TL17(SharpDelimTemplate):
         ####################################################
 
         self.show(g4)
-        self.forward()
+        self.forward(5.5)
 
         self.play(
             FadeOut(Group(typ2, txt0, txt1, txt2)),
-            g4.anim.points.scale(0.65).to_border(UP).shift(DOWN)
+            g4.anim.points.scale(0.65).to_border(UP).shift(DOWN),
+            duration=2
         )
         self.play(
             Write(tip)
         )
         self.play(
-            Pause(4)
+            Pause(3)
         )
         self.play(
             FadeOut(tip)
         )
 
-        self.forward()
+        self.forward(6)
 
         self.play(
             FadeOut(Group(mattypes, g4))
         )
-
-        self.forward()
+        self.forward(2.5)
 
 
 class TL17_Sub1(SharpDelimTemplate):
@@ -2832,6 +2900,13 @@ class TL17_Sub1(SharpDelimTemplate):
 
 class TL18(SharpDelimTemplate):
     def construct(self):
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_12_6.wav', 'begin': 0, 'end': 15.2, 'delay': 0, 'mul': 1.25 },
+            ]
+        )
+
         ####################################################
 
         typ1 = TypstText(
@@ -2846,7 +2921,7 @@ class TL18(SharpDelimTemplate):
                 bm(1)
             $
             '''
-        ).show()
+        )
 
         typ2 = TypstMath(
             R'''
@@ -2858,10 +2933,13 @@ class TL18(SharpDelimTemplate):
 
         ####################################################
 
+        self.forward()
         self.play(Write(typ1[::-1]))
+        self.forward(4)
         self.play(
             Transform(typ1, typ2)
         )
+        self.forward(2)
 
         typ1.show()
         typ1.points.shift(UP * 0.3)
@@ -2869,15 +2947,22 @@ class TL18(SharpDelimTemplate):
         alphaeff.alpha.set(0)
 
         self.play(
-            alphaeff.anim.alpha.set(0.25),
-            typ2.anim.points.shift(DOWN * 0.3)
+            alphaeff.anim.alpha.set(0.35),
+            typ2.anim.points.shift(DOWN  * 0.3)
         )
 
-        self.forward()
+        self.forward(4.6)
 
 
 class TL19(SharpDelimTemplate):
     def construct(self):
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_12_6.wav', 'begin': 15.5, 'end': 78.2, 'delay': 0, 'mul': 1.25 },
+            ]
+        )
+
         ####################################################
 
         typ1 = TypstText(
@@ -2922,37 +3007,46 @@ class TL19(SharpDelimTemplate):
 
         ####################################################
 
-        self.forward()
+        self.forward(2.7)
         self.show(typ1)
-        self.forward()
+        self.forward(2)
         self.show(typ2)
-        self.forward()
+        self.forward(3)
 
         self.play(
             FadeIn(vec1)
         )
+        self.forward(2)
         self.play(
             Transform(typ1[5:], part1, hide_src=False, path_arc=60 * DEGREES)
         )
+        self.forward(1.2)
         self.play(
-            Transform(typ2[11:], part2, hide_src=False, path_arc=60 * DEGREES)
+            Transform(typ2[11:], part2, hide_src=False, path_arc=60 * DEGREES),
+            duration=1.3
         )
+        self.forward(4.5)
         self.play(
-            GrowArrow(arrow)
+            GrowArrow(arrow),
+            duration=2
         )
+        self.forward(1.5)
         self.play(
             TransformMatchingDiff(g2[1, 2], vec2)
         )
+        self.forward(2)
         self.play(
             MoveToTarget(vec2)
         )
         self.play(
             TransformMatchingDiff(Group(part2, vec2), vec3)
         )
+        self.forward(3.5)
         self.play(
             vec3.anim.points.to_border(LEFT, buff=LARGE_BUFF),
             FadeOut(arrow)
         )
+        self.forward(6)
 
         ####################################################
 
@@ -3002,15 +3096,18 @@ class TL19(SharpDelimTemplate):
             MoveToTarget(g12),
             Write(typ3[prefix_str])
         )
+        self.forward(0.5)
         self.play(
             Transform(typ1[5:], typ3part1, hide_src=False),
             Transform(typ2[11:], typ3part2, hide_src=False, duration=0.7),
             lag_ratio=0.8
         )
+        self.forward(0.7)
         self.play(
             # Transform(typ3[prefix_str], typ4[prefix_str]),
             TransformMatchingDiff(typ3, typ4),
-            FadeOut(g12, UP, at=0.5)
+            FadeOut(g12, UP, at=0.5),
+            duration=1.4
         )
         self.play(
             typ4.anim.points.shift(UP)
@@ -3035,9 +3132,11 @@ class TL19(SharpDelimTemplate):
             Transform(typ4[17:], typ5parts[0], hide_src=False, path_arc=30 * DEGREES),
             lag_ratio=0.6
         )
+        self.forward(2)
         self.play(
             TransformMatchingDiff(typ5, typ6)
         )
+        self.forward()
 
         ####################################################
 
@@ -3050,8 +3149,10 @@ class TL19(SharpDelimTemplate):
         self.play(
             g.anim.points.arrange(buff=LARGE_BUFF),
             Write(eq),
-            eq.update.points.shift(RIGHT * 2)
+            eq.update.points.shift(RIGHT * 2),
+            duration=2
         )
+        self.forward(6)
 
         self.play(
             FadeOut(Group(g, eq, typ4))
@@ -3062,6 +3163,13 @@ class TL19(SharpDelimTemplate):
 
 class TL20(SharpDelimTemplate):
     def construct(self):
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_12_6.wav', 'begin': 79, 'end': 103, 'delay': 0, 'mul': 1.25 },
+            ]
+        )
+
         ####################################################
 
         plane = NumberPlane(faded_line_ratio=1)
@@ -3073,9 +3181,12 @@ class TL20(SharpDelimTemplate):
 
         ####################################################
 
+        self.forward(1.5)
         self.play(
-            FadeIn(Group(plane, container))
+            FadeIn(Group(plane, container)),
+            duration=3
         )
+        self.forward(4.5)
         self.play(
             container.anim(rate_func=ease_inout_quint).points.shift(RIGHT * 2 + UP),
             GrowArrow(vec1, rate_func=ease_inout_quint)
@@ -3084,11 +3195,12 @@ class TL20(SharpDelimTemplate):
             Group(Group(plane, container)).anim.points.scale([3, 1.5, 1]),
             Transform(vec1, vec2)
         )
+        self.forward(4)
         self.play(
             FadeOut(Group(plane, container, vec2))
         )
 
-        self.forward()
+        self.forward(8)
 
 
 class All(AboveTimelines):

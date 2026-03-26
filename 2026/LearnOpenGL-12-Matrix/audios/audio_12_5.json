@@ -36,11 +36,16 @@
     },
     {
         "text": "但你要知道我们现在需要讨论三维空间中的旋转",
-        "range": [28.02, 35.28],
+        "range": [28.02, 32.07],
         "contains_math": false
     },
     {
-        "text": "因此其实我们有两个关键的要素 旋转角度和旋转轴",
+        "text": "因此其实我们有两个关键的要素",
+        "range": [32.4, 35.28],
+        "contains_math": false
+    },
+    {
+        "text": "旋转角度和旋转轴",
         "range": [35.54, 37.68],
         "contains_math": false
     },
@@ -55,33 +60,38 @@
         "contains_math": false
     },
     {
-        "text": "角度越大转动也就越多",
+        "text": "角度越大转动得也就越多",
         "range": [44.46, 46.56],
         "contains_math": false
     },
     {
         "text": "从计算上来说对于任给的一个向量",
-        "range": [46.95, 50.67],
+        "range": [46.95, 50.25],
         "contains_math": false
     },
     {
         "text": "我们都可以通过计算得出其旋转之后对应的向量",
-        "range": [50.67, 54.69],
+        "range": [50.46, 54.69],
         "contains_math": false
     },
     {
         "text": "这通常是使用一系列正弦和余弦函数",
-        "range": [55.05, 57.9],
+        "range": [55.05, 57.84],
         "contains_math": false
     },
     {
-        "text": "的各种巧妙地组合得到的",
-        "range": [57.9, 60.51],
+        "text": "的各种巧妙组合得到的",
+        "range": [57.84, 60.51],
         "contains_math": false
     },
     {
-        "text": "这种对向量的旋转变换我们同样能使用矩阵来表示",
-        "range": [61.77, 66.12],
+        "text": "这种对向量的旋转变换",
+        "range": [61.77, 63.54],
+        "contains_math": false
+    },
+    {
+        "text": "我们同样（口误）能使用矩阵来表示",
+        "range": [63.54, 66.12],
         "contains_math": false
     },
     {
@@ -90,93 +100,83 @@
         "contains_math": false
     },
     {
-        "text": "我们称之为旋转矩阵",
+        "text": "但是在我们的教程中不会具体涉及这样的矩阵是如何构造出来的",
         "range": [68.61, 73.8],
         "contains_math": false
     },
     {
-        "text": "但是在我们的教程中不会具体涉及这样的矩阵是如何构造出来的",
+        "text": "我们大概看一下它们是怎么样的就好了",
         "range": [74.13, 76.83],
         "contains_math": false
     },
     {
-        "text": "我们大概看一下它们是怎么样的就好了",
+        "text": "在旋转矩阵中我们关心左上角的这 $3 times 3$ 的部分",
         "range": [77.84, 81.99],
-        "contains_math": false
-    },
-    {
-        "text": "在旋转矩阵中我们关心左上角的这 {数学公式} 的部分",
-        "range": [82.35, 84.9],
         "contains_math": true
     },
     {
         "text": "准备好往里面塞各种三角函数吧",
+        "range": [82.35, 84.9],
+        "contains_math": false
+    },
+    {
+        "text": "我们先看一下沿各个坐标轴的旋转长什么样",
         "range": [85.8, 89.22],
         "contains_math": false
     },
     {
-        "text": "我们先看一下",
-        "range": [90.36, 91.95],
-        "contains_math": false
-    },
-    {
-        "text": "沿各个坐标轴的旋转长什么样",
-        "range": [91.95, 93.39],
-        "contains_math": false
-    },
-    {
-        "text": "首先是我们刚刚见过的绕 {数学公式} 轴旋转",
-        "range": [93.69, 98.91],
+        "text": "首先是我们刚刚见过的绕 $z$ 轴旋转",
+        "range": [90.36, 93.39],
         "contains_math": true
     },
     {
-        "text": "等号左边是矩阵作用在原始向量上等号右边则是旋转后的结果",
-        "range": [99.24, 101.82],
+        "text": "等号左边是矩阵作用在原始向量上",
+        "range": [93.69, 96.69],
         "contains_math": false
     },
     {
-        "text": "因为绕 {数学公式} 轴旋转不改变 {数学公式} 坐标",
+        "text": "等号右边则是旋转后的结果",
+        "range": [96.69, 98.91],
+        "contains_math": false
+    },
+    {
+        "text": "因为绕 $z$ 轴旋转不改变 $z$ 坐标",
+        "range": [99.24, 101.82],
+        "contains_math": true
+    },
+    {
+        "text": "所以体现到矩阵中就能看到只有与 $x$ 和 $y$ 相关的位置有三角函数",
         "range": [102.03, 107.76],
         "contains_math": true
     },
     {
-        "text": "所以体现到矩阵中就能看到",
-        "range": [109.02, 110.25],
-        "contains_math": false
-    },
-    {
-        "text": "只有与 {数学公式} 和 {数学公式} 相关的位置有三角函数",
-        "range": [110.25, 111.45],
+        "text": "然后对于绕 $x$ 轴旋转也一样",
+        "range": [109.02, 111.45],
         "contains_math": true
     },
     {
-        "text": "然后对于绕 {数学公式} 轴旋转也一样",
+        "text": "只在和 $y$ 和 $z$ 有关的位置有三角函数",
         "range": [111.93, 115.26],
         "contains_math": true
     },
     {
-        "text": "只在和 {数学公式} 和 {数学公式} 有关的位置有三角函数",
+        "text": "对于绕 $y$ 轴旋转也是同理",
         "range": [115.59, 117.63],
         "contains_math": true
     },
     {
-        "text": "对于绕 {数学公式} 轴旋转也是同理",
-        "range": [118.86, 121.68],
-        "contains_math": true
-    },
-    {
         "text": "再强调一下你不需要记住这些矩阵",
-        "range": [121.98, 123.9],
+        "range": [118.86, 121.68],
         "contains_math": false
     },
     {
         "text": "因为我们会用代码来直接算",
-        "range": [124.83, 126.75],
+        "range": [121.98, 123.9],
         "contains_math": false
     },
     {
         "text": "不过相信我们了解原理后能够加深我们对这种过程的理解",
-        "range": [126.75, 128.7],
+        "range": [124.83, 128.7],
         "contains_math": false
     },
     {
@@ -190,13 +190,8 @@
         "contains_math": false
     },
     {
-        "text": "比如先沿着 {数学公式} 轴旋转",
-        "range": [136.29, 138.06],
-        "contains_math": true
-    },
-    {
-        "text": "再沿着 {数学公式} 轴旋转",
-        "range": [138.06, 139.89],
+        "text": "比如先沿着 $x$ 轴旋转再沿着 $y$ 轴旋转",
+        "range": [136.29, 139.89],
         "contains_math": true
     },
     {
@@ -210,17 +205,12 @@
         "contains_math": false
     },
     {
-        "text": "对于三维空间中的旋转",
-        "range": [148.88, 151.2],
+        "text": "对于三维空间中的旋转一个更好的模型是沿着任意指定的一个轴",
+        "range": [148.88, 153.72],
         "contains_math": false
     },
     {
-        "text": "一个更好的模型是沿着任意指定的一个轴旋转",
-        "range": [151.2, 153.72],
-        "contains_math": false
-    },
-    {
-        "text": "例如单位向量 {数学公式} 旋转",
+        "text": "例如这个单位向量旋转",
         "range": [154.08, 155.94],
         "contains_math": true
     },
@@ -236,22 +226,17 @@
     },
     {
         "text": "具体的公式就是这样",
-        "range": [163.11, 166.8],
+        "range": [163.11, 164.58],
         "contains_math": false
     },
     {
-        "text": "其中 {数学公式} 代表任意旋转轴",
+        "text": "其中 $(R_x, R_y, R_z)$ 代表任意旋转轴",
         "range": [166.8, 170.52],
         "contains_math": true
     },
     {
-        "text": "在数学上讨论如何生成这样的矩阵",
-        "range": [173.79, 176.19],
-        "contains_math": false
-    },
-    {
-        "text": "仍然超出了本节内容",
-        "range": [176.19, 178.26],
+        "text": "在数学上讨论如何生成这样的矩阵仍然超出了本节内容",
+        "range": [173.79, 178.26],
         "contains_math": false
     },
     {

@@ -5,13 +5,18 @@
         "contains_math": false
     },
     {
-        "text": "根据矩阵之间的乘法可以把多个变换组合到一个矩阵中",
+        "text": "根据矩阵之间的乘法我们可以把多个变换组合到一个矩阵中",
         "range": [3.54, 8.79],
         "contains_math": false
     },
     {
-        "text": "并在后续操作中只用一个矩阵表示共同作用效果",
-        "range": [9.06, 15.03],
+        "text": "并在之后的操作中只要用一个矩阵",
+        "range": [9.06, 11.4],
+        "contains_math": false
+    },
+    {
+        "text": "便能表示这所有变换操作的共同作用效果",
+        "range": [11.4, 15.03],
         "contains_math": false
     },
     {
@@ -25,12 +30,12 @@
         "contains_math": false
     },
     {
-        "text": "其次是位移 {数学公式} 个单位",
+        "text": "其次是位移 $(1,2,3)$ 个单位",
         "range": [19.73, 22.41],
         "contains_math": true
     },
     {
-        "text": "对于要变换的向量可以先左乘缩放矩阵再左乘位移矩阵",
+        "text": "对于我们想要变换的向量完全可以先左乘上缩放矩阵再左乘上位移矩阵",
         "range": [22.98, 29.94],
         "contains_math": false
     },
@@ -45,32 +50,32 @@
         "contains_math": false
     },
     {
-        "text": "先是缩放矩阵作用在向量上",
+        "text": "首先是缩放矩阵作用在向量上",
         "range": [36.45, 39.24],
         "contains_math": false
     },
     {
-        "text": "计算出 {数学公式} 然后再作用位移矩阵",
+        "text": "计算出 $(2x,2y,2z)$ 然后再作用上位移矩阵",
         "range": [39.42, 43.89],
         "contains_math": true
     },
     {
-        "text": "最后结果是 {数学公式}",
+        "text": "最后计算出来是 $(2x+1,2y+2,2z+3)$",
         "range": [44.07, 48.06],
         "contains_math": true
     },
     {
-        "text": "刚刚过程是将各个矩阵依次作用在向量上",
+        "text": "我们刚刚这个过程是将各个矩阵依次作用在向量上",
         "range": [49.2, 53.13],
         "contains_math": false
     },
     {
-        "text": "但也可以先把所有矩阵合体",
+        "text": "但是我们也完全可以先让所有的矩阵合体",
         "range": [53.49, 56.46],
         "contains_math": false
     },
     {
-        "text": "也就是先算两个矩阵相乘结果",
+        "text": "也就是先计算出这两个矩阵相乘的结果",
         "range": [57.18, 60.18],
         "contains_math": false
     },
@@ -80,12 +85,12 @@
         "contains_math": false
     },
     {
-        "text": "可以看到合体后的矩阵作用在 {数学公式} 上",
+        "text": "可以看到合体后的矩阵作用在 $(x,y,z,1)$ 上",
         "range": [63.84, 67.92],
         "contains_math": true
     },
     {
-        "text": "结果同样是 {数学公式}",
+        "text": "同样结果是 $(2x+1,2y+2,2z+3)$",
         "range": [68.19, 71.64],
         "contains_math": true
     },
@@ -95,12 +100,12 @@
         "contains_math": false
     },
     {
-        "text": "合并成单个矩阵的益处会更凸显",
+        "text": "合并成单个矩阵的益处会更加凸显",
         "range": [75.39, 78.16],
         "contains_math": false
     },
     {
-        "text": "顺便一提实践上建议先缩放再旋转最后位移",
+        "text": "顺便一提在实践上建议先缩放再旋转最后位移",
         "range": [79.2, 83.55],
         "contains_math": false
     },
@@ -110,7 +115,7 @@
         "contains_math": false
     },
     {
-        "text": "比如先位移再缩放位移同样会被缩放",
+        "text": "比如如果你先位移再缩放 位移同样也会被缩放",
         "range": [87.54, 91.68],
         "contains_math": false
     },
@@ -120,12 +125,12 @@
         "contains_math": false
     },
     {
-        "text": "以上就是坐标变换相关数学理论",
+        "text": "以上就是坐标变换的相关数学理论",
         "range": [96.15, 98.58],
         "contains_math": false
     },
     {
-        "text": "下一节编写代码把这些知识利用起来",
+        "text": "我们将在下一节编写代码将这些知识利用起来",
         "range": [98.76, 102.75],
         "contains_math": false
     }
