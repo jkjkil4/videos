@@ -15,37 +15,42 @@
         "contains_math": false
     },
     {
-        "text": "比如这就是一个 {数学公式} 矩阵的例子",
+        "text": "比如这就是一个 $2 times 3$ 矩阵的例子",
         "range": [15.36, 17.91],
         "contains_math": true
     },
     {
-        "text": "矩阵可以通过 {数学公式} 进行索引",
+        "text": "矩阵可以通过 $(i, j)$ 进行索引",
         "range": [19.23, 21.18],
         "contains_math": true
     },
     {
-        "text": "{数学公式} 是行 {数学公式} 是列",
+        "text": "$i$ 是行 $j$ 是列",
         "range": [21.87, 23.76],
         "contains_math": true
     },
     {
-        "text": "先讲行再讲列这和矩阵的大小一样都是先行再列",
-        "range": [24.09, 28.47],
+        "text": "先讲行再讲列",
+        "range": [24.09, 25.4],
         "contains_math": false
     },
     {
-        "text": "所以比如 {数学公式} 就是第二行第一列",
+        "text": "这和矩阵的大小一样都是先行再列",
+        "range": [25.4, 28.47],
+        "contains_math": false
+    },
+    {
+        "text": "所以比如 $(2, 1)$ 就是第二行第一列",
         "range": [29.22, 32.35],
         "contains_math": true
     },
     {
-        "text": "从而对应 4 这个元素",
+        "text": "从而对应 “4” 这个元素",
         "range": [32.61, 34.65],
         "contains_math": false
     },
     {
-        "text": "这与你在索引二维图像或是坐标时的 {数学公式} 横竖顺序相反",
+        "text": "这与你在索引二维图像或是坐标时的 $(x, y)$ 横竖顺序相反",
         "range": [35.34, 40.21],
         "contains_math": true
     },

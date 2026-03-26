@@ -10,7 +10,7 @@
         "contains_math": false
     },
     {
-        "text": "毕竟矩阵作用效果本质上就是坐标变换",
+        "text": "毕竟矩阵的作用效果本质上就是坐标变换",
         "range": [6.51, 9.64],
         "contains_math": false
     },
@@ -25,8 +25,13 @@
         "contains_math": false
     },
     {
-        "text": "也就是把每一列当成向量看它由各坐标轴单位向量构成",
-        "range": [18.14, 23.97],
+        "text": "也就是如果把每一列当成向量来看的话",
+        "range": [18.14, 20.82],
+        "contains_math": false
+    },
+    {
+        "text": "它完全由各个坐标轴上的单位向量构成",
+        "range": [20.82, 23.97],
         "contains_math": false
     },
     {
@@ -35,7 +40,7 @@
         "contains_math": false
     },
     {
-        "text": "因为 {数学公式} 拖拽到 {数学公式} {数学公式} 拖拽到 {数学公式}",
+        "text": "因为 $vec(1,0)$ 拖拽到 $vec(1,0)$ $vec(0,1)$ 拖拽到 $vec(0,1)$",
         "range": [27.81, 31.11],
         "contains_math": true
     },
@@ -60,12 +65,12 @@
         "contains_math": false
     },
     {
-        "text": "这里简单写在屏幕上不做进一步展开",
+        "text": "这里简单写在屏幕上不做进一步的展开",
         "range": [43.71, 46.38],
         "contains_math": false
     },
     {
-        "text": "我们将各个坐标轴单位向量在原方向上拉伸",
+        "text": "我们将各个坐标轴上的单位向量在原方向上拉伸",
         "range": [49.92, 53.49],
         "contains_math": false
     },
@@ -75,13 +80,23 @@
         "contains_math": false
     },
     {
-        "text": "它与单位矩阵差别在于对角线上是对应方向的拉伸倍率",
-        "range": [56.22, 63.87],
+        "text": "它与单位矩阵对角线全是 1 的差别在于",
+        "range": [56.22, 60.03],
         "contains_math": false
     },
     {
-        "text": "比如原向量是 {数学公式} 在 {数学公式} 拉伸下会变为 {数学公式}",
-        "range": [64.17, 71.16],
+        "text": "它的对角线上对应方向的数值即为在该方向上的拉伸倍率",
+        "range": [60.03, 63.87],
+        "contains_math": false
+    },
+    {
+        "text": "比如如果我们原来的向量是 $vec(2,3)$",
+        "range": [64.17, 67.68],
+        "contains_math": true
+    },
+    {
+        "text": "那么在这个矩阵的拉伸下它会变为 $vec(4,2.1)$",
+        "range": [67.68, 71.16],
         "contains_math": true
     },
     {
@@ -90,7 +105,7 @@
         "contains_math": false
     },
     {
-        "text": "刚刚的缩放是不均匀缩放",
+        "text": "我们刚刚的缩放是不均匀缩放",
         "range": [77.01, 79.53],
         "contains_math": false
     },
@@ -100,24 +115,29 @@
         "contains_math": false
     },
     {
-        "text": "如果每个轴缩放因子都一样就叫均匀缩放",
+        "text": "如果每个轴的缩放因子都一样那么就叫均匀缩放",
         "range": [82.14, 85.71],
         "contains_math": false
     },
     {
-        "text": "缩放矩阵最完整表示是这样的 {数学公式}",
+        "text": "缩放矩阵最完整的表示是这样的",
         "range": [86.3, 88.53],
-        "contains_math": true
+        "contains_math": false
     },
     {
-        "text": "{数学公式} 分别表示三个方向的缩放倍率",
+        "text": "$S_1,S_2,S_3$ 分别表示在三个方向的缩放倍率",
         "range": [90.45, 94.38],
         "contains_math": true
     },
     {
-        "text": "它将向量 {数学公式} 分别拉伸对应倍数从而得到 {数学公式}",
-        "range": [94.62, 100.77],
+        "text": "它将向量 $(x,y,z,1)$ 的分量分别拉伸对应的倍数",
+        "range": [94.62, 98.62],
         "contains_math": true
+    },
+    {
+        "text": "从而得到这样的一个向量",
+        "range": [98.62, 100.77],
+        "contains_math": false
     },
     {
         "text": "注意第四个缩放分量仍然是 1",
@@ -130,82 +150,122 @@
         "contains_math": false
     },
     {
-        "text": "你可能疑惑第四个维度有什么用在后面会看到",
-        "range": [108.03, 111.75],
+        "text": "你可能会疑惑这第四个维度有什么用",
+        "range": [108.03, 109.89],
         "contains_math": false
     },
     {
-        "text": "位移是在原位置基础上加上另一个向量得到新位置",
-        "range": [113.67, 119.58],
+        "text": "在后面我们会看到",
+        "range": [109.89, 111.75],
         "contains_math": false
     },
     {
-        "text": "向量加法我们已经讨论过这应该不陌生",
+        "text": "位移是在原来位置的基础上加上另一个向量",
+        "range": [113.67, 116.64],
+        "contains_math": false
+    },
+    {
+        "text": "从而移动得到新的位置的过程",
+        "range": [116.64, 119.58],
+        "contains_math": false
+    },
+    {
+        "text": "我们已经讨论过了向量加法所以这应该不会太陌生",
         "range": [120.24, 123.87],
         "contains_math": false
     },
     {
-        "text": "但要如何用矩阵表示位移呢",
+        "text": "但是我们要如何用矩阵来表示位移呢",
         "range": [124.26, 126.45],
         "contains_math": false
     },
     {
-        "text": "缩放矩阵基于 {数学公式} 对角线三个位置执行缩放",
-        "range": [128.16, 134.34],
+        "text": "刚刚我们的缩放矩阵基于 $4 times 4$ 矩阵",
+        "range": [128.16, 131],
         "contains_math": true
     },
     {
-        "text": "位移则使用最右边一列的三个空位",
-        "range": [134.94, 143.56],
+        "text": "对角线上的这三个特殊位置来执行缩放操作",
+        "range": [131, 134.34],
         "contains_math": false
     },
     {
-        "text": "如果把位移向量表示为 {数学公式} 就能定义位移矩阵",
-        "range": [144.27, 150.6],
+        "text": "对于位移来说我们也有几个特别的位置来执行这样的操作",
+        "range": [134.94, 139.5],
+        "contains_math": false
+    },
+    {
+        "text": "具体来说它们就是最右边这列的这三个空位",
+        "range": [140, 143],
+        "contains_math": false
+    },
+    {
+        "text": "如果我们把位移向量表示为 $(T_x, T_y, T_z)$",
+        "range": [144.27, 147.72],
         "contains_math": true
     },
     {
-        "text": "也就是在单位矩阵基础上在右边一列写上 {数学公式}",
-        "range": [153.36, 158.46],
+        "text": "我们就能把位移矩阵定义为这样",
+        "range": [147.72, 150.6],
+        "contains_math": false
+    },
+    {
+        "text": "也就是在单位矩阵的基础上",
+        "range": [153.36, 156.0],
+        "contains_math": false
+    },
+    {
+        "text": "在右边这一列写上 $T_x, T_y, T_z$",
+        "range": [156.0, 158.46],
         "contains_math": true
     },
     {
-        "text": "这是能奏效的我们展开看一下",
+        "text": "这是能奏效的 我们展开看一下",
         "range": [158.88, 161.01],
         "contains_math": false
     },
     {
-        "text": "位移值确实加到了向量上",
+        "text": "嗯位移值确实加到了我们的向量上",
         "range": [165.21, 167.94],
         "contains_math": false
     },
     {
-        "text": "这里需要使用 {数学公式} 才能完成",
+        "text": "可以看到这里需要使用 $4 times 4$ 的矩阵才能完成",
         "range": [169.41, 173.13],
         "contains_math": true
     },
     {
-        "text": "如果用 {数学公式} 位移值就没地方放了",
+        "text": "而如果你用 $3 times 3$ 矩阵，我们的位移值就没地方放了",
         "range": [173.46, 177.45],
         "contains_math": true
     },
     {
-        "text": "所以这就是为什么要用四维矩阵",
+        "text": "所以这就是为什么我们要用到四维的矩阵",
         "range": [177.87, 181.08],
         "contains_math": false
     },
     {
-        "text": "当然不只是为了位移才用四维矩阵",
-        "range": [181.68, 186.66],
+        "text": "当然我们肯定不是只为了位移（口误）这种小角色",
+        "range": [181.68, 184.17],
         "contains_math": false
     },
     {
-        "text": "四维矩阵还有很多妙妙的用处我们之后再说",
-        "range": [187.23, 190.56],
+        "text": "才用四维的矩阵",
+        "range": [184.17, 186.66],
         "contains_math": false
     },
     {
-        "text": "现在还剩一种基础矩阵需要介绍",
+        "text": "四维矩阵还有很多妙妙的用处",
+        "range": [187.23, 188.98],
+        "contains_math": false
+    },
+    {
+        "text": "我们之后再说",
+        "range": [188.98, 190.56],
+        "contains_math": false
+    },
+    {
+        "text": "现在我们还剩一种基础的矩阵需要介绍",
         "range": [191.04, 193.44],
         "contains_math": false
     }
