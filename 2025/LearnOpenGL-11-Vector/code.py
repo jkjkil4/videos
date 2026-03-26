@@ -7,9 +7,9 @@ from janim.imports import *
 
 with reloads():
     from template import *
-    from template.audio import play_audio_with_subtitles
+    from template.audio import seq_play_audio_with_subtitles
 from template import *
-from template.audio import play_audio_with_subtitles
+from template.audio import seq_play_audio_with_subtitles
 
 
 class Wiggle(DataUpdater[Points]):
@@ -55,8 +55,13 @@ class TL1(Template):
     )
 
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_11_1.wav', 0, 12, delay=1)
-        play_audio_with_subtitles(self, 'audio_11_1.wav', 12, 85.1, delay=1 + (12) + 2)
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_11_1.wav', 'begin': 0, 'end': 12, 'delay': 1 },
+                { 'file': ..., 'begin': 12, 'end': 85.1, 'delay': 2 },
+            ]
+        )
 
         ####################################################
 
@@ -312,7 +317,12 @@ class TL1(Template):
 
 class TL2(Template):
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_11_1.wav', 85.1, 93.3, delay=0.5)
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_11_1.wav', 'begin': 85.1, 'end': 93.3, 'delay': 0.5 },
+            ]
+        )
 
         typ = TypstText(R'向量#h(4em)矩阵', scale=2)
 
@@ -328,7 +338,12 @@ class TLTitle(TitleTemplate):
 
 class TL3(Template):
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_11_2.wav', 0, 43.5, delay=0.3, mul=1.25)
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_11_2.wav', 'begin': 0, 'end': 43.5, 'delay': 0.3, 'mul': 1.25 },
+            ]
+        )
 
         ####################################################
 
@@ -558,7 +573,12 @@ class TL3(Template):
 
 class TL4(Template):
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_11_2.wav', 44, 104, delay=1, mul=1.25)
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_11_2.wav', 'begin': 44, 'end': 104, 'delay': 1, 'mul': 1.25 },
+            ]
+        )
 
         ####################################################
 
@@ -709,7 +729,12 @@ class TL4(Template):
 
 class TL5(Template):
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_11_3.wav', 0, 5, delay=0, mul=1.25)
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_11_3.wav', 'begin': 0, 'end': 5, 'delay': 0, 'mul': 1.25 },
+            ]
+        )
 
         ####################################################
 
@@ -846,8 +871,13 @@ class TL6(Template):
     # )
 
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_11_3.wav', 5, 19, delay=0, mul=1.25)
-        play_audio_with_subtitles(self, 'audio_11_3.wav', 19, 59.2, delay=(19-5) + 2, mul=1.25)
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_11_3.wav', 'begin': 5, 'end': 19, 'delay': 0, 'mul': 1.25 },
+                { 'file': ..., 'begin': 19, 'end': 59.2, 'delay': 2, 'mul': ... },
+            ]
+        )
 
         ####################################################
 
@@ -999,7 +1029,6 @@ class TL6(Template):
         #     vec.anim.load_state(),
         #     TransformMatchingDiff(mul3, mul1, duration=1)
         # )
-        vec.load_state()
 
         ####################################################
 
@@ -1013,6 +1042,7 @@ class TL6(Template):
             FadeOut(Group(vec, mul3)),
             TransformMatchingDiff(veq, vpeq, duration=1),
         )
+        vec.load_state()
         self.forward(4)
         self.play(FadeIn(tip))
         self.forward(2)
@@ -1158,7 +1188,12 @@ class TL6(Template):
 
 class TL7(Template):
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_11_3.wav', 59.2, 73, delay=0.5, mul=1.25)
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_11_3.wav', 'begin': 59.2, 'end': 73, 'delay': 0.5, 'mul': 1.25 },
+            ]
+        )
 
         ####################################################
 
@@ -1257,7 +1292,12 @@ class TL7(Template):
 
 class TL8(Template):
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_11_3.wav', 74, 91, delay=0.5, mul=1.25)
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_11_3.wav', 'begin': 74, 'end': 91, 'delay': 0.5, 'mul': 1.25 },
+            ]
+        )
 
         ####################################################
 
@@ -1413,9 +1453,14 @@ class TL8(Template):
 
 class TL9(Template):
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_11_3.wav', 93.5, 97, delay=1.5, mul=1.25)
-        play_audio_with_subtitles(self, 'audio_11_3.wav', 97, 106, delay=1.5 + (97-93.5) + 1, mul=1.25)
-        play_audio_with_subtitles(self, 'audio_11_3.wav', 108.3, 119, delay=1.5 + (97-93.5) + 1 + (106-97) + -0.4, mul=1.25)
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_11_3.wav', 'begin': 93.5, 'end': 97, 'delay': 1.5, 'mul': 1.25 },
+                { 'file': ..., 'begin': 97, 'end': 106, 'delay': 1, 'mul': ... },
+                { 'file': ..., 'begin': 108.3, 'end': 119, 'delay': -0.4, 'mul': ... },
+            ]
+        )
 
         ####################################################
 
@@ -1445,7 +1490,8 @@ class TL9(Template):
 
         self.play(
             opertypes[2].anim.set(color=GREY),
-            opertypes[3].anim.set(color=YELLOW)
+            opertypes[3].anim.set(color=YELLOW),
+            FocusOn(opertypes[3], duration=1),
         )
 
         self.play(
@@ -1561,9 +1607,14 @@ class TL9(Template):
 
 class TL10(Template):
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_11_3.wav', 119.9, 127.2, delay=0.5, mul=1.25)
-        play_audio_with_subtitles(self, 'audio_11_3.wav', 127.2, 134.5, delay=0.5 + (127.2-119.9) + 2, mul=1.25)
-        play_audio_with_subtitles(self, 'audio_11_3.wav', 134.5, 148.5, delay=0.5 + (127.2-119.9) + 2 + (134.5-127.2) + 4.6, mul=1.25)
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_11_3.wav', 'begin': 119.9, 'end': 127.2, 'delay': 0.5, 'mul': 1.25 },
+                { 'file': ..., 'begin': 127.2, 'end': 134.5, 'delay': 2, 'mul': ... },
+                { 'file': ..., 'begin': 134.5, 'end': 148.5, 'delay': 4.6, 'mul': ... },
+            ]
+        )
 
         ####################################################
 
@@ -1804,11 +1855,16 @@ def Tick(**kwargs):
 
 class TL11(Template):
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_11_4.wav', 0, 66.5, delay=0.5, mul=1.25)
-        play_audio_with_subtitles(self, 'audio_11_4.wav', 66.5, 74, delay=0.5 + (66.5) + 1, mul=1.25)
-        play_audio_with_subtitles(self, 'audio_11_5.wav', 0, 32.2, delay=0.5 + (66.5) + 1 + (74-66.5) + 0.5, mul=1.25)
-        play_audio_with_subtitles(self, 'audio_11_5.wav', 32.2, 45.2, delay=0.5 + (66.5) + 1 + (74-66.5) + 0.5 + (32.2) + 1, mul=1.25)
-        play_audio_with_subtitles(self, 'audio_11_5.wav', 54.2, 70, delay=0.5 + (66.5) + 1 + (74-66.5) + 0.5 + (32.2) + 1 + (45.2-32.2) + 1.5, mul=1.25)
+        seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_11_4.wav', 'begin': 0, 'end': 66.5, 'delay': 0.5, 'mul': 1.25 },
+                { 'file': ..., 'begin': 66.5, 'end': 74, 'delay': 1, 'mul': ... },
+                { 'file': 'audio_11_5.wav', 'begin': 0, 'end': 32.2, 'delay': 0.5, 'mul': 1.25 },
+                { 'file': ..., 'begin': 32.2, 'end': 45.2, 'delay': 1, 'mul': ... },
+                { 'file': ..., 'begin': 54.2, 'end': 70, 'delay': 1.5, 'mul': ... },
+            ]
+        )
 
         ####################################################
 
@@ -1881,7 +1937,8 @@ class TL11(Template):
 
         self.play(
             opertypes[3].anim.set(color=GREY),
-            opertypes[4].anim.set(color=YELLOW)
+            opertypes[4].anim.set(color=YELLOW),
+            FocusOn(opertypes[4], duration=1)
         )
 
         self.play(
