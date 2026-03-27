@@ -1,0 +1,137 @@
+[
+    {
+        "text": "现在我们已经解释了变换背后的所有理论",
+        "range": [0.51, 3.69],
+        "contains_math": false
+    },
+    {
+        "text": "是时候将这些知识利用起来了",
+        "range": [4.23, 6.42],
+        "contains_math": false
+    },
+    {
+        "text": "在 Python 中我们使用 glm 库就能很轻松地创建各种变换矩阵",
+        "range": [7.20, 11.52],
+        "contains_math": false
+    },
+    {
+        "text": "包括我们刚刚讲的缩放矩阵 位移矩阵 旋转矩阵",
+        "range": [12.66, 16.02],
+        "contains_math": false
+    },
+    {
+        "text": "还包括很多其他的 我们之后会介绍到",
+        "range": [16.53, 19.32],
+        "contains_math": false
+    },
+    {
+        "text": "为了使用 glm 库 我们用 pip install pyglm 安装一下",
+        "range": [19.98, 24.15],
+        "contains_math": false
+    },
+    {
+        "text": "接着使用 from pyglm import glm 便可以导入并使用了",
+        "range": [24.54, 29.73],
+        "contains_math": false
+    },
+    {
+        "text": "我们来看看是否可以利用我们刚学的变换知识",
+        "range": [31.23, 34.23],
+        "contains_math": false
+    },
+    {
+        "text": "把一个向量 {数学公式} 位移 {数学公式} 个单位",
+        "range": [34.38, 38.58],
+        "contains_math": true
+    },
+    {
+        "text": "这段代码分为这几个部分",
+        "range": [40.83, 42.75],
+        "contains_math": false
+    },
+    {
+        "text": "先是定义向量 以及矩阵",
+        "range": [42.87, 44.73],
+        "contains_math": false
+    },
+    {
+        "text": "最后是将矩阵作用到向量上并验证结果",
+        "range": [45.12, 48.18],
+        "contains_math": false
+    },
+    {
+        "text": "glm 的功能都可以通过 glm 点访问",
+        "range": [49.35, 53.16],
+        "contains_math": false
+    },
+    {
+        "text": "这里我们使用 glm.vec4 创建一个 {数学公式} 向量",
+        "range": [53.55, 58.41],
+        "contains_math": true
+    },
+    {
+        "text": "还记得我们前一节一直写的 {数学公式} 吧",
+        "range": [59.10, 62.22],
+        "contains_math": true
+    },
+    {
+        "text": "所以我们在这里也把齐次坐标设定为 1",
+        "range": [62.73, 65.37],
+        "contains_math": false
+    },
+    {
+        "text": "接下来使用 glm.mat4 定义一个 4 乘 4 矩阵",
+        "range": [66.48, 71.10],
+        "contains_math": false
+    },
+    {
+        "text": "这里传入 1 表示对角线用 1 填充",
+        "range": [71.67, 74.58],
+        "contains_math": false
+    },
+    {
+        "text": "所以这里我们的 trans 是一个单位矩阵",
+        "range": [75.30, 78.03],
+        "contains_math": false
+    },
+    {
+        "text": "下一步是使其成为一个位移矩阵",
+        "range": [78.48, 81.24],
+        "contains_math": false
+    },
+    {
+        "text": "这里是通过传递给 glm.translate 函数来完成这个工作的",
+        "range": [82.26, 86.82],
+        "contains_math": false
+    },
+    {
+        "text": "这里做的就是将你给出的矩阵乘上位移矩阵 得到最终的矩阵",
+        "range": [88.20, 93.18],
+        "contains_math": false
+    },
+    {
+        "text": "最后我们把矩阵作用到向量上 输出最后的结果",
+        "range": [94.53, 98.43],
+        "contains_math": false
+    },
+    {
+        "text": "如果你仍记得位移矩阵是如何工作的",
+        "range": [98.85, 101.52],
+        "contains_math": false
+    },
+    {
+        "text": "得到的向量应当是 {数学公式} 即 {数学公式}",
+        "range": [102.00, 108.00],
+        "contains_math": true
+    },
+    {
+        "text": "没错 它确实会输出这样的结果",
+        "range": [108.60, 110.85],
+        "contains_math": false
+    },
+    {
+        "text": "这个位移矩阵确实符合我们预期",
+        "range": [111.36, 113.73],
+        "contains_math": false
+    }
+]

@@ -715,7 +715,7 @@ m12 = get_module_from_file('2026/LearnOpenGL-12-Matrix/code.py')
 
 
 class TL4(m12.TL18):
-    pass
+    skip_aws = True
 
 
 class TL5(SharpDelimTemplate):
@@ -817,5 +817,5 @@ class TL6(SharpDelimTemplate):
         self.forward()
 
 
-class All(AboveTimelines):
+class All(Template, AboveTimelines):
     pass

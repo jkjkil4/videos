@@ -1,0 +1,182 @@
+[
+    {
+        "text": "我们来做些更有意思的事情",
+        "range": [0.12, 2.25],
+        "contains_math": false
+    },
+    {
+        "text": "让我们来缩放和旋转之前那个教程中的开心的箱子",
+        "range": [2.70, 6.36],
+        "contains_math": false
+    },
+    {
+        "text": "这里我们能看到两个矩阵变换",
+        "range": [7.20, 9.15],
+        "contains_math": false
+    },
+    {
+        "text": "一个是 rotate 旋转 另一个是 scale 缩放",
+        "range": [9.42, 13.14],
+        "contains_math": false
+    },
+    {
+        "text": "我们关注一下这两个函数的参数",
+        "range": [13.68, 16.11],
+        "contains_math": false
+    },
+    {
+        "text": "对于 rotate 函数 也就是旋转",
+        "range": [16.68, 18.81],
+        "contains_math": false
+    },
+    {
+        "text": "正如我们前面所说的 需要提供一个旋转角度以及旋转轴",
+        "range": [19.23, 23.43],
+        "contains_math": false
+    },
+    {
+        "text": "由于 GLM 使用弧度制的角度",
+        "range": [23.97, 26.70],
+        "contains_math": false
+    },
+    {
+        "text": "所以我们使用 glm.radians 将九十度角转化为弧度",
+        "range": [26.97, 31.50],
+        "contains_math": false
+    },
+    {
+        "text": "由于我们现在是在二维 xy 平面上旋转",
+        "range": [32.49, 35.49],
+        "contains_math": false
+    },
+    {
+        "text": "所以我们指定旋转轴为 {数学公式} 轴 即向量 {数学公式}",
+        "range": [35.79, 40.08],
+        "contains_math": true
+    },
+    {
+        "text": "对于 scale 函数 也就是缩放",
+        "range": [41.76, 43.80],
+        "contains_math": false
+    },
+    {
+        "text": "传入一个向量表示在各个坐标方向上的缩放倍率即可",
+        "range": [44.07, 48.15],
+        "contains_math": false
+    },
+    {
+        "text": "需要留意的是 因为 glm 的这些函数是依次右乘的",
+        "range": [49.56, 54.21],
+        "contains_math": false
+    },
+    {
+        "text": "而计算是依次向左",
+        "range": [54.87, 56.97],
+        "contains_math": false
+    },
+    {
+        "text": "所以当我们把最终的 trans 矩阵作用到向量上时",
+        "range": [57.30, 60.87],
+        "contains_math": false
+    },
+    {
+        "text": "效果是先缩放 再旋转",
+        "range": [61.26, 63.78],
+        "contains_math": false
+    },
+    {
+        "text": "和代码的顺序不同",
+        "range": [64.11, 65.55],
+        "contains_math": false
+    },
+    {
+        "text": "我们现在有了最终的矩阵 trans",
+        "range": [66.39, 68.37],
+        "contains_math": false
+    },
+    {
+        "text": "下一个大问题是 如何把矩阵传递给着色器",
+        "range": [68.91, 72.75],
+        "contains_math": false
+    },
+    {
+        "text": "我们之前接触过 GLSL 中的向量类型 vec2 vec3 vec4",
+        "range": [73.41, 79.38],
+        "contains_math": false
+    },
+    {
+        "text": "同样 GLSL 中也有矩阵类型 mat2 mat3 mat4",
+        "range": [79.77, 85.53],
+        "contains_math": false
+    },
+    {
+        "text": "这里我们使用 mat4 类型 因为我们用的是 4x4 矩阵",
+        "range": [86.28, 90.00],
+        "contains_math": false
+    },
+    {
+        "text": "我们修改顶点着色器让其接收一个 mat4 类型的 uniform 变量",
+        "range": [92.28, 96.48],
+        "contains_math": false
+    },
+    {
+        "text": "再用矩阵 uniform 乘以位置向量",
+        "range": [96.90, 99.45],
+        "contains_math": false
+    },
+    {
+        "text": "然后在代码中就可以设置这个 uniform 的矩阵值了",
+        "range": [99.75, 103.44],
+        "contains_math": false
+    },
+    {
+        "text": "这里为了将 GLM 的矩阵传递作为 ModernGL 的 uniform 值",
+        "range": [104.07, 108.99],
+        "contains_math": false
+    },
+    {
+        "text": "我们直接使用 write 写入矩阵的字节数据即可",
+        "range": [109.44, 113.04],
+        "contains_math": false
+    },
+    {
+        "text": "我们总结一下上面做的事情",
+        "range": [114.63, 116.67],
+        "contains_math": false
+    },
+    {
+        "text": "我们创建了一个变换矩阵",
+        "range": [117.03, 118.83],
+        "contains_math": false
+    },
+    {
+        "text": "在顶点着色器中声明了一个 uniform 变量",
+        "range": [119.28, 121.98],
+        "contains_math": false
+    },
+    {
+        "text": "并把矩阵发送给了着色器",
+        "range": [122.40, 124.32],
+        "contains_math": false
+    },
+    {
+        "text": "着色器会变换我们的顶点坐标",
+        "range": [124.89, 127.26],
+        "contains_math": false
+    },
+    {
+        "text": "最后的结果应该看起来像这样",
+        "range": [127.65, 129.87],
+        "contains_math": false
+    },
+    {
+        "text": "很好 我们的箱子向左侧旋转 并是原来的一半大小",
+        "range": [131.85, 136.03],
+        "contains_math": false
+    },
+    {
+        "text": "所以变换成功了",
+        "range": [136.16, 137.43],
+        "contains_math": false
+    }
+]

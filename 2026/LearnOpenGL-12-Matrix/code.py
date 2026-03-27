@@ -2899,13 +2899,16 @@ class TL17_Sub1(SharpDelimTemplate):
 
 
 class TL18(SharpDelimTemplate):
+    skip_aws = False
+
     def construct(self):
-        seq_play_audio_with_subtitles(
-            self,
-            [
-                { 'file': 'audio_12_6.wav', 'begin': 0, 'end': 15.2, 'delay': 0, 'mul': 1.25 },
-            ]
-        )
+        if not self.skip_aws:
+            seq_play_audio_with_subtitles(
+                self,
+                [
+                    { 'file': 'audio_12_6.wav', 'begin': 0, 'end': 15.2, 'delay': 0, 'mul': 1.25 },
+                ]
+            )
 
         ####################################################
 
