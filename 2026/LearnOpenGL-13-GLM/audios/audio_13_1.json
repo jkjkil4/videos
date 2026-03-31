@@ -40,7 +40,7 @@
         "contains_math": false
     },
     {
-        "text": "把一个向量 {数学公式} 位移 {数学公式} 个单位",
+        "text": "把一个向量 $(1,0,0)$ 位移 $(1,1,0)$ 个单位",
         "range": [34.38, 38.58],
         "contains_math": true
     },
@@ -60,17 +60,17 @@
         "contains_math": false
     },
     {
-        "text": "glm 的功能都可以通过 glm 点访问",
+        "text": "glm 的功能都可以通过 glm. 访问",
         "range": [49.35, 53.16],
         "contains_math": false
     },
     {
-        "text": "这里我们使用 glm.vec4 创建一个 {数学公式} 向量",
+        "text": "这里我们使用 glm.vec4 创建一个 $(1,0,0)$ 向量",
         "range": [53.55, 58.41],
         "contains_math": true
     },
     {
-        "text": "还记得我们前一节一直写的 {数学公式} 吧",
+        "text": "还记得我们前一节一直写的 $(x,y,z,1)$ 吧",
         "range": [59.10, 62.22],
         "contains_math": true
     },
@@ -80,9 +80,9 @@
         "contains_math": false
     },
     {
-        "text": "接下来使用 glm.mat4 定义一个 4 乘 4 矩阵",
+        "text": "接下来使用 glm.mat4 定义一个 $4 times 4$ 矩阵",
         "range": [66.48, 71.10],
-        "contains_math": false
+        "contains_math": true
     },
     {
         "text": "这里传入 1 表示对角线用 1 填充",
@@ -120,18 +120,18 @@
         "contains_math": false
     },
     {
-        "text": "得到的向量应当是 {数学公式} 即 {数学公式}",
-        "range": [102.00, 108.00],
+        "text": "得到的向量应当是 $(2,1,0)$",
+        "range": [102.00, 104.50],
         "contains_math": true
     },
     {
         "text": "没错 它确实会输出这样的结果",
-        "range": [108.60, 110.85],
+        "range": [110.60, 112.65],
         "contains_math": false
     },
     {
         "text": "这个位移矩阵确实符合我们预期",
-        "range": [111.36, 113.73],
+        "range": [112.8, 115.7],
         "contains_math": false
     }
 ]

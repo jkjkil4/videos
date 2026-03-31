@@ -2,11 +2,12 @@ import json
 import os
 import types
 from functools import lru_cache
-from typing import TypedDict, NotRequired
+from typing import NotRequired, TypedDict
 
-from janim.utils.file_ops import find_file
-from janim.items.audio import Audio
+from janim.anims.animation import TimeRange
 from janim.anims.timeline import Timeline
+from janim.items.audio import Audio
+from janim.utils.file_ops import find_file
 
 
 class SubtitleItem(TypedDict):
@@ -48,11 +49,11 @@ def play_audio_with_subtitles(
     *,
     delay: float = 0,
     mul: float = 1,
-) -> None:
+) -> TimeRange:
     audio, subtitles = read_audio_with_subtitles(file_path, begin, end)
     if mul != 1:
         audio.mul(mul)
-    timeline.play_audio(audio, delay=delay)
+    t = timeline.play_audio(audio, delay=delay)
     for s in subtitles:
         sbegin, send = s['range']
         sduration = send - sbegin
@@ -62,6 +63,7 @@ def play_audio_with_subtitles(
             duration=sduration,
             use_typst_text=s['contains_math']
         )
+    return t
 
 
 class SeqEntry(TypedDict):
@@ -75,7 +77,7 @@ class SeqEntry(TypedDict):
 def seq_play_audio_with_subtitles(
     timeline: Timeline,
     entries: list[SeqEntry]
-):
+) -> list[TimeRange]:
     """
     示例：
 
@@ -95,6 +97,8 @@ def seq_play_audio_with_subtitles(
     global_delay = 0
     last_file: str | None = None
     last_mul = 1.0
+
+    ranges: list[TimeRange] = []
 
     for entry in entries:
         raw_file = entry.get('file')
@@ -116,7 +120,7 @@ def seq_play_audio_with_subtitles(
             mul = raw_mul
 
         delay = global_delay + entry.get('delay', 0)
-        play_audio_with_subtitles(
+        t = play_audio_with_subtitles(
             timeline,
             file_path,
             entry['begin'],
@@ -124,7 +128,10 @@ def seq_play_audio_with_subtitles(
             delay=delay,
             mul=mul
         )
+        ranges.append(t)
         last_file = file_path
         last_mul = mul
         duration = entry['end'] - entry['begin']
         global_delay = delay + duration
+
+    return ranges

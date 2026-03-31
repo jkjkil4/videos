@@ -60,7 +60,7 @@
         "contains_math": false
     },
     {
-        "text": "在这里我们先把箱子围绕原点 {数学公式} 旋转",
+        "text": "在这里我们先把箱子围绕原点 $(0,0,0)$ 旋转",
         "range": [48.57, 52.20],
         "contains_math": true
     },
