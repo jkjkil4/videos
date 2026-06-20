@@ -1,0 +1,10 @@
+[project]
+name = "videos"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "janim[gui]",
+]
+
+[tool.uv.sources]
+janim = { path = "../JAnim", editable = true }
