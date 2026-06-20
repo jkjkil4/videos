@@ -1,7 +1,7 @@
 # flake8: noqa
 import sys
 
-sys.path.append('.')
+sys.path.append(".")
 
 from janim.imports import *
 
@@ -12,7 +12,7 @@ from template import *
 from template.audio import seq_play_audio_with_subtitles, play_audio_with_subtitles
 
 
-code1_src = R'''
+code1_src = R"""
 <fc #c586c0>from</fc> <fc #4ec9b0>pyglm</fc> <fc #c586c0>import</fc> <fc #4ec9b0>glm</fc>
 
 <fc #9cdcfe>vec</fc> <fc #d4d4d4>=</fc> <fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #4ec9b0>vec4</fc><fc #cccccc>(</fc><fc #b5cea8>1</fc><fc #cccccc>, </fc><fc #b5cea8>0</fc><fc #cccccc>, </fc><fc #b5cea8>0</fc><fc #cccccc>, </fc><fc #b5cea8>1</fc><fc #cccccc>)</fc>
@@ -22,11 +22,11 @@ code1_src = R'''
 
 <fc #9cdcfe>vec</fc> <fc #d4d4d4>=</fc> <fc #9cdcfe>trans</fc> <fc #dcdcaa>*</fc> <fc #9cdcfe>vec</fc>
 <fc #dcdcaa>print</fc><fc #cccccc>(</fc><fc #9cdcfe>vec</fc><fc #cccccc>)</fc>
-'''
+"""
 
 
 def get_transplane():
-    plane = NumberPlane(faded_line_ratio=0, background_line_style={'alpha': 0.7})
+    plane = NumberPlane(faded_line_ratio=0, background_line_style={"alpha": 0.7})
     dot1 = Dot([1, 0, 0])
     dot2 = Dot([2, 1, 0])
     arrow = Arrow(dot1, dot2, color=YELLOW)
@@ -35,19 +35,20 @@ def get_transplane():
 
 class SharpDelimTemplate(Template):
     CONFIG = Config(
-        typst_shared_preamble=Template.CONFIG.typst_shared_preamble + t_(
-            R'''
+        typst_shared_preamble=Template.CONFIG.typst_shared_preamble
+        + t_(
+            R"""
             #set math.mat(delim: "[")
 
             #import "@janim/colors:0.0.0": *
-            '''
+            """
         )
     )
 
 
 class TLTitle(TitleTemplate):
-    str1 = 'Learn OpenGL'
-    str2 = 'GLM 实践'
+    str1 = "Learn OpenGL"
+    str2 = "GLM 实践"
 
 
 class TL1(SharpDelimTemplate):
@@ -55,19 +56,49 @@ class TL1(SharpDelimTemplate):
         seq_play_audio_with_subtitles(
             self,
             [
-                { 'file': 'audio_13_1.wav', 'begin': 0, 'end': 19.4, 'delay': 0.5, 'mul': 1.5 },
-                { 'file': 'audio_13_1.wav', 'begin': 19.4, 'end': 81.3, 'delay': 0.5, 'mul': 1.25 },
-                { 'file': 'audio_13_1.wav', 'begin': 82, 'end': 86.9, 'delay': 0, 'mul': 1.25 },
-                { 'file': 'audio_13_1.wav', 'begin': 88, 'end': 105, 'delay': 0, 'mul': 1.25 },
-                { 'file': 'audio_13_1.wav', 'begin': 110, 'end': 116.5, 'delay': 0, 'mul': 1.25 },
-            ]
+                {
+                    "file": "audio_13_1.wav",
+                    "begin": 0,
+                    "end": 19.4,
+                    "delay": 0.5,
+                    "mul": 1.5,
+                },
+                {
+                    "file": "audio_13_1.wav",
+                    "begin": 19.4,
+                    "end": 81.3,
+                    "delay": 0.5,
+                    "mul": 1.25,
+                },
+                {
+                    "file": "audio_13_1.wav",
+                    "begin": 82,
+                    "end": 86.9,
+                    "delay": 0,
+                    "mul": 1.25,
+                },
+                {
+                    "file": "audio_13_1.wav",
+                    "begin": 88,
+                    "end": 105,
+                    "delay": 0,
+                    "mul": 1.25,
+                },
+                {
+                    "file": "audio_13_1.wav",
+                    "begin": 110,
+                    "end": 116.5,
+                    "delay": 0,
+                    "mul": 1.25,
+                },
+            ],
         )
 
         ####################################################
 
-        img = ImageItem('glm.png', height=1.5)
+        img = ImageItem("glm.png", height=1.5)
 
-        glmins = Text('pip install pyglm')
+        glmins = Text("pip install pyglm")
 
         ####################################################
 
@@ -82,7 +113,7 @@ class TL1(SharpDelimTemplate):
 
         ####################################################
 
-        code1 = Text(code1_src, format='rich')
+        code1 = Text(code1_src, format="rich")
         transplane = get_transplane()
 
         r1 = SweepRect(code1[3])
@@ -93,30 +124,19 @@ class TL1(SharpDelimTemplate):
 
         self.play(Write(code1[1]))
         self.forward(4)
-        self.play(
-            FadeOut(code1[1]),
-            FadeIn(transplane[0]),
-            duration=2
-        )
+        self.play(FadeOut(code1[1]), FadeIn(transplane[0]), duration=2)
         self.forward(1.5)
-        self.play(
-            FadeIn(transplane[1], scale=0.3)
-        )
+        self.play(FadeIn(transplane[1], scale=0.3))
         self.forward()
         self.play(
             GrowArrow(transplane[3], rate_func=rush_from),
             FadeIn(transplane[2]),
-            lag_ratio=0.8
+            lag_ratio=0.8,
         )
         self.forward(0.5)
-        self.play(
-            FadeIn(code1[1]),
-            FadeOut(transplane)
-        )
+        self.play(FadeIn(code1[1]), FadeOut(transplane))
 
-        self.play(
-            FadeIn(code1[2:])
-        )
+        self.play(FadeIn(code1[2:]))
         self.forward(2.6)
         self.play(
             r1.anim_in(),
@@ -134,84 +154,66 @@ class TL1(SharpDelimTemplate):
         ud1 = Underline(code1[3][15, 18, 21], color=YELLOW)
         ud2 = Underline(code1[3][24], color=YELLOW)
 
-        typ1 = TypstMath('#[`vec`] = vec(1,0,0,1)', scale=0.5)
+        typ1 = TypstMath("#[`vec`] = vec(1,0,0,1)", scale=0.5)
         typ1.points.shift([0.97, 1, 0.0])
 
         r5 = SweepRect(code1[5][8:16])
 
-        typ2 = TypstMath('#[`trans`] = mat(1,0,0,0;0,1,0,0;0,0,1,0;0,0,0,1)', scale=0.5)
+        typ2 = TypstMath("#[`trans`] = mat(1,0,0,0;0,1,0,0;0,0,1,0;0,0,0,1)", scale=0.5)
         typ2.points.shift([-0.2, 0.12, 0.0])
 
-        typ3 = TypstMath('#[`trans`] = mat(1,0,0,0;0,1,0,0;0,0,1,0;0,0,0,1) mat(1,0,0,1;0,1,0,1;0,0,1,0;0,0,0,1)', scale=0.5)
+        typ3 = TypstMath(
+            "#[`trans`] = mat(1,0,0,0;0,1,0,0;0,0,1,0;0,0,0,1) mat(1,0,0,1;0,1,0,1;0,0,1,0;0,0,0,1)",
+            scale=0.5,
+        )
         typ3.points.shift([1.92, -1.1, 0.0])
-        typ4 = TypstMath('#[`trans`] = mat(1,0,0,1;0,1,0,1;0,0,1,0;0,0,0,1)')
-        typ4.match_pattern(typ3, '#[`trans`]')
+        typ4 = TypstMath("#[`trans`] = mat(1,0,0,1;0,1,0,1;0,0,1,0;0,0,0,1)")
+        typ4.match_pattern(typ3, "#[`trans`]")
 
         for t in (typ3, typ4):
-            t['mat(1,0,0,1;0,1,0,1;0,0,1,0;0,0,0,1)'].set(color=BLUE)
+            t["mat(1,0,0,1;0,1,0,1;0,0,1,0;0,0,0,1)"].set(color=BLUE)
 
         r6 = SweepRect(code1[6][38, 41, 44], color=BLUE_A)
         r7 = SweepRect(typ3[49:52], color=BLUE_A)
         r8 = SweepRect(code1[6][8:21])
 
-        typ5 = TypstMath('#[`vec`] = mat(1,0,0,1;0,1,0,1;0,0,1,0;0,0,0,1) vec(1,0,0,1)', scale=0.6)
-        typ5['mat(1,0,0,1;0,1,0,1;0,0,1,0;0,0,0,1)'].set(color=BLUE)
+        typ5 = TypstMath(
+            "#[`vec`] = mat(1,0,0,1;0,1,0,1;0,0,1,0;0,0,0,1) vec(1,0,0,1)", scale=0.6
+        )
+        typ5["mat(1,0,0,1;0,1,0,1;0,0,1,0;0,0,0,1)"].set(color=BLUE)
         typ5.points.shift([-0.19, -1.36, -0.0])
 
-        typ6 = TypstMath('#[`vec`] = vec(2,1,0,1)')
-        typ6.match_pattern(typ5, '#[`vec`]')
+        typ6 = TypstMath("#[`vec`] = vec(2,1,0,1)")
+        typ6.match_pattern(typ5, "#[`vec`]")
 
         result = Group(
-            tmp := ImageItem('QQ20260318-190146.png', height=3.5),
-            SurroundingRect(tmp, buff=0)
+            tmp := ImageItem("QQ20260318-190146.png", height=3.5),
+            SurroundingRect(tmp, buff=0),
         )
 
-        hl = HighlightRect(Rect([-3.89, -1.7, 0], [3.71, -1.38, 0]), buff=0, fill_alpha=0.75)
+        hl = HighlightRect(
+            Rect([-3.89, -1.7, 0], [3.71, -1.38, 0]), buff=0, fill_alpha=0.75
+        )
         dark = FrameRect(fill_alpha=1, color=BLACK)
 
         ####################################################
 
-        self.play(
-            FadeOut(Group(r1, r2, r3)),
-            duration=1.6
-        )
+        self.play(FadeOut(Group(r1, r2, r3)), duration=1.6)
         self.play(
             ShowCreationThenFadeAround(glmd),
         )
         self.forward(2)
-        self.play(
-            r4.anim_in(),
-            duration=2
-        )
-        self.play(
-            Create(ud1),
-            duration=0.7
-        )
+        self.play(r4.anim_in(), duration=2)
+        self.play(Create(ud1), duration=0.7)
         self.forward(6)
-        self.play(
-            Create(ud2, duration=0.3),
-            Indicate(code1[3][24]),
-            duration=1.5
-        )
-        self.play(
-            FadeIn(typ1),
-            FadeOut(Group(ud1, ud2))
-        )
+        self.play(Create(ud2, duration=0.3), Indicate(code1[3][24]), duration=1.5)
+        self.play(FadeIn(typ1), FadeOut(Group(ud1, ud2)))
         self.forward(0.7)
-        self.play(
-            r5.anim_in(),
-            duration=2
-        )
+        self.play(r5.anim_in(), duration=2)
         self.forward(3)
-        self.play(
-            FadeIn(typ2),
-            duration=1.6
-        )
+        self.play(FadeIn(typ2), duration=1.6)
         self.forward(2)
-        self.play(
-            Indicate(typ2),
-            duration=2
-        )
+        self.play(Indicate(typ2), duration=2)
         self.forward(4.5)
         self.play(
             r8.anim_in(duration=2),
@@ -220,9 +222,7 @@ class TL1(SharpDelimTemplate):
         self.play(
             TransformMatchingDiff(typ2, typ3, duration=3),
         )
-        self.play(
-            SweepRect.ins(r6, r7)
-        )
+        self.play(SweepRect.ins(r6, r7))
         self.play(
             SweepRect.outs(r6, r7, duration=0.6),
             TransformMatchingDiff(typ3, typ4),
@@ -230,7 +230,7 @@ class TL1(SharpDelimTemplate):
         self.play(
             Transform(typ1[:4], typ5[:4]),
             TransformMatchingDiff(Group(typ4, typ1[4:]), typ5[4:], duration=1),
-            duration=2
+            duration=2,
         )
         self.forward(6)
         self.play(
@@ -238,33 +238,27 @@ class TL1(SharpDelimTemplate):
             FadeTransform(typ5[4:], typ6[4:]),
         )
         self.forward(1.5)
-        self.play(
-            FadeIn(result)
-        )
-        self.play(
-            FadeIn(hl)
-        )
+        self.play(FadeIn(result))
+        self.play(FadeIn(hl))
         self.forward(3)
-        self.play(
-            FadeIn(dark)
-        )
+        self.play(FadeIn(dark))
 
         self.forward(0.6)
 
 
 def SmileCon(width=3, height=2.5, **kwargs):
     return Group(
-        ImageItem('container.jpg', width=width, height=height),
-        ImageItem('awesomeface_b.png', width=width, height=height, alpha=0.2),
-        **kwargs
+        ImageItem("container.jpg", width=width, height=height),
+        ImageItem("awesomeface_b.png", width=width, height=height, alpha=0.2),
+        **kwargs,
     )
 
 
-code2_src = R'''
+code2_src = R"""
 <fc #9cdcfe>trans</fc> <fc #d4d4d4>=</fc> <fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #9cdcfe>mat4</fc><fc #cccccc>(</fc><fc #b5cea8>1</fc><fc #cccccc>)</fc>
 <fc #9cdcfe>trans</fc> <fc #d4d4d4>=</fc> <fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #dcdcaa>rotate</fc><fc #cccccc>(</fc><fc #9cdcfe>trans</fc><fc #cccccc>, </fc><fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #dcdcaa>radians</fc><fc #cccccc>(</fc><fc #b5cea8>90</fc><fc #cccccc>), </fc><fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #4ec9b0>vec3</fc><fc #cccccc>(</fc><fc #b5cea8>0</fc><fc #cccccc>, </fc><fc #b5cea8>0</fc><fc #cccccc>, </fc><fc #b5cea8>1</fc><fc #cccccc>))</fc>
 <fc #9cdcfe>trans</fc> <fc #d4d4d4>=</fc> <fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #dcdcaa>scale</fc><fc #cccccc>(</fc><fc #9cdcfe>trans</fc><fc #cccccc>, </fc><fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #4ec9b0>vec3</fc><fc #cccccc>(</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #b5cea8>0.5</fc><fc #cccccc>))</fc>
-'''
+"""
 
 code3_src = R"""
 <fc #6a9955># 导入需要的库</fc>
@@ -431,42 +425,47 @@ class TL2(SharpDelimTemplate):
         seq_play_audio_with_subtitles(
             self,
             [
-                { 'file': 'audio_13_2.wav', 'begin': 0, 'end': 99.5, 'delay': 0.3, 'mul': 1.25 },
-                { 'file': 'audio_13_2.wav', 'begin': 99.5, 'end': 127.3, 'delay': 2, 'mul': 1.25 },
-            ]
+                {
+                    "file": "audio_13_2.wav",
+                    "begin": 0,
+                    "end": 99.5,
+                    "delay": 0.3,
+                    "mul": 1.25,
+                },
+                {
+                    "file": "audio_13_2.wav",
+                    "begin": 99.5,
+                    "end": 127.3,
+                    "delay": 2,
+                    "mul": 1.25,
+                },
+            ],
         )
 
         ####################################################
 
         sc = SmileCon().show()
-        code2 = Text(code2_src, format='rich')
+        code2 = Text(code2_src, format="rich")
 
         ####################################################
 
         self.forward(3)
-        self.play(
-            sc.anim.points.scale(0.5)
-        )
-        self.play(
-            sc.update.points.rotate(PI / 2).scale([3/2.5, 2.5/3, 1])
-        )
+        self.play(sc.anim.points.scale(0.5))
+        self.play(sc.update.points.rotate(PI / 2).scale([3 / 2.5, 2.5 / 3, 1]))
         self.forward()
-        self.play(
-            FadeOut(sc),
-            Write(code2)
-        )
+        self.play(FadeOut(sc), Write(code2))
 
         ####################################################
 
-        idmat = 'mat(1,0,0,0;0,1,0,0;0,0,1,0;0,0,0,1)'
-        rotmat = 'mat(0,-1,0,0;1,0,0,0;0,0,1,0;0,0,0,1)'
-        scalemat = 'mat(0.5,0,0,0;0,0.5,0,0;0,0,0.5,0;0,0,0,1)'
+        idmat = "mat(1,0,0,0;0,1,0,0;0,0,1,0;0,0,0,1)"
+        rotmat = "mat(0,-1,0,0;1,0,0,0;0,0,1,0;0,0,0,1)"
+        scalemat = "mat(0.5,0,0,0;0,0.5,0,0;0,0,0.5,0;0,0,0,1)"
 
         _TypstMath = partial(TypstMath, scale=0.5)
-        typ1 = _TypstMath(f'#[`trans`] = {idmat}')
-        typ2 = _TypstMath(f'#[`trans`] = {idmat} {rotmat}')
-        typ3 = _TypstMath(f'#[`trans`] = {idmat} {rotmat} {scalemat}')
-        typ4 = _TypstMath(f'#[`trans`] = {rotmat} {scalemat}')
+        typ1 = _TypstMath(f"#[`trans`] = {idmat}")
+        typ2 = _TypstMath(f"#[`trans`] = {idmat} {rotmat}")
+        typ3 = _TypstMath(f"#[`trans`] = {idmat} {rotmat} {scalemat}")
+        typ4 = _TypstMath(f"#[`trans`] = {rotmat} {scalemat}")
         for t in (typ1, typ2, typ3, typ4):
             try:
                 t[rotmat].set(color=PURPLE)
@@ -484,84 +483,74 @@ class TL2(SharpDelimTemplate):
         r1 = SweepRect(code2[2][8:18], color=PURPLE, alpha=0.5)
         r2 = SweepRect(code2[3][8:17], color=MAROON, alpha=0.5)
 
-        part1 = Group(code2[2][5], code2[2][7], code2[2][25:41], code2[2][42], code2[2][54], code2[2][57])
+        part1 = Group(
+            code2[2][5],
+            code2[2][7],
+            code2[2][25:41],
+            code2[2][42],
+            code2[2][54],
+            code2[2][57],
+        )
         part2 = Group(code2[2][43:60])
         part3 = Group(code2[3][25:48])
         for p in (part1, part2, part3):
             p.save_state()
 
-        txt1 = Text('旋转角度<fs 0.75>(转成弧度制)</fs>', format='rich', font_size=18)
+        txt1 = Text("旋转角度<fs 0.75>(转成弧度制)</fs>", format="rich", font_size=18)
         txt1.points.next_to(part1, UP, buff=SMALL_BUFF)
-        txt2 = Text('旋转轴', font_size=18)
+        txt2 = Text("旋转轴", font_size=18)
         txt2.points.next_to(part2, UP, buff=SMALL_BUFF)
-        txt3 = Text('各个方向的缩放倍率', font_size=18)
+        txt3 = Text("各个方向的缩放倍率", font_size=18)
         txt3.points.next_to(part3, DOWN, buff=SMALL_BUFF)
 
         ####################################################
 
         self.forward(2)
-        self.play(
-            r1.anim_in()
-        )
+        self.play(r1.anim_in())
         self.forward()
-        self.play(
-            r2.anim_in()
-        )
-        self.play(
-            FadeIn(typ1)
-        )
+        self.play(r2.anim_in())
+        self.play(FadeIn(typ1))
         self.forward(3)
-        self.play(
-            TransformMatchingDiff(typ1, typ2)
-        )
+        self.play(TransformMatchingDiff(typ1, typ2))
         self.forward(3)
-        self.play(
-            FadeOut(typ2, duration=0.6),
-            Write(txt1),
-            part1.anim.set(color=RED)
-        )
-        self.play(
-            Write(txt2),
-            part2.anim.set(color=RED)
-        )
+        self.play(FadeOut(typ2, duration=0.6), Write(txt1), part1.anim.set(color=RED))
+        self.play(Write(txt2), part2.anim.set(color=RED))
         self.forward(4.5)
         self.play(
-            ShowCreationThenFadeAround(Group(code2[2][5], code2[2][7], code2[2][25:37], code2[2][42], code2[2][54], code2[2][57]))
+            ShowCreationThenFadeAround(
+                Group(
+                    code2[2][5],
+                    code2[2][7],
+                    code2[2][25:37],
+                    code2[2][42],
+                    code2[2][54],
+                    code2[2][57],
+                )
+            )
         )
         self.forward(7.5)
         self.play(
-            ShowCreationThenFadeAround(Group(code2[2][52:54], code2[2][55:57], code2[2][58])),
-            duration=3.5
+            ShowCreationThenFadeAround(
+                Group(code2[2][52:54], code2[2][55:57], code2[2][58])
+            ),
+            duration=3.5,
         )
         self.play(
             part1.anim.load_state(),
             part2.anim.load_state(),
             FadeOut(Group(txt1, txt2)),
-            FadeIn(typ2)
+            FadeIn(typ2),
         )
         self.play(
             TransformMatchingDiff(typ2, typ3),
         )
         self.forward()
-        self.play(
-            FadeOut(typ3, duration=0.6),
-            Write(txt3),
-            part3.anim.set(color=RED)
-        )
+        self.play(FadeOut(typ3, duration=0.6), Write(txt3), part3.anim.set(color=RED))
         self.forward()
-        self.play(
-            part3.anim.load_state(),
-            FadeOut(txt3),
-            FadeIn(typ3)
-        )
-        self.play(
-            TransformMatchingDiff(typ3, typ4)
-        )
+        self.play(part3.anim.load_state(), FadeOut(txt3), FadeIn(typ3))
+        self.play(TransformMatchingDiff(typ3, typ4))
         self.forward(5)
-        self.play(
-            GrowArrow(arrow),
-            duration=2
-        )
+        self.play(GrowArrow(arrow), duration=2)
         self.forward(4.5)
 
         ####################################################
@@ -569,39 +558,32 @@ class TL2(SharpDelimTemplate):
         part1 = typ4[33:]
         part2 = typ4[6:33]
 
-        typ5 = TypstMath('#[`trans`] = mat(0,-0.5,0,0;0.5,0,0,0;0,0,0.5,0;0,0,0,1)')
+        typ5 = TypstMath("#[`trans`] = mat(0,-0.5,0,0;0.5,0,0,0;0,0,0.5,0;0,0,0,1)")
         # typ5.match_pattern(typ4, '#[`trans`]')
 
         ####################################################
 
-        self.play(
-            ShowCreationThenFadeAround(part1),
-            duration=1.2
-        )
-        self.play(
-            ShowCreationThenFadeAround(part2),
-            duration=1.2
-        )
+        self.play(ShowCreationThenFadeAround(part1), duration=1.2)
+        self.play(ShowCreationThenFadeAround(part2), duration=1.2)
         self.forward(2.2)
         self.play(
-            TransformMatchingDiff(typ4, typ5),
-            FadeOut(Group(code2, arrow, r1, r2))
+            TransformMatchingDiff(typ4, typ5), FadeOut(Group(code2, arrow, r1, r2))
         )
         self.forward(2)
 
         ####################################################
 
-        txt4 = Text('着色器')
+        txt4 = Text("着色器")
         txt4.points.shift(DOWN * 1.5)
         typ5.generate_target().points.shift(UP * 1.5)
 
         arrow = Arrow(typ5.target, txt4, color=YELLOW)
-        arrow_txt = arrow.create_text('?', color=YELLOW)
+        arrow_txt = arrow.create_text("?", color=YELLOW)
 
         arrow.generate_target().points.put_start_and_end_on(UP * 5, UP)
-        txt4.generate_target() \
-            .points.next_to(arrow.target, DOWN, buff=SMALL_BUFF) \
-            .r.color.set(BLUE)
+        txt4.generate_target().points.next_to(
+            arrow.target, DOWN, buff=SMALL_BUFF
+        ).r.color.set(BLUE)
 
         frame = Rect(6, 1.5, color=BLUE)
         frame.points.next_to(txt4.target, DOWN, buff=SMALL_BUFF)
@@ -613,7 +595,7 @@ class TL2(SharpDelimTemplate):
             Write(txt4),
             GrowArrow(arrow),
             FadeIn(arrow_txt),
-            duration=2
+            duration=2,
         )
         self.forward(0.5)
         self.play(
@@ -628,47 +610,37 @@ class TL2(SharpDelimTemplate):
         ####################################################
 
         def gettxt(type: str) -> Text:
-            txt = Text(f'<fc #569cd6>uniform</fc> <fc #569cd6>{type}</fc><fc #cccccc> xxx;</fc>', format='rich')
+            txt = Text(
+                f"<fc #569cd6>uniform</fc> <fc #569cd6>{type}</fc><fc #cccccc> xxx;</fc>",
+                format="rich",
+            )
             txt.points.next_to(frame.points.box.left)
             return txt
 
-        txtut1 = Text('向量类型')
-        txtut2 = Text('矩阵类型')
+        txtut1 = Text("向量类型")
+        txtut2 = Text("矩阵类型")
 
         for t in (txtut1, txtut2):
             t.points.next_to(frame, LEFT)
 
-        vec2 = gettxt('vec2')
-        vec3 = gettxt('vec3')
-        vec4 = gettxt('vec4')
+        vec2 = gettxt("vec2")
+        vec3 = gettxt("vec3")
+        vec4 = gettxt("vec4")
 
-        mat2 = gettxt('mat2')
-        mat3 = gettxt('mat3')
-        mat4 = gettxt('mat4')
+        mat2 = gettxt("mat2")
+        mat3 = gettxt("mat3")
+        mat4 = gettxt("mat4")
 
         r = SweepRect(mat4[0][8:12])
 
         ####################################################
 
         def Rep(a, b):
-            return AnimGroup(
-                FadeOut(a, UP * 0.5),
-                FadeIn(b, UP * 0.5)
-            )
+            return AnimGroup(FadeOut(a, UP * 0.5), FadeIn(b, UP * 0.5))
 
-        self.play(
-            Write(txtut1),
-            FadeIn(vec2),
-            duration=0.7
-        )
-        self.play(
-            Rep(vec2, vec3),
-            duration=0.7
-        )
-        self.play(
-            Rep(vec3, vec4),
-            duration=0.7
-        )
+        self.play(Write(txtut1), FadeIn(vec2), duration=0.7)
+        self.play(Rep(vec2, vec3), duration=0.7)
+        self.play(Rep(vec3, vec4), duration=0.7)
         self.forward(3)
         self.play(
             AnimGroup(
@@ -680,29 +652,17 @@ class TL2(SharpDelimTemplate):
                 FadeIn(mat2),
             ),
             lag_ratio=0.5,
-            duration=1.7
+            duration=1.7,
         )
-        self.play(
-            Rep(mat2, mat3),
-            duration=0.7
-        )
-        self.play(
-            Rep(mat3, mat4),
-            duration=0.7
-        )
+        self.play(Rep(mat2, mat3), duration=0.7)
+        self.play(Rep(mat3, mat4), duration=0.7)
         self.forward(1.5)
-        self.play(
-            r.anim_in(),
-            r.anim_out(),
-            lag_ratio=1
-        )
-        self.play(
-            FadeOut(Group(txtut2, mat4, frame, txt4, arrow))
-        )
+        self.play(r.anim_in(), r.anim_out(), lag_ratio=1)
+        self.play(FadeOut(Group(txtut2, mat4, frame, txt4, arrow)))
 
         ####################################################
 
-        code3 = Text(code3_src, format='rich', font_size=16)
+        code3 = Text(code3_src, format="rich", font_size=16)
         code3.points.to_border(UP)
 
         excepts = [42, 46, 102, 103, 104, 105, 106, 107]
@@ -717,83 +677,55 @@ class TL2(SharpDelimTemplate):
 
         ####################################################
 
-        self.play(
-            FadeIn(ins[:30]),
-            self.camera.anim.load_state(),
-            duration=1.6
-        )
+        self.play(FadeIn(ins[:30]), self.camera.anim.load_state(), duration=1.6)
         ins[30:].show()
-        self.play(
-            self.camera.anim.points.shift(DOWN * 8.2),
-            duration=2
-        )
+        self.play(self.camera.anim.points.shift(DOWN * 8.2), duration=2)
         self.forward(1.5)
-        self.play(
-            FadeIn(code3[42])
-        )
+        self.play(FadeIn(code3[42]))
         self.forward(1.5)
-        self.play(
-            FadeIn(code3[46])
-        )
-        self.play(
-            ShowCreationThenFadeAround(code3[46][18:27])
-        )
-        self.play(
-            self.camera.anim.points.shift(DOWN * 19.8),
-            duration=3.5
-        )
-        self.play(
-            FadeIn(code3[102:106])
-        )
+        self.play(FadeIn(code3[46]))
+        self.play(ShowCreationThenFadeAround(code3[46][18:27]))
+        self.play(self.camera.anim.points.shift(DOWN * 19.8), duration=3.5)
+        self.play(FadeIn(code3[102:106]))
         self.forward(1.5)
-        self.play(
-            FadeIn(sur)
-        )
+        self.play(FadeIn(sur))
         self.forward(4)
-        self.play(
-            FadeOut(sur)
-        )
-        self.play(
-            Write(code3[107])
-        )
+        self.play(FadeOut(sur))
+        self.play(Write(code3[107]))
         self.forward(1.3)
 
         ####################################################
 
-        code3_2 = Text(code3_2_src, format='rich', font_size=13)
+        code3_2 = Text(code3_2_src, format="rich", font_size=13)
 
         ####################################################
 
         self.play(
             code3.anim.points.to_center().scale(0.2),
             self.camera.anim.points.to_center(),
-            duration=2
+            duration=2,
         )
         self.play(
             TransformMatchingDiff(code3, code3_2),
         )
         self.forward(0.5)
-        self.play(
-            ShowCreationThenFadeAround(code3_2[24:27])
-        )
+        self.play(ShowCreationThenFadeAround(code3_2[24:27]))
         self.forward(0.3)
-        self.play(
-            ShowCreationThenFadeAround(code3_2[12])
-        )
+        self.play(ShowCreationThenFadeAround(code3_2[12]))
         self.forward(0.3)
-        self.play(
-            ShowCreationThenFadeAround(code3_2[28])
-        )
+        self.play(ShowCreationThenFadeAround(code3_2[28]))
         self.forward(0.3)
-        self.play(
-            ShowCreationThenFadeAround(code3_2[16])
-        )
+        self.play(ShowCreationThenFadeAround(code3_2[16]))
 
         self.forward(1)
 
 
 def sourcelink():
-    txt = Text('https://jkjkil4.github.io/posts/LearnOpenGL_13_GLM/\n（见简介）', font_size=18, depth=-100)
+    txt = Text(
+        "https://jkjkil4.github.io/posts/LearnOpenGL_13_GLM/\n（见简介）",
+        font_size=18,
+        depth=-100,
+    )
     txt.points.arrange(DOWN, buff=SMALL_BUFF)
     sur = SurroundingRect(txt, **Rect.preset_shadow)
     return Group(sur, txt)
@@ -801,9 +733,11 @@ def sourcelink():
 
 class TL2_2(Template):
     def construct(self):
-        t = play_audio_with_subtitles(self, 'audio_13_2.wav', 127.3, 138, delay=0.5, mul=1.25)
+        t = play_audio_with_subtitles(
+            self, "audio_13_2.wav", 127.3, 138, delay=0.5, mul=1.25
+        )
 
-        video = Video('video1.mp4').show().start()
+        video = Video("video1.mp4").show().start()
         # video.points.scale(0.95).shift(DOWN * 0.2)
         self.forward(5)
         video.stop()
@@ -812,7 +746,7 @@ class TL2_2(Template):
         self.forward(3)
 
 
-code4_src = R'''
+code4_src = R"""
 <fc #6a9955># 渲染循环</fc>
 <fc #c586c0>while</fc> <fc #569cd6>not</fc> <fc #4ec9b0>glfw</fc><fc #cccccc>.</fc><fc #dcdcaa>window_should_close</fc><fc #cccccc>(</fc><fc #9cdcfe>window</fc><fc #cccccc>):</fc>
     <fc #6a9955># 输入</fc>
@@ -831,7 +765,7 @@ code4_src = R'''
     <fc #6a9955># 处理事件、交换缓冲</fc>
     <fc #4ec9b0>glfw</fc><fc #cccccc>.</fc><fc #dcdcaa>poll_events</fc><fc #cccccc>()</fc>
     <fc #4ec9b0>glfw</fc><fc #cccccc>.</fc><fc #dcdcaa>swap_buffers</fc><fc #cccccc>(</fc><fc #9cdcfe>window</fc><fc #cccccc>)</fc>
-'''
+"""
 
 
 class TL3(SharpDelimTemplate):
@@ -839,9 +773,21 @@ class TL3(SharpDelimTemplate):
         seq_play_audio_with_subtitles(
             self,
             [
-                { 'file': 'audio_13_3.wav', 'begin': 0, 'end': 23, 'delay': 0, 'mul': 1.25 },
-                { 'file': 'audio_13_3.wav', 'begin': 24.8, 'end': 57, 'delay': 0, 'mul': 1.25 },
-            ]
+                {
+                    "file": "audio_13_3.wav",
+                    "begin": 0,
+                    "end": 23,
+                    "delay": 0,
+                    "mul": 1.25,
+                },
+                {
+                    "file": "audio_13_3.wav",
+                    "begin": 24.8,
+                    "end": 57,
+                    "delay": 0,
+                    "mul": 1.25,
+                },
+            ],
         )
 
         ####################################################
@@ -853,20 +799,18 @@ class TL3(SharpDelimTemplate):
         self.forward(2)
         self.prepare(
             GroupUpdater(
-                con,
-                lambda group, p: group.points.rotate(p.elapsed),
-                duration=FOREVER
+                con, lambda group, p: group.points.rotate(p.elapsed), duration=FOREVER
             )
         )
-        self.play(
-            FadeIn(con)
-        )
+        self.play(FadeIn(con))
         self.forward(2.6)
         self.prepare(
             GroupUpdater(
                 con,
-                lambda group, p: group.points.shift(min(1, smooth(p.elapsed * 0.5)) * (DOWN + RIGHT * 2)),
-                duration=FOREVER
+                lambda group, p: group.points.shift(
+                    min(1, smooth(p.elapsed * 0.5)) * (DOWN + RIGHT * 2)
+                ),
+                duration=FOREVER,
             ),
         )
 
@@ -877,13 +821,15 @@ class TL3(SharpDelimTemplate):
 
         ####################################################
 
-        code4 = Text(code4_src, format='rich', font_size=18)
+        code4 = Text(code4_src, format="rich", font_size=18)
 
         ins = code4[:]
         ins.remove(*code4[6:11])
 
         rect = DashedVItem(SurroundingRect(code4[6:11], buff=0.2), 50)
-        hl = SurroundingRect(code4[6:11], buff=0.2, stroke_alpha=0, fill_alpha=0.25, depth=10)
+        hl = SurroundingRect(
+            code4[6:11], buff=0.2, stroke_alpha=0, fill_alpha=0.25, depth=10
+        )
 
         # code4.show()
         r1 = SweepRect(code4[9][12:22], color=PURPLE, alpha=0.5)
@@ -891,51 +837,27 @@ class TL3(SharpDelimTemplate):
 
         ####################################################
 
-        self.play(
-            FadeIn(ins)
-        )
+        self.play(FadeIn(ins))
         self.forward()
-        self.play(
-            Create(rect, lag_ratio=1)
-        )
+        self.play(Create(rect, lag_ratio=1))
         self.forward(1.6)
-        self.play(
-            FadeIn(code4[6:11]),
-            duration=2
-        )
+        self.play(FadeIn(code4[6:11]), duration=2)
         self.forward(2)
         v = code4[9][30:45]
         v(VItem).glow.set(size=0.04)
-        self.play(
-            v(VItem).anim.glow.set(alpha=1),
-            FocusOn(v)
-        )
+        self.play(v(VItem).anim.glow.set(alpha=1), FocusOn(v))
         self.forward(7.5)
-        self.play(
-            FadeIn(hl)
-        )
+        self.play(FadeIn(hl))
         self.forward(2.6)
-        self.play(
-            FadeOut(hl)
-        )
+        self.play(FadeOut(hl))
         self.forward(10)
-        self.play(
-            FadeIn(hl)
-        )
+        self.play(FadeIn(hl))
         self.forward()
-        self.play(
-            FadeOut(hl)
-        )
+        self.play(FadeOut(hl))
         self.forward(2)
-        self.play(
-            r1.anim_in(),
-            duration=2
-        )
+        self.play(r1.anim_in(), duration=2)
         self.forward(2)
-        self.play(
-            r2.anim_in(),
-            duration=2
-        )
+        self.play(r2.anim_in(), duration=2)
 
         self.forward()
 
@@ -945,12 +867,12 @@ class TL3_2(Template):
         seq_play_audio_with_subtitles(
             self,
             [
-                { 'file': 'audio_13_3.wav', 'begin': 57, 'end': 63, 'mul': 1.25 },
-                { 'file': 'audio_13_3.wav', 'begin': 67, 'end': 73.1, 'mul': 1.25 },
-            ]
+                {"file": "audio_13_3.wav", "begin": 57, "end": 63, "mul": 1.25},
+                {"file": "audio_13_3.wav", "begin": 67, "end": 73.1, "mul": 1.25},
+            ],
         )
 
-        video = Video('video2.mp4').show().start()
+        video = Video("video2.mp4").show().start()
         self.forward(5)
         sourcelink().show()
         self.forward(4)
@@ -959,7 +881,8 @@ class TL3_2(Template):
 
 
 from janim.cli import get_module_from_file
-m12 = get_module_from_file('2026/LearnOpenGL-12-Matrix/code.py')
+
+m12 = get_module_from_file("2026/LearnOpenGL-12-Matrix/code.py")
 
 
 class m12TL18(m12.TL18, Template):
@@ -968,7 +891,7 @@ class m12TL18(m12.TL18, Template):
 
 class TL4(Template):
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_13_3.wav', 73, 87.2, mul=1.25)
+        play_audio_with_subtitles(self, "audio_13_3.wav", 73, 87.2, mul=1.25)
 
         tl = m12TL18().build().to_playback_control_item().show()
 
@@ -981,7 +904,7 @@ class TL4(Template):
 
 class TL5(SharpDelimTemplate):
     def construct(self):
-        play_audio_with_subtitles(self, 'audio_13_3.wav', 87.4, 120, mul=1.25)
+        play_audio_with_subtitles(self, "audio_13_3.wav", 87.4, 120, mul=1.25)
 
         ####################################################
 
@@ -991,10 +914,13 @@ class TL5(SharpDelimTemplate):
 
         def get_coords():
             points = gr.points.get()
-            glpoints = points[::2, :2] / [Config.get.frame_x_radius, Config.get.frame_y_radius]
+            glpoints = points[::2, :2] / [
+                Config.get.frame_x_radius,
+                Config.get.frame_y_radius,
+            ]
             txts = Group[Text]()
             for glp, dir in zip(glpoints, [UR, UL, DL, DR]):
-                txt = Text(f'[{glp[0]:.2f}, {glp[1]:.2f}]', color=GREEN_B, font_size=12)
+                txt = Text(f"[{glp[0]:.2f}, {glp[1]:.2f}]", color=GREEN_B, font_size=12)
                 txt.points.next_to(gr, dir, buff=SMALL_BUFF)
                 txts.add(txt)
             return txts
@@ -1018,28 +944,23 @@ class TL5(SharpDelimTemplate):
             coord_txt.points.scale(0.8).next_to(box.target[0], dir, buff=SMALL_BUFF)
         box.target.points.next_to(arrow1, UP)
 
-        txt_mat.generate_target() \
-            .points.scale(0.6).next_to(arrow2, DOWN) \
-            .r(VItem).color.set(ORANGE)
+        txt_mat.generate_target().points.scale(0.6).next_to(arrow2, DOWN).r(
+            VItem
+        ).color.set(ORANGE)
 
-        gpu = SVGItem('gpu.svg')
+        gpu = SVGItem("gpu.svg")
         gpu.points.next_to(arrows)
 
         circle = Circle(color=YELLOW)
         circle.points.surround(txt_mat.target)
 
-        new_con = ImageItem('container.jpg', alpha=0.5, depth=1, width=2.2, height=2)
+        new_con = ImageItem("container.jpg", alpha=0.5, depth=1, width=2.2, height=2)
 
         ####################################################
 
         self.forward()
 
-        self.play(
-            FadeIn(txt_mat),
-            FadeIn(gr),
-            FadeIn(new_coords),
-            duration=2
-        )
+        self.play(FadeIn(txt_mat), FadeIn(gr), FadeIn(new_coords), duration=2)
 
         self.play(
             GrowArrow(arrow1),
@@ -1047,45 +968,41 @@ class TL5(SharpDelimTemplate):
             MoveToTarget(box),
             MoveToTarget(txt_mat),
             FadeIn(gpu),
-            duration=2
+            duration=2,
         )
         self.forward(2)
         new_con.points.shift([3.58, 0.02, 0.0])
         self.play(
-            AnimGroup(
-                ShowPassingFlash(circle.copy()),
-                Do(new_con.show),
-                lag_ratio=0.8
-            ),
+            AnimGroup(ShowPassingFlash(circle.copy()), Do(new_con.show), lag_ratio=0.8),
             AnimGroup(
                 ShowPassingFlash(circle.copy()),
                 Do(lambda: new_con.points.rotate(-20 * DEGREES)),
-                lag_ratio=0.8
+                lag_ratio=0.8,
             ),
             AnimGroup(
                 ShowPassingFlash(circle.copy()),
                 Do(lambda: new_con.points.scale([1.5, 0.8, 1])),
-                lag_ratio=0.8
+                lag_ratio=0.8,
             ),
-            lag_ratio=1.2
+            lag_ratio=1.2,
         )
 
         self.play(
             txt_mat.anim.points.to_center().scale(2),
             FadeOut(Group(arrow1, arrow2, box, gpu, new_con)),
-            duration=2
+            duration=2,
         )
 
         self.forward(14)
-        self.play(
-            FadeOut(txt_mat)
-        )
+        self.play(FadeOut(txt_mat))
         self.forward(2.5)
 
         ####################################################
 
-        img = ImageItem('coordinate_systems.png')
-        rect = SurroundingRect(img, depth=1, fill_alpha=1, fill_color=WHITE).round_corners(0.15)
+        img = ImageItem("coordinate_systems.png")
+        rect = SurroundingRect(
+            img, depth=1, fill_alpha=1, fill_color=WHITE
+        ).round_corners(0.15)
 
         g = Group(rect, img).show()
 
@@ -1093,9 +1010,7 @@ class TL5(SharpDelimTemplate):
 
         self.forward(2.5)
         alphaeff = AlphaEffect(g).show()
-        self.play(
-            alphaeff.anim.alpha.set(0)
-        )
+        self.play(alphaeff.anim.alpha.set(0))
 
 
 class All(Template, AboveTimelines):
