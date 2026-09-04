@@ -8,3 +8,13 @@ dependencies = [
 
 [tool.uv.sources]
 janim = { path = "../JAnim", editable = true }
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "single"
