@@ -4,10 +4,12 @@ version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
     "janim[gui]",
+    "janim-url-assets"
 ]
 
 [tool.uv.sources]
 janim = { path = "../JAnim", editable = true }
+jnaim-url-assets = { path = "../janim-url-assets/", editable = true }
 
 [tool.pyright]
 venvPath = "."
