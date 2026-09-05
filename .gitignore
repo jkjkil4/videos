@@ -14,11 +14,11 @@ __pycache__
 
 /.VSCodeCounter
 /env_osbpy
-/2024/Bezier
+/_2024/Bezier
 /osu
 /test
 /logo.png
-/2024/*/cover.png
-/2025/*/cover.png
-/2026/*/cover.png
+/_2024/*/cover.png
+/_2025/*/cover.png
+/_2026/*/cover.png
 /result*.json
