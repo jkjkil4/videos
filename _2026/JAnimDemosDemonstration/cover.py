@@ -32,9 +32,6 @@ class Center(Timeline):
 
             // 获取颜色
             f_color = frame_texture(texcoord);
-
-            // 淡化
-            f_color.a *= 0.6;
             """,
             uniforms=[
                 'vec2 JA_FRAME_RADIUS'
