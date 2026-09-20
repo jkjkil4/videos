@@ -372,14 +372,20 @@ wheels = [
 
 [[package]]
 name = "janim-url-assets"
-version = "0.1.2"
-source = { registry = "https://pypi.org/simple" }
+source = { editable = "../janim-url-assets" }
 dependencies = [
     { name = "janim" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/30/74/339cdf94b25714edb2039e48925382edff8186bc5a9d6f1a9f122eafd293/janim_url_assets-0.1.2.tar.gz", hash = "sha256:5d6814a697b119178f4a813845eed199b45c47748bbd55e6ccd89dce20166cac", size = 4413, upload-time = "2026-05-31T15:32:48.772Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/13/04/0a5a020554f2d02d17ab39923606547612cfc9abc66a0fb1027aaed87d3d/janim_url_assets-0.1.2-py3-none-any.whl", hash = "sha256:cd139dbcbc0be39778901e0c91de56befb298c11c3ce28210d9d83c62248be14", size = 6416, upload-time = "2026-05-31T15:32:46.924Z" },
+
+[package.metadata]
+requires-dist = [{ name = "janim" }]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "furo", specifier = ">=2025.12.19" },
+    { name = "janim", extras = ["gui"] },
+    { name = "sphinx", specifier = ">=8.2.3" },
+    { name = "sphinx-intl", specifier = ">=2.3.2" },
 ]
 
 [[package]]
@@ -813,7 +819,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "janim", extras = ["gui"], editable = "../JAnim" },
-    { name = "janim-url-assets" },
+    { name = "janim-url-assets", editable = "../janim-url-assets" },
 ]
 
 [[package]]

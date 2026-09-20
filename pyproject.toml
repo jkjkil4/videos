@@ -9,7 +9,7 @@ dependencies = [
 
 [tool.uv.sources]
 janim = { path = "../JAnim", editable = true }
-jnaim-url-assets = { path = "../janim-url-assets/", editable = true }
+janim-url-assets = { path = "../janim-url-assets/", editable = true }
 
 [tool.pyright]
 venvPath = "."
