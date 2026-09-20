@@ -4,8 +4,8 @@ import types
 from functools import lru_cache
 from typing import NotRequired, TypedDict
 
-from janim.anims.animation import TimeRange
-from janim.anims.timeline import Timeline
+from janim.anims_core.animation import TimeRange
+from janim.timeline.timeline import Timeline
 from janim.items.audio import Audio
 from janim.utils.file_ops import find_file
 
@@ -31,11 +31,13 @@ def read_subtitle_json(file_path: str) -> SubtitleJson:
     return _read_subtitle_json(resolved_path, mtime)
 
 
-def read_audio_with_subtitles(file_path: str, begin: float, end: float) -> tuple[Audio, SubtitleJson]:
+def read_audio_with_subtitles(
+    file_path: str, begin: float, end: float
+) -> tuple[Audio, SubtitleJson]:
     audio = Audio(file_path, begin, end)
     subtitles = [
         item
-        for item in read_subtitle_json(os.path.splitext(audio.file_path)[0] + '.json')
+        for item in read_subtitle_json(os.path.splitext(file_path)[0] + '.json')
         if item['range'][0] >= begin and item['range'][1] <= end
     ]
     return (audio, subtitles)
@@ -61,7 +63,7 @@ def play_audio_with_subtitles(
             s['text'],
             delay=delay + (sbegin - begin),
             duration=sduration,
-            use_typst_text=s['contains_math']
+            use_typst_text=s['contains_math'],
         )
     return t
 
@@ -74,10 +76,7 @@ class SeqEntry(TypedDict):
     mul: NotRequired[float | types.EllipsisType]
 
 
-def seq_play_audio_with_subtitles(
-    timeline: Timeline,
-    entries: list[SeqEntry]
-) -> list[TimeRange]:
+def seq_play_audio_with_subtitles(timeline: Timeline, entries: list[SeqEntry]) -> list[TimeRange]:
     """
     示例：
 
@@ -121,12 +120,7 @@ def seq_play_audio_with_subtitles(
 
         delay = global_delay + entry.get('delay', 0)
         t = play_audio_with_subtitles(
-            timeline,
-            file_path,
-            entry['begin'],
-            entry['end'],
-            delay=delay,
-            mul=mul
+            timeline, file_path, entry['begin'], entry['end'], delay=delay, mul=mul
         )
         ranges.append(t)
         last_file = file_path

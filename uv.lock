@@ -103,14 +103,14 @@ wheels = [
 
 [[package]]
 name = "cloup"
-version = "3.1.0"
+version = "4.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/42/ca/cf02e965cfeb70d65c61fd3abb8022aaf5111a0de71b3c73a6ec2113aa25/cloup-3.1.0.tar.gz", hash = "sha256:637c1e628fe98f3f20a5e44da591a72b42bf54d7d4527190bf39ed5f64af7585", size = 230167, upload-time = "2026-05-26T02:48:18.11Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/05/e2/d41446c6195eff0db3b671ddb202e39f42f9ea7c0dd15cd43fbf5cf0d7f7/cloup-4.0.0.tar.gz", hash = "sha256:83b0870ee863bcc85129e40e1b208bcfdebe4cd2142e9ce1d0daf7d276cab038", size = 252135, upload-time = "2026-09-12T03:23:39.698Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/21/07/644976263e2d346935b35305908bf89eb660ced7fbc7292b096f38c0a80d/cloup-3.1.0-py2.py3-none-any.whl", hash = "sha256:f4cfbdcdc96d30bcbd8c75eaffb0651e9c57180f2aee4b300cf0dd168b8415ed", size = 55028, upload-time = "2026-05-26T02:48:16.711Z" },
+    { url = "https://files.pythonhosted.org/packages/2c/34/20224fd9d52e8ce7e3b319b5d6b7126da25e89d00cd1a5692b4b46ed2d26/cloup-4.0.0-py3-none-any.whl", hash = "sha256:0678744a3a2753e1d78dd3ea5c6e4cbbc3b41561fd7a7a7d075dbc8dad74f74f", size = 55776, upload-time = "2026-09-12T03:23:38.564Z" },
 ]
 
 [[package]]
@@ -256,23 +256,17 @@ gui = [
 
 [package.metadata]
 requires-dist = [
-    { name = "asv", marker = "extra == 'bench'" },
     { name = "attrs" },
     { name = "av" },
     { name = "beautifulsoup4", marker = "extra == 'gui'" },
     { name = "cloup" },
     { name = "colour" },
-    { name = "coverage", marker = "extra == 'test'" },
     { name = "dataclass-click" },
-    { name = "docutils", marker = "extra == 'doc'" },
     { name = "fonttools" },
     { name = "freetype-py" },
-    { name = "furo", marker = "extra == 'doc'" },
-    { name = "janim-backend", specifier = "==5.0.4" },
-    { name = "jinja2", marker = "extra == 'doc'" },
+    { name = "janim-backend", specifier = "==5.0.7" },
     { name = "moderngl" },
     { name = "numpy" },
-    { name = "opencv-python", marker = "extra == 'test'" },
     { name = "pillow" },
     { name = "prompt-toolkit" },
     { name = "psutil" },
@@ -281,68 +275,99 @@ requires-dist = [
     { name = "rich" },
     { name = "skia-pathops" },
     { name = "sounddevice", marker = "(sys_platform == 'darwin' and extra == 'gui') or (sys_platform == 'win32' and extra == 'gui')", specifier = ">=0.5.5" },
-    { name = "sphinx", marker = "extra == 'doc'", specifier = "<9.0.0" },
-    { name = "sphinx-copybutton", marker = "extra == 'doc'" },
-    { name = "sphinx-intl", marker = "extra == 'doc'" },
-    { name = "sphinx-tabs", marker = "extra == 'doc'" },
     { name = "svgelements" },
     { name = "tqdm" },
     { name = "typst4janim", specifier = "==0.15.3" },
 ]
-provides-extras = ["bench", "doc", "gui", "test"]
+provides-extras = ["gui"]
+
+[package.metadata.requires-dev]
+bench = [{ name = "asv" }]
+dev = [
+    { name = "asv" },
+    { name = "coverage" },
+    { name = "docutils" },
+    { name = "flit" },
+    { name = "furo" },
+    { name = "jinja2" },
+    { name = "opencv-python" },
+    { name = "sounddevice", specifier = ">=0.5.5" },
+    { name = "sphinx", specifier = "<9.0.0" },
+    { name = "sphinx-copybutton" },
+    { name = "sphinx-intl" },
+    { name = "sphinx-tabs" },
+    { name = "viztracer", specifier = ">=1.1.1" },
+]
+doc = [
+    { name = "docutils" },
+    { name = "furo" },
+    { name = "jinja2" },
+    { name = "sphinx", specifier = "<9.0.0" },
+    { name = "sphinx-copybutton" },
+    { name = "sphinx-intl" },
+    { name = "sphinx-tabs" },
+]
+test = [
+    { name = "coverage" },
+    { name = "opencv-python" },
+]
+tools = [
+    { name = "flit" },
+    { name = "viztracer", specifier = ">=1.1.1" },
+]
 
 [[package]]
 name = "janim-backend"
-version = "5.0.4"
+version = "5.0.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/57/a6/b7419019bf7eb3b7956b4d7e4d3135e2c1082a903a6ac15b9cde14c8bde9/janim_backend-5.0.4.tar.gz", hash = "sha256:3ed971a12dbb9f6edfa94565e24605a85b406449aefd5e7450a9c6613e67de82", size = 31075, upload-time = "2026-09-03T13:38:47.753Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/05/6c/e9efe4ae100f37d08d7eaec9e7574a9e057e8d8df4abc26e4a4b809e6e3a/janim_backend-5.0.7.tar.gz", hash = "sha256:599af240926ef9f60009f0a7d4a550c735cd5b0dfb01429dfb32b9c0704b3541", size = 31509, upload-time = "2026-09-18T02:34:02.779Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/df/c9/2d3d44ac54edebc86916843fba05fb87aad9277ad86ae9bc526a30bcd50d/janim_backend-5.0.4-cp313-cp313-macosx_10_12_x86_64.whl", hash = "sha256:10889415c695199a423939adcb7aa3ff91b140d9b0d017f2424d380504194f83", size = 427231, upload-time = "2026-09-03T13:38:02.911Z" },
-    { url = "https://files.pythonhosted.org/packages/be/a6/5927bb9e43a45a24b7caabc513c99a498ea6150f6d44b8216b104c22fcf2/janim_backend-5.0.4-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:1120f1c200f34b948059bbd1d56199cd9b45fe4c0d9c3bd78bad17704ab41ebd", size = 423164, upload-time = "2026-09-03T13:38:04.379Z" },
-    { url = "https://files.pythonhosted.org/packages/8e/e7/87fda803a0be643b3e0da2e45cc3f2e5d49202440e5633c18e26eb06266b/janim_backend-5.0.4-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5fd8c95bf2146ff8e127b2795698d7e8cd10204ce6727b31a37f227b34f081a9", size = 469140, upload-time = "2026-09-03T13:38:05.403Z" },
-    { url = "https://files.pythonhosted.org/packages/8c/18/1695e55605700f3ce02744e4e0a6eaff829b9a689e494e2bad8c5cbfb45b/janim_backend-5.0.4-cp313-cp313-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:84de9758b75de3843e339e59bf66d1191731a97fb8f0a1cbdd306e5cf88de850", size = 476596, upload-time = "2026-09-03T13:38:06.543Z" },
-    { url = "https://files.pythonhosted.org/packages/36/7a/a186de188e184059ff1fd77ca172ab5696e9caadc170da02b3848989dc2d/janim_backend-5.0.4-cp313-cp313-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:b0627aed01081c3e7a0f07d7468fb96bde87bc2f645866f705095a00820273cc", size = 611320, upload-time = "2026-09-03T13:38:07.561Z" },
-    { url = "https://files.pythonhosted.org/packages/22/6a/612a9bfbec6c6e2cf8e9f3e69c846b1c8b08e9e6c7e122497bdb9eabe0c3/janim_backend-5.0.4-cp313-cp313-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:0ba94e65b197377a5bc3af1a0f39dc9a1d8e69e0853bbc519de08497966557fa", size = 499188, upload-time = "2026-09-03T13:38:08.855Z" },
-    { url = "https://files.pythonhosted.org/packages/6e/5f/9cff3d7e21a7db7fda5f556349d5d58f1c81ca537bc16b7deb9f2d2a7435/janim_backend-5.0.4-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e8424f8d79a1a581a3db80c72a5b3d4ea501abd9fb090101c25a347a59c67f7d", size = 471433, upload-time = "2026-09-03T13:38:09.773Z" },
-    { url = "https://files.pythonhosted.org/packages/0d/52/fae092b41cd9fb1aef249e278e1e6ae8f66dd12a60cca3dbc5deac740884/janim_backend-5.0.4-cp313-cp313-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:54869fab1d2f1570fab86827b3f3370ef4be90c4351a212a63b0363b738b7289", size = 499285, upload-time = "2026-09-03T13:38:10.762Z" },
-    { url = "https://files.pythonhosted.org/packages/88/f6/d4a7c3f350d34bdcc649eaa8a3aacfe9b55cf78674cec9b4470068d6a22b/janim_backend-5.0.4-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:3cc78c4a4ce3d06e525f7d6875c2b222eb8723adcf3d376f5906c8dab829378e", size = 649863, upload-time = "2026-09-03T13:38:11.79Z" },
-    { url = "https://files.pythonhosted.org/packages/49/c5/5db46e7d12a61af951239eac6827c363626e148bba339a8820e4649079fe/janim_backend-5.0.4-cp313-cp313-musllinux_1_2_armv7l.whl", hash = "sha256:980c90f2aeb37b10ac6be982e8de3dc1fd084cab49669349e0f6c17f512d5456", size = 755031, upload-time = "2026-09-03T13:38:12.748Z" },
-    { url = "https://files.pythonhosted.org/packages/0e/d1/891ed8efc228f077e83f9ef21de043bbfcc6c8a767ff3464627030f11932/janim_backend-5.0.4-cp313-cp313-musllinux_1_2_i686.whl", hash = "sha256:58b892077e247a5642f6c179cae085b941e690be25ab6870d70d49da058797a5", size = 711257, upload-time = "2026-09-03T13:38:13.875Z" },
-    { url = "https://files.pythonhosted.org/packages/67/65/b9db13cd73ff742cd1f9c270887c5caf9d4ab520b592bc2f0ddbb5d71b2a/janim_backend-5.0.4-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:d8563b9b13b8883a607788a5a14a267012fe167fdbe1256c9960637c2e7e588f", size = 679381, upload-time = "2026-09-03T13:38:14.877Z" },
-    { url = "https://files.pythonhosted.org/packages/24/8e/5b21935690924942ae849830cef431cf6d15973d3161ec637bda307725d3/janim_backend-5.0.4-cp313-cp313-win32.whl", hash = "sha256:7c5c3fa61249ce09f6406fbe568ca77d284f07420b95a55fb61eefbad782b3d3", size = 285191, upload-time = "2026-09-03T13:38:15.812Z" },
-    { url = "https://files.pythonhosted.org/packages/2b/b0/afa3daf5e7dbae741d2d5de09addb8c2622c04a4000c48a278469b8006be/janim_backend-5.0.4-cp313-cp313-win_amd64.whl", hash = "sha256:aef56b2eb01d452584a23b1a1e3e740d69919a9627db280c5ec24fec3b722baa", size = 304297, upload-time = "2026-09-03T13:38:16.818Z" },
-    { url = "https://files.pythonhosted.org/packages/2e/c9/319fdd8d121b250e062b04253e9f65e450f2ba932ff2093297b3ef92f046/janim_backend-5.0.4-cp313-cp313-win_arm64.whl", hash = "sha256:bbb450f5d3130eeddf33417e4e0dabe2d6d3d6ce4c0c34bfb918cc358683027d", size = 296985, upload-time = "2026-09-03T13:38:17.701Z" },
-    { url = "https://files.pythonhosted.org/packages/8e/fc/edf3d266d5c6c54b909b77ffef8acf60f268fc0b3c1bc02a347d47f98212/janim_backend-5.0.4-cp314-cp314-macosx_10_12_x86_64.whl", hash = "sha256:c3bbd707028db1b7f7881c91d8516b0bcca405f6ef12d431ffee3756681efcc2", size = 428183, upload-time = "2026-09-03T13:38:18.697Z" },
-    { url = "https://files.pythonhosted.org/packages/41/1a/695934dbaecb464ec447256bf44ec738581f64e8b10df9dbe0de1f9f8c56/janim_backend-5.0.4-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:0de352789ace5dc95c71f2923816c09225cee577e1917dba073f435c0d9a7e8d", size = 423964, upload-time = "2026-09-03T13:38:19.868Z" },
-    { url = "https://files.pythonhosted.org/packages/a5/8d/c819b060c0d6933278095b883e9e90bcfd3b481a5fac40a4a6373e5c7f79/janim_backend-5.0.4-cp314-cp314-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:6859c1456d0535ee04eb01bc592261f87c6d419e91463601ce4bcc254be86330", size = 470016, upload-time = "2026-09-03T13:38:20.813Z" },
-    { url = "https://files.pythonhosted.org/packages/45/d0/914cb3b2b43f0e73bd3f45f5fd10012b778840a1f51c956ffe8ba2e81782/janim_backend-5.0.4-cp314-cp314-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:3835e2ee4a357dbe8dd798c26b53b81d8bb6e3382e6493cd9f7a19eab8af0a91", size = 478417, upload-time = "2026-09-03T13:38:21.846Z" },
-    { url = "https://files.pythonhosted.org/packages/80/61/2b0a2ec5a74fde3599fb3f030200680ddc401a8453a343fd12bed95277bc/janim_backend-5.0.4-cp314-cp314-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:d268b1e50e212f088af2d04bcaf10f84e67458ba84a55d5ae98f369b431bfb05", size = 611798, upload-time = "2026-09-03T13:38:22.869Z" },
-    { url = "https://files.pythonhosted.org/packages/50/25/76947bdb8dbbf9da63a103d485307c50bb50f4abb24495f533f6038a36d6/janim_backend-5.0.4-cp314-cp314-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:5bc2c8a11eda0c4a732c20396d767faab74b91e164d4033b7f6d764e861449c2", size = 500268, upload-time = "2026-09-03T13:38:23.915Z" },
-    { url = "https://files.pythonhosted.org/packages/fd/e4/d7aebf369119db8f327731f51a67088b1eac939e9d64244c69af90ec450c/janim_backend-5.0.4-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:56aca677761088a8b15d26b2f3db9fc02eb5ee120e1f21309c3c27aa38f9bcee", size = 471647, upload-time = "2026-09-03T13:38:24.977Z" },
-    { url = "https://files.pythonhosted.org/packages/7f/07/a4241b4d2399363e0457c1ed2fe859fd7a937730c5afc990f153d42b90f3/janim_backend-5.0.4-cp314-cp314-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:a935815f539c2b81dc7836f3f0b6dd0ce636e342fa84fae6484fdf44cc60f7ff", size = 502012, upload-time = "2026-09-03T13:38:26.044Z" },
-    { url = "https://files.pythonhosted.org/packages/83/e1/ad9b69a917fef2cbb60f296cd753db11b2e9554d387a80ca1e11bdd1fbbd/janim_backend-5.0.4-cp314-cp314-musllinux_1_2_aarch64.whl", hash = "sha256:8a5328d5109e52b48cc51e745914cea5b0859af2bdb272045feeabf7edfc7e23", size = 651415, upload-time = "2026-09-03T13:38:27.08Z" },
-    { url = "https://files.pythonhosted.org/packages/6a/3c/c663a03e64db6215a3f93f8f2a5c6831c35d518e610ba4789a09b7d21b22/janim_backend-5.0.4-cp314-cp314-musllinux_1_2_armv7l.whl", hash = "sha256:df98730a0b5d7e1b02cf395bd901d4b3033b679287f1da299b111f14cb47f4c1", size = 756402, upload-time = "2026-09-03T13:38:28.121Z" },
-    { url = "https://files.pythonhosted.org/packages/08/50/d94ec708d9327914bb5895620b9d0f75570d791b15945cd36d8bac28ea66/janim_backend-5.0.4-cp314-cp314-musllinux_1_2_i686.whl", hash = "sha256:4a790dc9bd795d28b54fa527193bec854729106b0bde1e28da9370c531169fa8", size = 714241, upload-time = "2026-09-03T13:38:29.209Z" },
-    { url = "https://files.pythonhosted.org/packages/7d/cb/b5c066fde967489e5ff5f0abedfa35d3187a69da4f629abe26bf950cdfcb/janim_backend-5.0.4-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:ee37723b7067c57f733788702eeb0fb3b00b26b40f2290752325f374b30c6d10", size = 680549, upload-time = "2026-09-03T13:38:30.433Z" },
-    { url = "https://files.pythonhosted.org/packages/71/83/39ccf838c1753925239e1b57080edf9872c749f1da65ebd57fd90f0ac904/janim_backend-5.0.4-cp314-cp314-win_amd64.whl", hash = "sha256:ff8effbe24cc4b4c643c58fecf4b1139ce768f5e9254bbef24ef47423d199f68", size = 304261, upload-time = "2026-09-03T13:38:31.392Z" },
-    { url = "https://files.pythonhosted.org/packages/79/ff/769c469780e8941c78eb8b5a266f6d668a81e8040ebdb91c2d9a816e0f96/janim_backend-5.0.4-cp314-cp314-win_arm64.whl", hash = "sha256:70500602ef14e5f95fe57d03c9216cc30fbf113bd4f4a4ffb1f3327ea2c028ce", size = 297006, upload-time = "2026-09-03T13:38:32.416Z" },
-    { url = "https://files.pythonhosted.org/packages/02/7d/3bb9473db51c1ac4c94723d2d911c16f5fcd177aa6bae62bb9e81b0f58e4/janim_backend-5.0.4-cp314-cp314t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d09d71fbe9d5a296efa78ce0bac30eb8f5007fc3872ddc9d48ecc941e3db89bd", size = 467822, upload-time = "2026-09-03T13:38:33.406Z" },
-    { url = "https://files.pythonhosted.org/packages/8c/f7/feceb0422462f79969d24eac0b859e801a25bacea5e0639ef827619ad71c/janim_backend-5.0.4-cp314-cp314t-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:e5c5fb62b66a283e657a248f4bd4fe169a6a775d7a33c500d1f75e678e461ec9", size = 475031, upload-time = "2026-09-03T13:38:34.453Z" },
-    { url = "https://files.pythonhosted.org/packages/c9/a5/e5cbd3f5d6574cd429601e5d97807426722f856eeec013b84f4b8f81b523/janim_backend-5.0.4-cp314-cp314t-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:6b4dfb4381eddf5c14c7e3beeed44552e9b460d48b72e6030d5c84ae70e5037e", size = 611660, upload-time = "2026-09-03T13:38:35.392Z" },
-    { url = "https://files.pythonhosted.org/packages/9a/82/28233e4bbf7d5146872912be7ff56c51fde44df7bb4c9b1951badcd54428/janim_backend-5.0.4-cp314-cp314t-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:19af342c023bb75c5f21e1c0cb5823e1041e4181f8add6abf1291e36c3e30282", size = 498204, upload-time = "2026-09-03T13:38:36.446Z" },
-    { url = "https://files.pythonhosted.org/packages/ca/37/be0a7df7b7fc4985753e5fb19fe8ea1c6a5435e041496e33a9fda7fce5ee/janim_backend-5.0.4-cp314-cp314t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f43b629192859fd811606e761f4c3bb1c347304a709ed214fb26b34aead9a49f", size = 470802, upload-time = "2026-09-03T13:38:37.425Z" },
-    { url = "https://files.pythonhosted.org/packages/80/44/0d64c692f7c575f1cb9c9d2ff19f2302d630b56d39947a49e5c8c0be5881/janim_backend-5.0.4-cp314-cp314t-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:ebb4ecccdd9cddcb2aef0c76eb275ad6ec5e2a625230a3eb878e55b3393d8e23", size = 500052, upload-time = "2026-09-03T13:38:38.451Z" },
-    { url = "https://files.pythonhosted.org/packages/c1/06/482e5fad50c0cf381c03ebd3a0d85b6b8d7a0088108718f57f754554e3b3/janim_backend-5.0.4-cp314-cp314t-musllinux_1_2_aarch64.whl", hash = "sha256:2398a07bbced86f312dcf11fc5f1adc6b1a71553bc7adb2b5a4566f4743a9a3f", size = 648455, upload-time = "2026-09-03T13:38:39.477Z" },
-    { url = "https://files.pythonhosted.org/packages/5a/7b/b68b1b00ebb90bb7d23995edb01bfbec4cfbbc281af1db51d1acb1b530c2/janim_backend-5.0.4-cp314-cp314t-musllinux_1_2_armv7l.whl", hash = "sha256:273b8cea31865947c664548f1dd5d2f003dc8b42e0c7179dc95629d128ab64fc", size = 753028, upload-time = "2026-09-03T13:38:40.505Z" },
-    { url = "https://files.pythonhosted.org/packages/25/b0/f6a6cb74b8a98333eac20740b4e4bbfe201ca9fce1629f7ee257e7f7d5d3/janim_backend-5.0.4-cp314-cp314t-musllinux_1_2_i686.whl", hash = "sha256:0a46fb7d1ad15e2816e4fd6dda7afab64d4093759c3848dc052e9f079a8c203a", size = 711962, upload-time = "2026-09-03T13:38:41.496Z" },
-    { url = "https://files.pythonhosted.org/packages/e5/53/747c9c4275c5c515793b2d1254ee8ff133904c82159d7fa7d774faf98914/janim_backend-5.0.4-cp314-cp314t-musllinux_1_2_x86_64.whl", hash = "sha256:5eeba53773dfd628f9f00e74d2757aa4190551d69510a44b8bdb8ad3a13c35d9", size = 680065, upload-time = "2026-09-03T13:38:42.517Z" },
-    { url = "https://files.pythonhosted.org/packages/4b/28/1f7702b41b76720677cf791f1b9aacc4f445101862d7ec0b4a4e8dcf8260/janim_backend-5.0.4-cp315-cp315-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3b0808d7f822c6d2aa1e555611ea9cd2e91fa1ed45e116a9dad03be84a7f6afd", size = 472692, upload-time = "2026-09-03T13:38:43.649Z" },
-    { url = "https://files.pythonhosted.org/packages/5e/e2/e108ce18fe60f63a1b425821704dea5c48637853656f7b088ee3101ce66b/janim_backend-5.0.4-cp315-cp315-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:c6d2eecb51c4cc4d1f91b1f2d8c9835504548bf765931d1ce638b77d056dc4ad", size = 502322, upload-time = "2026-09-03T13:38:44.584Z" },
-    { url = "https://files.pythonhosted.org/packages/ed/40/43e24afb2fd1aade486c12cf21c7ba803e12cb3d6552c6f623d1f3b4d3e6/janim_backend-5.0.4-cp315-cp315t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0727e2fa83273c4b1d4eaed6e3b8cd1b8ba8c5c1efdba7fe1520df40de8f8046", size = 471539, upload-time = "2026-09-03T13:38:45.691Z" },
-    { url = "https://files.pythonhosted.org/packages/51/14/5ee9ca2a815c7e2b90fd68cbace94282772ef17dfcf9721e940f33faa257/janim_backend-5.0.4-cp315-cp315t-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:c88ff14cec09c208fe8edc6dee02b0c9e2dbbba511c3e873681dae1d4f160b84", size = 498947, upload-time = "2026-09-03T13:38:46.766Z" },
+    { url = "https://files.pythonhosted.org/packages/c5/0a/c060873d48b8737ec130d997dc964c40740056ce289651e9699fbbc2f8fc/janim_backend-5.0.7-cp313-cp313-macosx_10_12_x86_64.whl", hash = "sha256:9d9f7feb082ab92e80720961ad89e5e302eda569f51f513a21d68ea53decd4bf", size = 443661, upload-time = "2026-09-18T02:33:10.023Z" },
+    { url = "https://files.pythonhosted.org/packages/aa/05/9bfd84f71874b815aaf25c3c365188c1b0db9114e48667ccf86d55843840/janim_backend-5.0.7-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:b006d62d943917e65e5862925f6a2f7f721cc18ede54fb2f22d322ec00381498", size = 437358, upload-time = "2026-09-18T02:33:11.247Z" },
+    { url = "https://files.pythonhosted.org/packages/40/03/b64e1c971ae6dad9f34c70c1cadfed89cb68f41137855f8b589071b0735a/janim_backend-5.0.7-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b1ed8b2f4dc5ea47710c10e65305575f1c7b78814de046488759e876d1928cae", size = 486306, upload-time = "2026-09-18T02:33:12.273Z" },
+    { url = "https://files.pythonhosted.org/packages/88/32/3a954d4a425dfc686bba63aa711582374a2032b363e79543cad181efd1dc/janim_backend-5.0.7-cp313-cp313-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:a56c181f0763dea696518e991e170a2b4c6f971ef1dd88413afff0ffe6368b63", size = 494586, upload-time = "2026-09-18T02:33:13.467Z" },
+    { url = "https://files.pythonhosted.org/packages/2f/97/8a91e3228c3963d81541f1e8c7ecefb5869eeb12fcf36ad4476a219cfb76/janim_backend-5.0.7-cp313-cp313-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:dc5be88e9f48a6aafb3845363d55632ab637abcdcff992c1b96dfcf875b2c5ae", size = 629072, upload-time = "2026-09-18T02:33:14.954Z" },
+    { url = "https://files.pythonhosted.org/packages/42/40/4bf86fb97421db2d09105ec029154157c43d5559766df647d2edfb02d2fe/janim_backend-5.0.7-cp313-cp313-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:a2274d0e3bfde36c44750fd401fbe321b8bb2924f711e3802ce726dfd099a54d", size = 515277, upload-time = "2026-09-18T02:33:16.315Z" },
+    { url = "https://files.pythonhosted.org/packages/4e/d9/e60eefc30a7e495fe16db2e42ea7bd80957073d6f47f8d5cfa44f48cb63a/janim_backend-5.0.7-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:102c57565052fc0f4a6f5259ef6ef7f5bf76d2fe3cca359eb730e031ed275520", size = 487903, upload-time = "2026-09-18T02:33:17.484Z" },
+    { url = "https://files.pythonhosted.org/packages/a7/45/60054daf85d82ea63ae3ee7cbce250c2bd8d0b0ab04d11d9973b165cef6f/janim_backend-5.0.7-cp313-cp313-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:eb260ec0297b8e74290a2317134cf84da60a56b52a906a592612f77382da334e", size = 518613, upload-time = "2026-09-18T02:33:18.673Z" },
+    { url = "https://files.pythonhosted.org/packages/3e/7c/61709c9d7aa5fe943ae247d48ba6a9b23c9170692f9c4fae0912e3eb9f6c/janim_backend-5.0.7-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:358ae441797b3a602dc6002ce8001ccc5b094fd0ce241c7388b20d7fd8b49a7f", size = 666119, upload-time = "2026-09-18T02:33:19.96Z" },
+    { url = "https://files.pythonhosted.org/packages/5c/dc/7cd78d18f24ec87274a3d2ded3ca7ef9fedba2e435ba8e094ebcd7abec84/janim_backend-5.0.7-cp313-cp313-musllinux_1_2_armv7l.whl", hash = "sha256:a43bedacf6812e2e556bd35e04dc78786424fc63dc9862c7a0f7b127c37640e4", size = 770590, upload-time = "2026-09-18T02:33:21.156Z" },
+    { url = "https://files.pythonhosted.org/packages/a8/37/c796836a0602f4f03ff3c2e02214b3a45e06cb6d27caa5c19bb21f4e1319/janim_backend-5.0.7-cp313-cp313-musllinux_1_2_i686.whl", hash = "sha256:7c1ae37a96ed8afc391d825e7e7319a60bcfa7754f9e99b7d1d7203de7867127", size = 729780, upload-time = "2026-09-18T02:33:22.705Z" },
+    { url = "https://files.pythonhosted.org/packages/8a/f5/d1fc04ece5ce0508dc631006c9247a455cf47093ed3c5be75d42c399be68/janim_backend-5.0.7-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:435c6093afd1a022601eb7e6291aed4815ae37ba47ab8ae07cc026494df79ec6", size = 693970, upload-time = "2026-09-18T02:33:24.026Z" },
+    { url = "https://files.pythonhosted.org/packages/55/3c/3f2677738e9f3a064e9c6cf567a34b1a823457c82a52697073c370c36cb7/janim_backend-5.0.7-cp313-cp313-win32.whl", hash = "sha256:8fbe4e2515057fc9012cd74b84a3a056c03e2dee4363ebd0c8d5777c2e62e66f", size = 300754, upload-time = "2026-09-18T02:33:25.118Z" },
+    { url = "https://files.pythonhosted.org/packages/4f/a5/010567f42647b4d7b50ccb0511a61c85ec4d2ad5cd478b08d37d5dd2aa3d/janim_backend-5.0.7-cp313-cp313-win_amd64.whl", hash = "sha256:0c6b7a2de5a807074307e37fb676234fb2f11f9046bd4ef3f58b14145dc1d564", size = 321624, upload-time = "2026-09-18T02:33:26.226Z" },
+    { url = "https://files.pythonhosted.org/packages/9d/77/f4ce5c1c63b7fdf1681e699b3d321c8942c880cd85fe3cc1f27cd3cf57ad/janim_backend-5.0.7-cp313-cp313-win_arm64.whl", hash = "sha256:8dd1158edc3963a362f109589c5f6de1a8749a194c666cdc68969fc71f3ba599", size = 312782, upload-time = "2026-09-18T02:33:27.373Z" },
+    { url = "https://files.pythonhosted.org/packages/5e/74/35dcd2e1f2d1abd0d88234f4181e17a69f9001dfee71b469c6d6c277e8d1/janim_backend-5.0.7-cp314-cp314-macosx_10_12_x86_64.whl", hash = "sha256:bd871a305e9829a857de1c76c2f43cdf029889ff4b8d24243c96e60ef9179bce", size = 444623, upload-time = "2026-09-18T02:33:28.49Z" },
+    { url = "https://files.pythonhosted.org/packages/e0/3a/b9d33b25a96ee6a142602ca89dff31f5bd50d8332493b60130d8de27beba/janim_backend-5.0.7-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:49883c1168e644090fc95eda38d4b4adbfed48d19ae848ccc2f29b0bb6ace7b9", size = 439513, upload-time = "2026-09-18T02:33:29.658Z" },
+    { url = "https://files.pythonhosted.org/packages/1b/0e/2660375a37c9d536b22819bdd0c183e1aceddcc92e0b450e8a767604d312/janim_backend-5.0.7-cp314-cp314-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:251b299725a0fa27b7c47719dc70db4c8e27123a6217b8bf6bcf24cf35f4801d", size = 488656, upload-time = "2026-09-18T02:33:30.775Z" },
+    { url = "https://files.pythonhosted.org/packages/b0/58/5267358a8752267aa4caa1d14fc3a46eb8b531bc1fc9bec3dcc4ebc77478/janim_backend-5.0.7-cp314-cp314-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:3164b01b2ae8e6bf7d352519f9ce7c0e03a94a642926188f164269e893c4e53d", size = 496317, upload-time = "2026-09-18T02:33:31.929Z" },
+    { url = "https://files.pythonhosted.org/packages/ab/a4/8e7d1d938bc619d7af1a195a241379926845a4337c6ba1c67f36c5b73414/janim_backend-5.0.7-cp314-cp314-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:e0e2abd5b5668295e0491d6d1094e85d892fb410e6aa857f7cbb5b006935d627", size = 629833, upload-time = "2026-09-18T02:33:33.043Z" },
+    { url = "https://files.pythonhosted.org/packages/64/14/5806a07f28a80619ab2aa93e367b000bef535193a7287908dcad1c985619/janim_backend-5.0.7-cp314-cp314-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:95ca5b18903913a34d5865f5676d9a172920adad8cfc4b1827776f078d5cdc06", size = 516471, upload-time = "2026-09-18T02:33:34.288Z" },
+    { url = "https://files.pythonhosted.org/packages/e3/4b/d08f627c9a87999777c3d3fb7045dbba9aa11b6a6fd5475c81b6b47eba6f/janim_backend-5.0.7-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:44e3f580552cc19f8e5524bc0b834ced57997e8d3c36a9eef8f9099c91db0521", size = 488802, upload-time = "2026-09-18T02:33:35.602Z" },
+    { url = "https://files.pythonhosted.org/packages/e8/33/aa4c5ce8ad75188fbffa6ec904bd82a849768e216e485ed06490d145340b/janim_backend-5.0.7-cp314-cp314-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:05c5a06b9bfdfa68b24346c95488ca2014c1c40ddfda5900bf72eecee27271c3", size = 521908, upload-time = "2026-09-18T02:33:36.82Z" },
+    { url = "https://files.pythonhosted.org/packages/84/81/4372c6055c4fec01a1b6570437bc09aac59c381c3ee9ebe0945e64b0b7f7/janim_backend-5.0.7-cp314-cp314-musllinux_1_2_aarch64.whl", hash = "sha256:97db07d9a931d30f6b1438b7d0dd7dcca6b6b83dd517ec108c5d21760fff3519", size = 668253, upload-time = "2026-09-18T02:33:37.949Z" },
+    { url = "https://files.pythonhosted.org/packages/54/cf/c7dbb1d7206aed34c510e6c3ab3249d20b9f3acb84889c0b8d36eabad65d/janim_backend-5.0.7-cp314-cp314-musllinux_1_2_armv7l.whl", hash = "sha256:55fb4334104cf7c2ce3634327c38f38645f92390ff188b9678edbe358ea2ae72", size = 773025, upload-time = "2026-09-18T02:33:39.61Z" },
+    { url = "https://files.pythonhosted.org/packages/3d/74/612e1b0a678e59639022817c104ed43be3e09ee70edcad69898456c7f923/janim_backend-5.0.7-cp314-cp314-musllinux_1_2_i686.whl", hash = "sha256:8253d5e68090ae975db3caf9220ce99a69b368475492a48cec392125447d91f7", size = 732531, upload-time = "2026-09-18T02:33:40.769Z" },
+    { url = "https://files.pythonhosted.org/packages/97/00/abd431172d4a9db466b8ad6f80ad09a4b16f29d8b650fe9724b0796faa94/janim_backend-5.0.7-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:0bdf42e6507a9f590f978c803dc8909fcd68929d3092f7c7deeec5d5f103b51e", size = 696090, upload-time = "2026-09-18T02:33:41.993Z" },
+    { url = "https://files.pythonhosted.org/packages/36/5a/3e511a7aa374b972ca7926a8bf17aab9a2137041a438d403354ecdbb1aec/janim_backend-5.0.7-cp314-cp314-win_amd64.whl", hash = "sha256:628a1bf38a99dd8b3b35c3c46ef2dcb76b20e91c1027a72c5547a2917df2e630", size = 321792, upload-time = "2026-09-18T02:33:43.052Z" },
+    { url = "https://files.pythonhosted.org/packages/8c/ed/926fd64e6edc73afb8fc7cda913dc489098e8f70ad814cae38423cc17a1a/janim_backend-5.0.7-cp314-cp314-win_arm64.whl", hash = "sha256:ba82b19000e5c93726158b3ec6007f84d1cdd29edc8ad7dab1c3975d110abaa9", size = 312763, upload-time = "2026-09-18T02:33:44.323Z" },
+    { url = "https://files.pythonhosted.org/packages/95/85/da817142664f5efb9799fecd62fd580e420d98bdaac163dfcc17e8ee4b30/janim_backend-5.0.7-cp314-cp314t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:83d5a7384cecdb89132c21eedbe6281f3689dfbd7e19a97f3ae55efa6c38d4e9", size = 485177, upload-time = "2026-09-18T02:33:45.443Z" },
+    { url = "https://files.pythonhosted.org/packages/46/99/cb890fba89c3829b26a13b923f7809010857efcb1df623ab80c0c792a1bb/janim_backend-5.0.7-cp314-cp314t-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:c08b77067665de5db6772d52f08ce64f129034ae1c182f81f042243421d606b9", size = 491554, upload-time = "2026-09-18T02:33:46.778Z" },
+    { url = "https://files.pythonhosted.org/packages/81/06/eea09d22fe2cf3f9eaba8d2921ec11735b81e28a8b37a073ae40efaa566e/janim_backend-5.0.7-cp314-cp314t-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:5edaac733be1c6c64c14a67eaf4a4e55efb7f817f68f5af0d3ebbdaf0194fd8b", size = 628935, upload-time = "2026-09-18T02:33:48.097Z" },
+    { url = "https://files.pythonhosted.org/packages/5a/48/8a791328e86b1a0539ee54150c9296dbc325ad3723a887e93bc7f88077b1/janim_backend-5.0.7-cp314-cp314t-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:3482a676c721dd9453e2d7ee291aa482cb4a1ed841d1089af91ecd028f8ce5d8", size = 514092, upload-time = "2026-09-18T02:33:49.324Z" },
+    { url = "https://files.pythonhosted.org/packages/91/35/e6d3f14379eb76101577eb80682a23b689577adc3a45d9d8435ab670caf8/janim_backend-5.0.7-cp314-cp314t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:049e74288b0046b3f45ddf5ea2a4e76206b812eb3714a7dc460974c0e8c411ec", size = 488581, upload-time = "2026-09-18T02:33:50.48Z" },
+    { url = "https://files.pythonhosted.org/packages/b8/7f/4bbfc58159cfb211985bc45316c9134597ee628d6e85ba25e1888182bf29/janim_backend-5.0.7-cp314-cp314t-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:ab073c33f61c3b4ed47c0b22d5c587a0b3605877fc8778460491a6725081e19c", size = 518702, upload-time = "2026-09-18T02:33:51.756Z" },
+    { url = "https://files.pythonhosted.org/packages/fa/6f/9ba7af37c9b27246a706062882c14a6fa53f402d563c630b9c3c27bfbc80/janim_backend-5.0.7-cp314-cp314t-musllinux_1_2_aarch64.whl", hash = "sha256:9e0345360aa8a1542d498fc98aea4fb10efd5d912b5a4074f97da37fb664aaf1", size = 665835, upload-time = "2026-09-18T02:33:52.99Z" },
+    { url = "https://files.pythonhosted.org/packages/17/bd/c933075fe007a2658c608291f44a60c6223d430a042c37289eee7feaa8a1/janim_backend-5.0.7-cp314-cp314t-musllinux_1_2_armv7l.whl", hash = "sha256:cc62af21d207cb0ff8c0bafe365d79489b2c48a9a9b54639648dd58483cfa5e4", size = 767303, upload-time = "2026-09-18T02:33:54.354Z" },
+    { url = "https://files.pythonhosted.org/packages/c0/2b/95bcdd682bca48bb38f0ba8655b57f8a31276b0a53e70b3c9f67d05944c4/janim_backend-5.0.7-cp314-cp314t-musllinux_1_2_i686.whl", hash = "sha256:122d0590a24364030d5006ac4288aebe4dfc6c4ca34599437f47f598bc4eaf16", size = 729236, upload-time = "2026-09-18T02:33:55.436Z" },
+    { url = "https://files.pythonhosted.org/packages/3c/b4/56224705fd5effc7693ab65b1865b3c5756ccd2a84171870fb4cd5c50d66/janim_backend-5.0.7-cp314-cp314t-musllinux_1_2_x86_64.whl", hash = "sha256:575d85b86d212f1a6e6e8cfafcddf5e377c2fb26ff391ea518d148c9fd1566f7", size = 695173, upload-time = "2026-09-18T02:33:56.637Z" },
+    { url = "https://files.pythonhosted.org/packages/38/04/dcad709c1c2842be6b4cf30517ed0b726a13316cf9206960fbd01ec756bc/janim_backend-5.0.7-cp315-cp315-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:77cea4b7899d28d17191f47e6c16b7c73d2ebb894dc2408304b00b48a7c93146", size = 489250, upload-time = "2026-09-18T02:33:57.885Z" },
+    { url = "https://files.pythonhosted.org/packages/58/94/46fc00bdbf3eb63ee8aa86ef201b21ad8cfaf61d4dd31d9b5d6da15fcdd2/janim_backend-5.0.7-cp315-cp315-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:2bb4c32c306a08e40c0a931d2f0db2fb4e98ad51959c047bf64c9434afa5af00", size = 522142, upload-time = "2026-09-18T02:33:59.005Z" },
+    { url = "https://files.pythonhosted.org/packages/f5/b6/a156efedf4654259be9ccf11d5c8b176892fbdf8a6317326b9986246706e/janim_backend-5.0.7-cp315-cp315t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ebeb5521c2b0e2a141cbbf712fe6375c649e847c857d156083daad1de5b27f7b", size = 488698, upload-time = "2026-09-18T02:34:00.307Z" },
+    { url = "https://files.pythonhosted.org/packages/86/0f/9b944da20d04ddff11ea910f1fa1eb944277733341d8e9ed449b8ef544f3/janim_backend-5.0.7-cp315-cp315t-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:5fa4dd3d32b750d13175c68fd49f5d47f383dd10c0e29ba14e8655b101e87448", size = 517545, upload-time = "2026-09-18T02:34:01.436Z" },
 ]
 
 [[package]]
@@ -793,9 +818,9 @@ requires-dist = [
 
 [[package]]
 name = "wcwidth"
-version = "0.8.3"
+version = "0.8.4"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/36/57/ed58088fafdf4c55a0ad6bde846502567645424d7ebf325230b9237f4085/wcwidth-0.8.3.tar.gz", hash = "sha256:d128512515fbf4612e0ff21fd6380399210318b7b54a9af59dff8454cf9730eb", size = 1458450, upload-time = "2026-08-28T18:10:06.875Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/3d/7a/f98d4ada7c499565ab0c0fcef28a4e54fafa72b8228a6309803c80493c92/wcwidth-0.8.4.tar.gz", hash = "sha256:2dae09efa25253ae2874188e86d6861af3b1652aef4118cdf3f0bda288a957fb", size = 414609, upload-time = "2026-09-17T23:31:45.287Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c4/0e/57f6bb3024a597b2e8ec4aee710ffe62ddc95af2e2bb1ee7a7abdc22c68c/wcwidth-0.8.3-py3-none-any.whl", hash = "sha256:d5b73dba6158a595ec9370350e7f2637bcac8d6c5e4fde34f30fcffb6103a5e4", size = 331669, upload-time = "2026-08-28T18:10:04.909Z" },
+    { url = "https://files.pythonhosted.org/packages/39/cc/9c0adc5861020de426ec71716b6c1bef8d90694b7d6d0a16202cdb1647f5/wcwidth-0.8.4-py3-none-any.whl", hash = "sha256:2097bb1d28a0ba8fe177c2eb607317f9b1627b03f33ebebfd3da670b337a65ba", size = 299474, upload-time = "2026-09-17T23:31:43.816Z" },
 ]

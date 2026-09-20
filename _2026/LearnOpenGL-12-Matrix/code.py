@@ -1,4 +1,5 @@
 # flake8: noqa
+# fmt: off
 import sys
 
 sys.path.append('.')
@@ -1197,7 +1198,7 @@ class TL8(SharpDelimTemplate):
             apply_bgshadow(m(VItem))
         Group(mat1, mat2).points.arrange().to_border(UP)
 
-        def apply_matrix(g: Group[Vector, Any], matrix):
+        def apply_matrix(g: Group[Vector], matrix):
             g.generate_target()
             g.target.points.apply_matrix(matrix)
             for v in g.target[1, 2]:
@@ -1532,8 +1533,8 @@ class TL11(SharpDelimTemplate):
         vec1 = Vector([1,0], color=RED_A)
         vec2 = Vector([0,1], color=GREEN_A)
 
-        vec1.generate_target().points.update_by_attrs(end=[2, 0, 0]).r.place_tip()
-        vec2.generate_target().points.update_by_attrs(end=[0, 0.7, 0]).r.place_tip()
+        vec1.generate_target().reshape(end=[2, 0, 0]).place_tip()
+        vec2.generate_target().reshape(end=[0, 0.7, 0]).place_tip()
 
         g = Group(plane, vec1, vec2)
         g.save_state()
@@ -1790,7 +1791,7 @@ class TL12(SharpDelimTemplate):
                 eq.anim(show_at_begin=False).points.shift(LEFT * 4.75),
                 FadeIn(plane),
                 FadeIn(con3d),
-                self.camera.anim.points.set(orientation=Quaternion(0.87, 0.4, 0.13, 0.27)),
+                self.camera.anim.points.set(orientation=quat(0.4, 0.13, 0.27, 0.87)),
                 rs.anim(show_at_begin=False).points.shift(LEFT * 4.75),
                 Succession(
                     Wait(),
@@ -2366,7 +2367,7 @@ class TL15(SharpDelimTemplate):
                 p = angle.points.pfp(0.5)
                 txt.points.next_to(p, buff=0.1)
                 if at3d:
-                    txt.points.face_to_camera(about_point=p, inverse=True, rotate=PI)
+                    txt.points.face_to_camera(about_point=p)
                 g.add(txt)
             except PointError:
                 pass
@@ -2413,7 +2414,7 @@ class TL15(SharpDelimTemplate):
         self.forward()
         con3d.show()
         self.play(
-            self.camera.anim.points.set(orientation=Quaternion(0.88, 0.35, 0.12, 0.3)),
+            self.camera.anim.points.set(orientation=quat(0.35, 0.12, 0.3, 0.88)),
             Create(line_axis, lag_ratio=0.9),
         )
         self.forward(3)
@@ -2887,9 +2888,9 @@ class TL17_Sub1(SharpDelimTemplate):
         con3d(ImageItem).color.fade(0.2)
         base = np.array([0.662, 0.2, 0.7222])
         axis = DashedLine(base * -4, base * 4, color=BLUE_A, dashed_ratio=0.4).apply_depth_test().show()
-        # self.camera.points.set(orientation=Quaternion(0.8, 0.3, -0.05, 0.52))
+        # self.camera.points.set(orientation=quat(0.3, -0.05, 0.52, 0.8))
         # self.camera.points.shift([-0.52, 0.49, 0.46])
-        self.camera.points.set(orientation=Quaternion(0.92, 0.32, 0.08, 0.23))
+        self.camera.points.set(orientation=quat(0.32, 0.08, 0.23, 0.92))
 
         typ = TypstMath('hat(n) = vec(0.662, 0.2, 0.7222)', depth=-20).fix_in_frame().show()
         typ['hat(n)'].set(color=YELLOW)
