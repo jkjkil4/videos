@@ -155,8 +155,8 @@ class TL_1(Template):
 
         aeye = get_pointto('akar-icons/eye', '观察点', cam_loc)
 
-        sample_frame = ImageItem('sampleframe.png').apply_depth_test()
-        sample_frame.points \
+        sample_img = ImageItem('sampleframe.png').apply_depth_test()
+        sample_img.points \
             .move_to(camitem[0]) \
             .rotate(PI / 2, axis=RIGHT) \
             .set_width(camitem[0].points.box.width)
@@ -183,11 +183,11 @@ class TL_1(Template):
             GrowArrow(arrow),
             Do(con.hide),
             con2.anim.points.apply_point_fn(map_to_cam),
-            FadeIn(sample_frame, at=0.3),
+            FadeIn(sample_img, at=0.3),
         )
         self.play(
             FadeOut(arrow),
-            FadeOut(sample_frame),
+            FadeOut(sample_img),
             Do(con2.hide),
             FadeIn(con)
         )
