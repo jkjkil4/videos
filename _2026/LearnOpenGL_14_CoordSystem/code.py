@@ -125,7 +125,7 @@ class TL_1(Template):
 
         ##############################################
         # self.camera.become(cam)
-        
+
         con.hide()
         self.camera.save_state('orig')
         self.camera.points.shift(DOWN)
@@ -175,7 +175,7 @@ class TL_1(Template):
             return (at_cam - cam_loc) * scale_factor + cam_loc + UP * depth * 0.01
 
         con2 = con.copy()
-        
+
         arrow = Arrow(UP * 2, DOWN * 3, color=GOLD)
 
         ##############################################
@@ -278,7 +278,7 @@ class TL_1(Template):
             )
         )
         self.play(
-            self.camera.anim.load_state(), 
+            self.camera.anim.load_state(),
             ascreen.anim.points.shift(LEFT * 0.7),
             duration=1.5
         )
@@ -413,12 +413,12 @@ class TL_2(Template):
                 SurroundingRect(img, buff=0, color=BLUE),
                 img,
                 txtsur,
-                icontxt, 
+                icontxt,
             )
 
         worldcoord = get_coordbox('worldcoord.png', 'carbon/z-axis', '世界坐标')
         clipcoord = get_coordbox('clipcoord.png', 'at-icons/television-flat-screen', '裁剪坐标')
-        
+
         shader = Shadertoy(readall(find_file('shadertoy-MsdGWn.glsl'))).show()
         alphaeffect = AlphaEffect(shader).show()
         alphaeffect.alpha.set(0)
@@ -623,7 +623,7 @@ class TL_3(Template):
         ##############################################
 
         self.show(worldcoord)
-        
+
         ##############################################
 
         arrow = Arrow(info.camera_location, info.camera_location * 0.3, tip_kwargs={'center_anchor': CenterAnchor.Back}, color=BLUE).apply_depth_test()
@@ -665,7 +665,7 @@ class TL_3(Template):
             Arrow(ORIGIN, DOWN),
         )
         eye.points.arrange(DOWN, buff=SMALL_BUFF).next_to(ORIGIN, UP, buff=SMALL_BUFF)
-        
+
         ##############################################
 
         self.prepare(
@@ -775,7 +775,7 @@ class TL_3(Template):
                     ),
                     DotCloud(*mapped_points, radius=0.03),
                 )
-            
+
             return proj_updater
 
         def map_point_orth(point: np.ndarray):
@@ -840,7 +840,7 @@ class TL_3(Template):
                 SurroundingRect(img, buff=0, color=BLUE, depth=-90),
                 img,
                 txtsur,
-                txt, 
+                txt,
             ).fix_in_frame()
 
         orthbox = get_projbox('Orth.png', '正射投影')
@@ -929,7 +929,7 @@ class TL_3(Template):
 
         persbox = get_projbox('Pers.png', '透视投影')
         persbox.points.to_border(UR)
-        
+
         shadow = FrameRect(**Rect.preset_shadow, depth=-85).fix_in_frame()
         boxes = Group(orthbox, persbox)
 
@@ -1275,7 +1275,7 @@ class TL_5(Template):
             indices = [0, 1, 2]
             indices.remove(idx)
             coords[indices](VItem).color.fade(0.5)
-            
+
             coords.save_state(name)
 
         generate_state(0, 'world')
@@ -1287,7 +1287,7 @@ class TL_5(Template):
         coords.load_state('world')
 
         self.show(coords)
-        
+
         ##############################################
 
         arrow = Arrow(info.camera_location, info.camera_location * 0.3, tip_kwargs={'center_anchor': CenterAnchor.Back}, color=BLUE).apply_depth_test()
@@ -1368,12 +1368,12 @@ class TL_5(Template):
             x, y, z = point
             y1 = p1[1]
             y2 = p11[1]
-            
+
             y_ratio = (y - y1) / (y2 - y1)
             p111 = p1 * (1 - y_ratio) + p11 * y_ratio
             p222 = p2 * (1 - y_ratio) + p22 * y_ratio
             p444 = p4 * (1 - y_ratio) + p44 * y_ratio
-            
+
             x_ratio = (x - p111[0]) / (p444[0] - p111[0])
             z_ratio = (z - p111[2]) / (p222[2] - p111[2])
 
@@ -1414,7 +1414,11 @@ class TL_5(Template):
         ##############################################
 
         shadow = FrameRect(**Rect.preset_shadow, depth=-100).fix_in_frame()
-        code1 = Text('gl_Position = projection * view * vec4(in_point, 1.0);', depth=-100).fix_in_frame()
+        code1 = Text(
+            '<fc #9cdcfe>gl_Position</fc><fc #d4d4d4> = projection * view * </fc><fc #569cd6>vec4</fc><fc #d4d4d4>(in_point, </fc><fc #b5cea8>1.0</fc><fc #d4d4d4>);</fc>',
+            format='rich',
+            depth=-100
+        ).fix_in_frame()
 
         ##############################################
 
