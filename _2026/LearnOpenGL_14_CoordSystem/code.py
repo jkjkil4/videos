@@ -1189,6 +1189,8 @@ class TL_5(Template):
     def construct(self) -> None:
         ##############################################
 
+        self.camera.save_state('orig')
+
         plane = NumberPlane((-4, 4), (-4, 4), faded_line_ratio=1, depth=2)
         plane.points.shift(IN)
 
@@ -1413,12 +1415,47 @@ class TL_5(Template):
 
         ##############################################
 
-        shadow = FrameRect(**Rect.preset_shadow, depth=-100).fix_in_frame()
+        shadow = FrameRect(**Rect.preset_shadow, depth=-90).fix_in_frame()
         code1 = Text(
             '<fc #9cdcfe>gl_Position</fc><fc #d4d4d4> = projection * view * </fc><fc #569cd6>vec4</fc><fc #d4d4d4>(in_point, </fc><fc #b5cea8>1.0</fc><fc #d4d4d4>);</fc>',
             format='rich',
             depth=-100
         ).fix_in_frame()
+
+        parts = [
+            code1[0][:11],
+            code1[0][12],
+            code1[0][14:24],
+            code1[0][25],
+            code1[0][27:31],
+            code1[0][32],
+            code1[0][34:53],
+        ]
+
+        _Udl = lambda *args, **kwargs: Underline(*args, depth=-150, **kwargs, color=YELLOW).points.set_y(-0.22).reverse().r
+        ul1 = _Udl(parts[-1])
+        ul2 = _Udl(parts[-3])
+        ul3 = _Udl(parts[-5])
+
+        _Text = partial(Text, color=BLUE, font_size=18, depth=-150)
+        txt1 = _Text("『世界坐标』")
+        txt2 = _Text("『观察坐标』")
+        txt3 = _Text("『裁剪坐标』")
+
+        for txt, ul in zip([txt1, txt2, txt3], [ul1, ul2, ul3]):
+            txt.points.next_to(ul, DOWN, buff=0.4)
+
+        tip2 = _Text("转换为", color=BLUE, font_size=10, depth=-150)
+        tip3 = tip2.copy()
+
+        for tip_, txt in zip([tip2, tip3], [txt2, txt3]):
+            tip_.points.next_to(txt, UP, buff=SMALL_BUFF, aligned_edge=LEFT)
+
+        _Arrow = partial(Arrow, color=BLUE_A, depth=-150)
+        arrow1 = _Arrow(txt1, txt2, path_arc=-40 * DEGREES)
+        arrow2 = _Arrow(txt2, txt3, path_arc=-80 * DEGREES)
+
+        unders = Group(ul1, ul2, ul3, txt1, txt2, txt3, tip2, tip3, arrow1, arrow2).fix_in_frame()
 
         ##############################################
 
@@ -1426,6 +1463,191 @@ class TL_5(Template):
             FadeOut(tip),
             FadeIn(shadow),
             Write(code1)
+        )
+        self.play(Create(ul1))
+        self.play(
+            Create(ul2),
+            Create(ul3),
+            lag_ratio=0.5
+        )
+        self.play(
+            FadeIn(txt1)
+        )
+        self.play(
+            GrowArrow(arrow1),
+            FadeIn(Group(txt2, tip2)),
+            lag_ratio=0.3
+        )
+        self.play(
+            GrowArrow(arrow2),
+            FadeIn(Group(txt3, tip3)),
+            lag_ratio=0.3
+        )
+        self.play(
+            Group(code1, unders).anim.points.shift(RIGHT * 4.2 + UP * 2.2),
+            duration=2
+        )
+
+        ##############################################
+
+        typ1 = TypstMath("(x', y', z', w')")
+        typ2 = TypstMath("(x' slash w', y' slash w', z' slash w', 1)")
+
+        for typ in (typ1, typ2):
+            typ.fix_in_frame().set(depth=-150)
+            typ["x'"].set(color=RED)
+            typ["y'"].set(color=GREEN)
+            typ["z'"].set(color=BLUE)
+
+        typ1.points.shift(UP * 1.5)
+        typ2.points.shift(DOWN * 0.2)
+
+        arrow = Arrow(typ1, typ2, depth=-150, color=BLUE_D).fix_in_frame()
+        arrow.points.shift(LEFT * 0.5)
+        txt = Text('透视除法\n由 OpenGL 自动完成', font_size=16, color=BLUE_D, depth=-150).fix_in_frame()
+        txt.points.next_to(arrow, buff=0)
+
+        ##############################################
+        
+        self.play(
+            Write(typ1),
+            Write(typ2),
+        )
+        self.play(
+            GrowArrow(arrow),
+            FadeIn(txt),
+            lag_ratio=0.7
+        )
+
+        ##############################################
+
+        group = Group(code1, unders, typ1, typ2, arrow, txt)
+        fadeout_items = Group(shadow, axes2, labels2, con, pers_area, coords)
+        fadeout = AlphaEffect(fadeout_items)
+
+        ##############################################
+
+        self.play(
+            fadeout.anim.alpha.set(0),
+            group.anim.points.to_center().to_border(UL, buff=0.8),
+        )
+
+        self.camera.load_state('orig')
+        self.camera.points.set(orientation=quat(0.49, -0.26, -0.4, 0.73))
+        self.camera.points.shift([0.83, -0.47, 1.04])
+
+        ##############################################
+
+        plane = NumberPlane((-4, 4), (-4, 4), faded_line_ratio=1, depth=2)
+        plane.points.shift(IN)
+
+        ##############################################
+
+        self.play(
+            FocusOn(txt1),
+            FadeOut(arrow1),
+            lag_ratio=0.5
+        )
+
+        self.play(
+            FadeIn(plane)
+        )
+
+        ##############################################
+
+        code2 = Text(
+            '<fc #9cdcfe>gl_Position</fc><fc #d4d4d4> = projection * view *  model  * </fc><fc #569cd6>vec4</fc><fc #d4d4d4>(in_point, </fc><fc #b5cea8>1.0</fc><fc #d4d4d4>);</fc>',
+            format='rich',
+            depth=-100
+        )
+
+        ul_1 = _Udl(code2[0][44:63])
+        ul_2 = _Udl(code2[0][35:40])
+
+        g = Group(code2, ul_1, ul_2).fix_in_frame()
+        g.points.move_to_by_indicator(code2[0][0], code1[0][0])
+
+        con = Container3D()
+        alphaeff = AlphaEffect(con, alpha=0.5).show()
+
+        txt_modelcoord = Text('『模型坐标』', color=BLUE).fix_in_frame()
+        txt_modelcoord.points.shift([-3.22, -0.93, 0])
+        txt_worldcoord = Text('『世界坐标』', color=BLUE).fix_in_frame()
+        txt_worldcoord.points.shift([5.13, 0.19, 0])
+
+        con2 = Container3D()
+        arrow_m2w = Arrow([-1, -1, 0], [2.5, -0.2, 0], color=BLUE).fix_in_frame()
+
+        txt1.generate_target().points.next_to(ul_2, DOWN, coor_mask=(1, 0, 0)).shift(RIGHT * 0.2)
+        tip1 = tip2.copy()
+        tip1.points.next_to(txt1.target, UP, buff=SMALL_BUFF, aligned_edge=LEFT)
+
+        txt0 = _Text('『模型坐标』').fix_in_frame()
+        txt0.points.next_to(txt1.target, buff=0.7)
+
+        arrow0 = _Arrow(txt0, txt1.target, path_arc=-70 * DEGREES).fix_in_frame()
+        arrow1 = _Arrow(txt1.target, txt2, path_arc=-90 * DEGREES, buff=0.2).fix_in_frame()
+
+        arrowtxt = arrow_m2w.create_text('“模型矩阵”', font_size=16, color=BLUE).fix_in_frame()
+
+        ##############################################
+
+        self.play(
+            FadeIn(con)
+        )
+        self.play(
+            Write(txt_modelcoord)
+        )
+        self.play(
+            con2.anim.points.shift([2.42, -2.88, 1.04]).rotate(14 * DEGREES, axis=UR),
+            FadeIn(con2),
+            GrowArrow(arrow_m2w),
+            Write(txt_worldcoord, at=0.5)
+        )
+        self.play(
+            Write(arrowtxt)
+        )
+        self.play(
+            FadeOut(ul1),
+            TransformMatchingDiff(code1, code2),
+            AnimGroup(
+                FadeIn(ul_1),
+                FadeIn(ul_2),
+                at=1.3
+            ),
+            AnimGroup(
+                MoveToTarget(txt1),
+                FadeIn(tip1, LEFT * 0.5),
+                at=0.6,
+                duration=1.5
+            ),
+            FadeIn(txt0, at=1.5)
+        )
+        self.play(
+            GrowArrow(arrow0),
+            GrowArrow(arrow1)
+        )
+
+        ##############################################
+
+        roteff = TransformableFrameClip(arrow_m2w, arrowtxt, con2).show()
+
+        ##############################################
+
+        g = Group(arrowtxt, code2[0][35:40]).set(glow_color=GREEN_D)
+        self.play(
+            g.anim.set(color=GREEN_A, glow_alpha=0.5, glow_size=0.1),
+            roteff.anim.clip.set(rotate=-16 * DEGREES, x_offset=0.015, y_offset=-0.03)
+        )
+
+        ##############################################
+
+        cover = FrameRect(fill_alpha=1, stroke_alpha=0, fill_color=BLACK, depth=-250).fix_in_frame()
+        group = Group(txt0, txt1, txt2, txt3, tip1, tip2, tip3, arrow0, arrow1, arrow2, depth=-300)
+
+        self.play(
+            FadeIn(cover),
+            group.anim.points.to_center().scale(1.4)
         )
 
         self.forward()
