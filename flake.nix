@@ -26,6 +26,7 @@
             packages = [ 
               pkgs.vista-fonts  # Consolas
               pkgs.uv 
+              pkgs.typst
               python
               # alias
               (pkgs.writeShellScriptBin "janim" ''
