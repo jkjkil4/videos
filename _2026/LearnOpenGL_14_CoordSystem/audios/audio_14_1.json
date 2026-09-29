@@ -1,0 +1,22 @@
+[
+    {
+        "text": "在上一个教程中，我们学习了如何有效地利用矩阵",
+        "range": [0.54, 3.63],
+        "contains_math": false
+    },
+    {
+        "text": "来对所有顶点进行变换",
+        "range": [3.63, 5.67],
+        "contains_math": false
+    },
+    {
+        "text": "在这一节中，我们将会深入介绍三维空间",
+        "range": [6.24, 9.03],
+        "contains_math": false
+    },
+    {
+        "text": "以及如何在画面上显示三维模型",
+        "range": [9.15, 11.61],
+        "contains_math": false
+    }
+]

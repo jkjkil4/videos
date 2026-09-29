@@ -1,0 +1,282 @@
+[
+    {
+        "text": "再次回顾一下",
+        "range": [0.18, 1.32],
+        "contains_math": false
+    },
+    {
+        "text": "目前我们已经完成了",
+        "range": [1.44, 2.79],
+        "contains_math": false
+    },
+    {
+        "text": "这样一套流程",
+        "range": [2.79, 3.84],
+        "contains_math": false
+    },
+    {
+        "text": "首先",
+        "range": [4.23, 4.74],
+        "contains_math": false
+    },
+    {
+        "text": "我们从『世界坐标』开始",
+        "range": [4.74, 6.51],
+        "contains_math": false
+    },
+    {
+        "text": "通过平移与旋转整个世界",
+        "range": [6.75, 9.06],
+        "contains_math": false
+    },
+    {
+        "text": "将摄像机“摆正”",
+        "range": [9.33, 10.53],
+        "contains_math": false
+    },
+    {
+        "text": "变换到『观察坐标』",
+        "range": [10.68, 12.15],
+        "contains_math": false
+    },
+    {
+        "text": "接着，我们再确定",
+        "range": [13.11, 14.19],
+        "contains_math": false
+    },
+    {
+        "text": "摄像机的观察范围",
+        "range": [14.19, 15.48],
+        "contains_math": false
+    },
+    {
+        "text": "将空间中的顶点",
+        "range": [15.72, 17.11],
+        "contains_math": false
+    },
+    {
+        "text": "映射到最终的画面中",
+        "range": [17.13, 18.63],
+        "contains_math": false
+    },
+    {
+        "text": "得到『裁剪坐标』",
+        "range": [18.63, 19.95],
+        "contains_math": false
+    },
+    {
+        "text": "在 OpenGL 中",
+        "range": [20.43, 21.66],
+        "contains_math": false
+    },
+    {
+        "text": "这整个过程",
+        "range": [21.78, 22.74],
+        "contains_math": false
+    },
+    {
+        "text": "最终会被写成这样",
+        "range": [22.77, 24.15],
+        "contains_math": false
+    },
+    {
+        "text": "始终记住",
+        "range": [25.38, 26.31],
+        "contains_math": false
+    },
+    {
+        "text": "矩阵乘法要从右向左看",
+        "range": [26.34, 28.56],
+        "contains_math": false
+    },
+    {
+        "text": "这里最右边就是我们的顶点位置",
+        "range": [28.89, 31.41],
+        "contains_math": false
+    },
+    {
+        "text": "接着我们定义了两个矩阵",
+        "range": [31.68, 33.51],
+        "contains_math": false
+    },
+    {
+        "text": "一个是 view",
+        "range": [33.57, 34.23],
+        "contains_math": false
+    },
+    {
+        "text": "另一个是 projection",
+        "range": [34.26, 35.4],
+        "contains_math": false
+    },
+    {
+        "text": "它们分别对应",
+        "range": [35.79, 36.63],
+        "contains_math": false
+    },
+    {
+        "text": "从『世界坐标』到『观察坐标』",
+        "range": [36.63, 38.49],
+        "contains_math": false
+    },
+    {
+        "text": "以及从『观察坐标』到裁剪坐标的矩阵",
+        "range": [38.72, 41.4],
+        "contains_math": false
+    },
+    {
+        "text": "最后",
+        "range": [41.91, 42.45],
+        "contains_math": false
+    },
+    {
+        "text": "我们并不需要自己进行透视除法",
+        "range": [42.48, 44.67],
+        "contains_math": false
+    },
+    {
+        "text": "因为 OpenGL",
+        "range": [45.03, 45.96],
+        "contains_math": false
+    },
+    {
+        "text": "会在后续阶段自动对 gl_Position 执行透视除法",
+        "range": [45.96, 49.98],
+        "contains_math": false
+    },
+    {
+        "text": "以上就是将一个箱子的坐标",
+        "range": [52.35, 54.12],
+        "contains_math": false
+    },
+    {
+        "text": "从『世界坐标』",
+        "range": [54.24, 55.33],
+        "contains_math": false
+    },
+    {
+        "text": "转换到『裁剪坐标』的过程",
+        "range": [55.52, 57.18],
+        "contains_math": false
+    },
+    {
+        "text": "不过这离完整的流程还差一步",
+        "range": [57.57, 59.64],
+        "contains_math": false
+    },
+    {
+        "text": "我们看向最开始的『世界坐标』",
+        "range": [59.82, 62.01],
+        "contains_math": false
+    },
+    {
+        "text": "就像我们在上一节所说的",
+        "range": [62.25, 64.14],
+        "contains_math": false
+    },
+    {
+        "text": "当我们想让箱子",
+        "range": [64.38, 65.61],
+        "contains_math": false
+    },
+    {
+        "text": "在空间中旋转、移动时",
+        "range": [65.61, 67.69],
+        "contains_math": false
+    },
+    {
+        "text": "我们并不需要",
+        "range": [67.83, 69.0],
+        "contains_math": false
+    },
+    {
+        "text": "每次都重新传递顶点",
+        "range": [69.0, 70.95],
+        "contains_math": false
+    },
+    {
+        "text": "而是传递一套固定的坐标",
+        "range": [71.28, 73.5],
+        "contains_math": false
+    },
+    {
+        "text": "我们称之为『模型坐标』",
+        "range": [73.62, 75.52],
+        "contains_math": false
+    },
+    {
+        "text": "并且通过一个矩阵",
+        "range": [76.08, 77.44],
+        "contains_math": false
+    },
+    {
+        "text": "来表示箱子移动到的位置",
+        "range": [77.45, 79.53],
+        "contains_math": false
+    },
+    {
+        "text": "即“模型矩阵”",
+        "range": [79.65, 80.91],
+        "contains_math": false
+    },
+    {
+        "text": "我们的着色器代码会改为这样",
+        "range": [81.3, 83.25],
+        "contains_math": false
+    },
+    {
+        "text": "这样",
+        "range": [84.48, 84.84],
+        "contains_math": false
+    },
+    {
+        "text": "如果我们想调整箱子在空间中的位置",
+        "range": [84.84, 87.33],
+        "contains_math": false
+    },
+    {
+        "text": "我们只需要调整这个“模型矩阵”就好了",
+        "range": [87.45, 90.27],
+        "contains_math": false
+    },
+    {
+        "text": "这一节的主题",
+        "range": [91.2, 92.01],
+        "contains_math": false
+    },
+    {
+        "text": "可能会比较难理解",
+        "range": [92.01, 93.15],
+        "contains_math": false
+    },
+    {
+        "text": "如果你仍然不确定",
+        "range": [93.3, 94.35],
+        "contains_math": false
+    },
+    {
+        "text": "这每个坐标空间的作用的话",
+        "range": [94.35, 96.06],
+        "contains_math": false
+    },
+    {
+        "text": "你也不必太担心",
+        "range": [96.21, 97.35],
+        "contains_math": false
+    },
+    {
+        "text": "接下来你会看到",
+        "range": [97.62, 98.43],
+        "contains_math": false
+    },
+    {
+        "text": "我们是怎样运用这些坐标空间的",
+        "range": [98.43, 100.47],
+        "contains_math": false
+    },
+    {
+        "text": "而且之后也会有足够多的例子",
+        "range": [100.86, 102.9],
+        "contains_math": false
+    }
+]

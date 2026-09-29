@@ -8,14 +8,24 @@ sys.path.append('.')
 
 from janim.imports import *
 from janim_url_assets.imports import Iconify
+from template.audio import play_audio_with_subtitles, seq_play_audio_with_subtitles
 
 with reloads():
     from template import *
 from template import *
 
 
+class TLTitle(TitleTemplate):
+    str1 = 'Learn OpenGL'
+    str2 = '坐标系统'
+
+
 class Review(Template):
     def construct(self) -> None:
+        t = play_audio_with_subtitles(
+            self, "audio_14_1.mp3", 0, 12, delay=0.5, mul=0.8
+        )
+
         ##############################################
 
         imgs = [ImageItem(f'12_{i}.png', height=2) for i in range(1, 5)]
@@ -58,6 +68,9 @@ class Review(Template):
 
         ##############################################
 
+        self.forward_to(t.end)
+        self.play(FadeOut(Group(*imgs[1:], *surs, *txts)))
+
 
 class Container3D(Group):
     def __init__(self):
@@ -77,6 +90,14 @@ class Container3D(Group):
 
 class TL_1(Template):
     def construct(self) -> None:
+        t = seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_14_2.mp3', 'begin': 0, 'end': 16.2, 'delay': 1.6, 'mul': 0.8 },
+                { 'file': 'audio_14_2.mp3', 'begin': 16.8, 'end': 53, 'delay': 5.2, 'mul': 0.8 },
+            ]
+        )
+
         ##############################################
 
         plane = NumberPlane((-4, 4), (-4, 4), faded_line_ratio=1, depth=2)
@@ -165,7 +186,7 @@ class TL_1(Template):
         ##############################################
 
         self.play(FadeIn(ascreen), FadeIn(aeye))
-        self.play(Indicate(ascreen))
+        self.play(Indicate(ascreen), at=0.4)
 
         ##############################################
 
@@ -185,14 +206,15 @@ class TL_1(Template):
             Do(con.hide),
             con2.anim.points.apply_point_fn(map_to_cam),
             FadeIn(sample_img, at=0.3),
+            at=1.2
         )
         self.play(
             FadeOut(arrow),
             FadeOut(sample_img),
             Do(con2.hide),
-            FadeIn(con)
+            FadeIn(con),
+            at=0.9
         )
-        self.forward()
 
         ##############################################
 
@@ -238,10 +260,14 @@ class TL_1(Template):
         camitem[0].set(fill_color=BLUE)
         self.play(
             FadeIn(con_frame[0]),
-            Create(con_frame[1], at=0.3)
+            Create(con_frame[1], at=0.3),
+            at=0.8
         )
-        self.play(FadeOut(con), plane(VItem).anim.color.fade(0.5))
-        self.play(FadeIn(dotline[0]))
+        self.play(
+            FadeOut(con), 
+            plane(VItem).anim.color.fade(0.5),
+            FadeIn(dotline[0], at=0.5),
+        )
         self.play(camitem[0].anim.set(fill_alpha=0.5), Create(dotline[1]))
 
         ##############################################
@@ -296,11 +322,13 @@ class TL_1(Template):
             dotline[1].anim.set(alpha=0.5)
         )
         self.play(
-            CircleIndicate(p1, rate_func=there_and_back_with_pause, scale=1.3),
+            CircleIndicate(p1, rate_func=there_and_back_with_pause, scale=1.3, duration=3),
         )
         self.play(
-            CircleIndicate(p2, rate_func=there_and_back_with_pause, scale=1.3),
+            CircleIndicate(p2, rate_func=there_and_back_with_pause, scale=1.3, duration=3.6),
+            at=0.5
         )
+        self.forward(0.8)
         ascreen.load_state()
         con_frame.apply_depth_test(False)
         sample_img.apply_depth_test(False)
@@ -322,7 +350,8 @@ class TL_1(Template):
                     lambda group, p: group.points.face_to_camera(about_point=camitem[0].points.box.zenith),
                 ),
                 duration=1.7
-            )
+            ),
+            duration=4,
         )
 
         ##############################################
@@ -362,25 +391,31 @@ class TL_1(Template):
         self.play(
             FadeIn(icon),
             Write(txt_from),
+            at=3.4
         )
         self.play(
             GrowArrow(arrow),
-            Write(txt_to)
+            Write(txt_to),
+            at=2.7
         )
         self.play(
             FadeIn(Group(fr, img, sur)),
+            at=0.6
         )
         self.play(
-            FadeIn(dot1, scale=0.1, hide_at_end=True, duration=0.6),
+            FadeIn(dot1, scale=0.1, hide_at_end=True, duration=1),
             AnimGroup(
                 ShowPassingFlash(curve1),
                 ShowPassingFlash(curve2),
+                at=-0.2,
+                duration=4
             ),
-            FadeOut(dot2, scale=10, duration=0.6),
-            lag_ratio=0.8
+            FadeOut(dot2, scale=10, duration=1, at=-0.2),
+            lag_ratio=1
         )
         self.play(
-            FadeIn(red)
+            FadeIn(red),
+            at=1.5
         )
         self.forward()
         self.play(
@@ -391,11 +426,18 @@ class TL_1(Template):
             TransformMatchingDiff(txt_to, txt_to2)
         )
 
-        self.forward()
+        self.forward(1.7)
 
 
 class TL_2(Template):
     def construct(self) -> None:
+        t = seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_14_2.mp3', 'begin': 53, 'end': 101, 'delay': 0.7, 'mul': 0.8 },
+            ]
+        )
+
         ##############################################
 
         def get_coordbox(img_file: str, icon_name: str, text: str):
@@ -443,12 +485,13 @@ class TL_2(Template):
 
         self.show(worldcoord, clipcoord, arrow)
 
-        self.forward()
+        self.forward(0.5)
         self.play(
             FadeIn(Group(back, center))
         )
         self.play(
-            Write(txt)
+            Write(txt),
+            at=1.7
         )
         self.play(
             Aligned(
@@ -458,7 +501,8 @@ class TL_2(Template):
                     Wait(2),
                     alphaeffect.anim.alpha.set(0)
                 )
-            )
+            ),
+            at=3.5
         )
         self.play(FadeIn(hl1))
         self.play(
@@ -477,12 +521,14 @@ class TL_2(Template):
         ##############################################
 
         self.play(
-            FadeIn(viewcoord)
+            FadeIn(viewcoord),
+            at=10
         )
         self.play(
             center.anim.set(stroke_alpha=0.5),
             GrowArrow(arrow1),
-            GrowArrow(arrow2)
+            GrowArrow(arrow2),
+            at=1.7
         )
 
         ##############################################
@@ -508,24 +554,35 @@ class TL_2(Template):
 
         self.play(
             Write(txt1),
-            Write(txt2)
+            Write(txt2),
+            at=1.5
         )
         self.play(
             Transform(txt1, txt11),
-            Transform(txt2, txt22)
+            Transform(txt2, txt22),
+            at=1.5
         )
         self.play(
-            FadeIn(review)
+            FadeIn(review),
+            at=1.8
         )
         self.play(
-            FadeOut(review)
+            FadeOut(review),
+            at=2.5
         )
 
-        self.forward()
+        self.forward(9)
 
 
 class TL_3(Template):
     def construct(self) -> None:
+        t = seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_14_2.mp3', 'begin': 102, 'end': 259.2, 'delay': 0.2, 'mul': 0.8 },
+            ]
+        )
+
         ##############################################
 
         plane = NumberPlane((-4, 4), (-4, 4), faded_line_ratio=1, depth=2)
@@ -597,7 +654,7 @@ class TL_3(Template):
         self.prepare(
             DataUpdater(
                 self.camera,
-                lambda data, p: data.points.rotate(5 * DEGREES * p.elapsed),
+                lambda data, p: data.points.rotate(3 * DEGREES * p.elapsed),
                 duration=FOREVER
             )
         )
@@ -635,14 +692,16 @@ class TL_3(Template):
 
         ##############################################
 
-        self.forward()
+        self.forward(4)
 
         self.play(
             FocusOn(Dot([3.34, 1.48, 0]).fix_in_frame()),
         )
         self.play(
-            GrowArrow(arrow)
+            GrowArrow(arrow),
+            at=1.3
         )
+        self.forward(7)
 
         axes.save_state()
         axes.points.apply_matrix(mat_T.T).shift(info.camera_location)
@@ -653,7 +712,7 @@ class TL_3(Template):
             FadeIn(axes, at=0.5, duration=0.5),
             Transform(worldcoord, viewcoord),
             FadeOut(arrow, at=0.7, duration=0.3),
-            duration=3
+            duration=6
         )
         cam.points.set(orientation=quat(1.0, 0.0, 0.0, 1.0)).shift(-cam.points.info.camera_location)
 
@@ -691,10 +750,13 @@ class TL_3(Template):
                 eye[1],
                 lambda group, p: group.set(stroke_color=BLACK),
                 become_at_end=False
-            )
+            ),
+            at=7.6,
+            duration=2
         )
         self.play(
-            FocusOn(viewcoord)
+            FocusOn(viewcoord),
+            at=3.9
         )
 
         ##############################################
@@ -712,7 +774,8 @@ class TL_3(Template):
                     FadeOut(quest),
                 ),
                 DataUpdater(camitem[0], lambda data, p: data.color.mix(YELLOW, p.alpha), rate_func=there_and_back_with_pause)
-            )
+            ),
+            at=3
         )
 
         ##############################################
@@ -748,17 +811,17 @@ class TL_3(Template):
             self.camera.anim.points
                 .set(orientation=quat(0.52, -0.16, -0.25, 0.8))
                 .shift([0.0, 2.83, 0.06]),
-            duration=2,
+            duration=4,
         )
         self.play(
-            MoveToTarget(orth_area)
+            MoveToTarget(orth_area),
+            at=1.8,
+            duration=2
         )
-        self.play(
+        self.prepare(
             orth_area(VItem).anim.color.fade(0.7),
-            FadeOut(con)
-        )
-        self.play(
-            FadeIn(think)
+            FadeOut(con),
+            FadeIn(think, at=0.3),
         )
 
         ##############################################
@@ -800,7 +863,9 @@ class TL_3(Template):
                 FadeIn(orth_proj[2]),
                 Create(mapped_think, auto_close_path=False)
             ),
-            lag_ratio=1
+            lag_ratio=1,
+            at=0.6,
+            duration=1.7
         )
         self.play(
             think.anim.points.shift(UP * 4.2),
@@ -821,10 +886,11 @@ class TL_3(Template):
         ##############################################
 
         self.play(
-            Write(typ1)
+            Write(typ1),
+            at=3.5
         )
         self.play(
-            TransformMatchingDiff(typ1.copy(), typ2)
+            TransformMatchingDiff(typ1.copy(), typ2),
         )
 
         ##############################################
@@ -854,19 +920,30 @@ class TL_3(Template):
         ##############################################
 
         self.play(
-            FadeIn(orthbox, DOWN)
+            FadeIn(orthbox, DOWN),
+            at=5
         )
         self.play(
-            FadeIn(g)
+            FadeIn(g),
+            at=12,
+            duration=3
         )
+        self.forward(5)
         self.hide(orth_proj, typ1, typ2, orth_area, mapped_think, think)
         self.show(camitem[1], con)
         think.points.shift(DOWN * 4.2)
         self.play(
-            FadeOut(g)
+            FadeOut(g),
+            duration=2
         )
 
         ##############################################
+
+        persbox = get_projbox('Pers.png', '透视投影')
+        persbox.points.to_border(UR)
+
+        shadow = FrameRect(**Rect.preset_shadow, depth=-85).fix_in_frame()
+        boxes = Group(orthbox, persbox)
 
         p11, p22, p33, p44, _ = camitem[0].points.get_anchors() * 4
 
@@ -893,14 +970,29 @@ class TL_3(Template):
         ##############################################
 
         self.play(
+            FadeIn(orth_area),
+            duration=2
+        )
+        self.play(
+            FadeOut(orth_area),
+            at=1,
+            duration=1.5
+        )
+        self.play(
             Transform(get_proj_area(p1, p2, p3, p4, p1, p2, p3, p4), pers_area)
         )
+
         self.play(
-            FadeOut(con),
-            pers_area(VItem).anim.color.fade(0.7)
+            FadeIn(persbox, DOWN),
+            at=5,
+            duration=2
         )
-        self.play(
-            FadeIn(think)
+
+        self.prepare(
+            FadeOut(con),
+            pers_area(VItem).anim.color.fade(0.7),
+            FadeIn(think, at=0.3),
+            at=1
         )
 
         self.play(
@@ -912,7 +1004,9 @@ class TL_3(Template):
                 FadeIn(pers_proj[2]),
                 Create(mapped_think, auto_close_path=False)
             ),
-            lag_ratio=1
+            lag_ratio=1,
+            at=1.2,
+            duration=1.5
         )
         self.play(
             think.anim.points.shift(UP * 4.2),
@@ -925,23 +1019,11 @@ class TL_3(Template):
             duration=2
         )
 
-        ##############################################
-
-        persbox = get_projbox('Pers.png', '透视投影')
-        persbox.points.to_border(UR)
-
-        shadow = FrameRect(**Rect.preset_shadow, depth=-85).fix_in_frame()
-        boxes = Group(orthbox, persbox)
-
-        ##############################################
-
-        self.play(
-            FadeIn(persbox, DOWN)
-        )
-        self.forward()
+        self.forward(10.5)
         self.play(
             FadeIn(shadow),
-            boxes.anim.points.scale(1.5).arrange()
+            boxes.anim.points.scale(1.5).arrange(),
+            duration=4
         )
         self.forward()
         self.play(
@@ -975,18 +1057,23 @@ class TL_3(Template):
                 .scale(1.48)
                 .shift([0.05, 0.67, 0.0])
         )
-        self.play(
+        self.prepare(
             FadeIn(plane1, scale=0.25),
             FadeOut(plane1, scale=4),
             lag_ratio=1,
+            at=1.6,
+            duration=1.6
         )
         self.play(
             FadeIn(plane2, scale=0.8),
             FadeOut(plane2, scale=1 / 0.8),
             lag_ratio=1,
+            at=2.8,
+            duration=1.6,
         )
         self.play(
-            Write(txt)
+            Write(txt),
+            at=2.2
         )
         self.play(
             FadeOut(txt),
@@ -1025,15 +1112,18 @@ class TL_3(Template):
                 Transform(viewcoord, clipcoord),
                 duration=2,
             ),
-            lag_ratio=0.4
+            lag_ratio=0.4,
+            at=1
         )
         self.play(
             Transform(clip_area, pers_area),
             Transform(clipcoord, viewcoord),
+            at=1.5
         )
         self.play(
             Transform(pers_area, clip_area),
             Transform(viewcoord, clipcoord),
+            at=0.8
         )
 
         ##############################################
@@ -1044,15 +1134,24 @@ class TL_3(Template):
 
         ##############################################
 
+        self.forward(7)
         self.play(
             FadeIn(g),
         )
 
-        self.forward()
+        self.forward(2)
 
 
 class TL_4(Template):
     def construct(self) -> None:
+        t = seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_14_2.mp3', 'begin': 259.2, 'end': 311.6, 'delay': 0.2, 'mul': 0.8 },
+            ]
+        )
+        self.audio_infos[0].audio.fade_out(1.7)
+
         ##############################################
 
         _Text = partial(Text, font_size=60)
@@ -1063,7 +1162,7 @@ class TL_4(Template):
 
         ##############################################
 
-        self.forward()
+        self.forward(6.5)
 
         self.play(
             Write(txt1)
@@ -1071,6 +1170,7 @@ class TL_4(Template):
         self.play(
             Write(txt2)
         )
+        self.forward(1.2)
 
         ##############################################
 
@@ -1103,23 +1203,31 @@ class TL_4(Template):
         self.play(
             FadeOut(txt2),
             txt1.anim.points.scale(0.6).move_to(mat),
-            FadeIn(mat)
+            FadeIn(mat),
         )
         self.play(
-            FadeIn(vec1)
+            FadeIn(vec1, duration=0.8),
+            at=2.2
         )
         self.play(
             Write(eq),
             FadeIn(vec2),
-            lag_ratio=0.3
+            lag_ratio=0.3,
+            duration=1
         )
         self.play(
             GrowArrow(arrow),
             ShowCreationThenDestructionAround(vec2[13:15]),
-            lag_ratio=0.8
+            lag_ratio=0.8,
+            at=3.6
         )
         self.play(
-            FadeOut(arrow)
+            FadeOut(arrow),
+            at=3
+        )
+        self.play(
+            ShowCreationThenDestructionAround(vec2[13:15]),
+            at=2
         )
 
         ##############################################
@@ -1143,22 +1251,29 @@ class TL_4(Template):
             FadeOut(Group(txt1, mat, vec1, eq)),
             vec2group.anim.points.scale(0.6).shift([-4.31, 1.48, 0.0]),
             FadeIn(vec2bg),
+            at=1,
+            duration=2.6
         )
         vec2group_1.points.move_to(vec2)
         self.play(
             Transform(vec2bg, vec2bg_1, duration=2),
-            TransformMatchingDiff(vec2, vec2_1)
+            TransformMatchingDiff(vec2, vec2_1),
+            at=2.4
         )
         txt2.points.scale(0.6)
         txt2.points.shift([-6.27, 1.56, 0.0])
         self.play(
-            Write(txt2)
+            Write(txt2),
+            at=2
         )
         self.play(
-            ShowCreationThenFadeAround(vec2_1[22])
+            ShowCreationThenFadeAround(vec2_1[22]),
+            at=4
         )
         self.play(
-            ShowCreationThenFadeAround(Group(vec2_1[10:12], vec2_1[15:17], vec2_1[20:22]))
+            ShowCreationThenFadeAround(Group(vec2_1[10:12], vec2_1[15:17], vec2_1[20:22])),
+            at=1,
+            duration=3
         )
 
         ##############################################
@@ -1172,21 +1287,38 @@ class TL_4(Template):
 
         self.play(
             FadeIn(ref2),
-            FadeOut(Group(txt2, vec2group_1))
+            FadeOut(Group(txt2, vec2group_1)),
+            duration=2
         )
         coord1.points.shift([1.41, -2.5, 0.0])
         coord2.points.shift([1.51, 1.4, 0.0])
         self.play(
             Write(coord1, duration=1),
             Write(coord2, duration=1),
-            lag_ratio=0.4
+            lag_ratio=0.4,
+            at=2.2,
+            duration=2.6
         )
 
-        self.forward()
+        self.forward(1.7)
+
+        framerect = FrameRect(**Rect.preset_shadow)
+        framerect.set(fill_alpha=1)
+        self.play(FadeIn(framerect), duration=2)
 
 
 class TL_5(Template):
     def construct(self) -> None:
+        t = seq_play_audio_with_subtitles(
+            self,
+            [
+                { 'file': 'audio_14_3.mp3', 'begin': 0, 'end': 41.5, 'delay': 0.5, 'mul': 0.8 },
+                { 'file': 'audio_14_3.mp3', 'begin': 41.5, 'end': 110, 'delay': 1, 'mul': 0.8 },
+            ]
+        )
+
+        self.forward(3.3)
+
         ##############################################
 
         self.camera.save_state('orig')
@@ -1301,7 +1433,7 @@ class TL_5(Template):
 
         ##############################################
 
-        self.forward()
+        self.forward(2)
 
         self.play(
             GrowArrow(arrow)
@@ -1316,12 +1448,13 @@ class TL_5(Template):
             FadeIn(axes, at=0.5, duration=0.5),
             coords.anim.load_state('view'),
             FadeOut(arrow, at=0.7, duration=0.3),
-            duration=3
+            duration=5
         )
         cam.points.set(orientation=quat(1.0, 0.0, 0.0, 1.0)).shift(-cam.points.info.camera_location)
         self.play(
             FadeIn(labels)
         )
+        self.forward(1)
 
         ##############################################
 
@@ -1411,7 +1544,7 @@ class TL_5(Template):
             FadeIn(tip),
             Group(con, pers_area, axes2, labels2).anim.points.stretch(1.7, dim=0, about_point=ORIGIN),
         )
-        self.forward()
+        self.forward(2.6)
 
         ##############################################
 
@@ -1464,14 +1597,19 @@ class TL_5(Template):
             FadeIn(shadow),
             Write(code1)
         )
-        self.play(Create(ul1))
+        self.play(
+            Create(ul1),
+            at=4
+        )
         self.play(
             Create(ul2),
             Create(ul3),
-            lag_ratio=0.5
+            lag_ratio=0.5,
+            at=1.6
         )
         self.play(
-            FadeIn(txt1)
+            FadeIn(txt1),
+            at=2.7
         )
         self.play(
             GrowArrow(arrow1),
@@ -1481,11 +1619,12 @@ class TL_5(Template):
         self.play(
             GrowArrow(arrow2),
             FadeIn(Group(txt3, tip3)),
-            lag_ratio=0.3
+            lag_ratio=0.3,
+            at=1.
         )
         self.play(
             Group(code1, unders).anim.points.shift(RIGHT * 4.2 + UP * 2.2),
-            duration=2
+            duration=2,
         )
 
         ##############################################
@@ -1512,11 +1651,14 @@ class TL_5(Template):
         self.play(
             Write(typ1),
             Write(typ2),
+            duration=1.4
         )
         self.play(
             GrowArrow(arrow),
+        )
+        self.play(
             FadeIn(txt),
-            lag_ratio=0.7
+            at=3
         )
 
         ##############################################
@@ -1530,7 +1672,10 @@ class TL_5(Template):
         self.play(
             fadeout.anim.alpha.set(0),
             group.anim.points.to_center().to_border(UL, buff=0.8),
+            at=2,
+            duration=2
         )
+        self.forward()
 
         self.camera.load_state('orig')
         self.camera.points.set(orientation=quat(0.49, -0.26, -0.4, 0.73))
@@ -1546,11 +1691,14 @@ class TL_5(Template):
         self.play(
             FocusOn(txt1),
             FadeOut(arrow1),
-            lag_ratio=0.5
+            lag_ratio=0.5,
+            at=7
         )
 
         self.play(
-            FadeIn(plane)
+            FadeIn(plane),
+            at=1,
+            duration=1.5
         )
 
         ##############################################
@@ -1593,20 +1741,26 @@ class TL_5(Template):
         ##############################################
 
         self.play(
-            FadeIn(con)
+            FadeIn(con),
+            duration=1.5
         )
         self.play(
-            Write(txt_modelcoord)
+            Write(txt_modelcoord),
+            at=8.3
         )
         self.play(
             con2.anim.points.shift([2.42, -2.88, 1.04]).rotate(14 * DEGREES, axis=UR),
             FadeIn(con2),
             GrowArrow(arrow_m2w),
-            Write(txt_worldcoord, at=0.5)
+            Write(txt_worldcoord, at=0.5),
+            at=1,
+            duration=3
         )
         self.play(
-            Write(arrowtxt)
+            Write(arrowtxt),
+            at=0.5
         )
+        self.forward(0.5)
         self.play(
             FadeOut(ul1),
             TransformMatchingDiff(code1, code2),
@@ -1637,7 +1791,9 @@ class TL_5(Template):
         g = Group(arrowtxt, code2[0][35:40]).set(glow_color=GREEN_D)
         self.play(
             g.anim.set(color=GREEN_A, glow_alpha=0.5, glow_size=0.1),
-            roteff.anim.clip.set(rotate=-16 * DEGREES, x_offset=0.015, y_offset=-0.03)
+            roteff.anim.clip.set(rotate=-16 * DEGREES, x_offset=0.015, y_offset=-0.03),
+            at=3.5,
+            duration=2
         )
 
         ##############################################
@@ -1647,7 +1803,20 @@ class TL_5(Template):
 
         self.play(
             FadeIn(cover),
-            group.anim.points.to_center().scale(1.4)
+            group.anim.points.to_center().scale(1.4),
+            at=0.6,
+            duration=2
         )
 
-        self.forward()
+        self.forward(11.6)
+
+
+class All(AboveTimelines):
+    def construct(self):
+        bgm_path = '/home/jkjkil/Documents/Vincent Rubinetti - The Music of 3Blue1Brown/Vincent Rubinetti - The Music of 3Blue1Brown - 11 Quaternions.mp3'
+        audio = Audio(bgm_path).mul(0.03)
+        self.play_audio(audio)
+        self.play_audio(audio.copy().clip(end=157.6).fade_out(2), delay=audio.duration())
+
+        super().construct()
+        self.forward(0.5)

@@ -1,0 +1,652 @@
+[
+    {
+        "text": "直观上来讲",
+        "range": [0.4, 1.1],
+        "contains_math": false
+    },
+    {
+        "text": "比如现在画面上的这个箱子",
+        "range": [1.38, 3.15],
+        "contains_math": false
+    },
+    {
+        "text": "为了将其显示到画面",
+        "range": [3.24, 5.04],
+        "contains_math": false
+    },
+    {
+        "text": "我们需要将其“拍扁”到摄像机上",
+        "range": [5.16, 7.86],
+        "contains_math": false
+    },
+    {
+        "text": "其实所谓的“拍扁”",
+        "range": [8.4, 9.69],
+        "contains_math": false
+    },
+    {
+        "text": "就是将箱子的各个顶点",
+        "range": [10.02, 11.82],
+        "contains_math": false
+    },
+    {
+        "text": "通过一些手段",
+        "range": [12.09, 13.29],
+        "contains_math": false
+    },
+    {
+        "text": "变换到摄像机的这个矩形画面中",
+        "range": [13.56, 16.18],
+        "contains_math": false
+    },
+    {
+        "text": "我们在这里标出来一个箭头",
+        "range": [16.82, 18.45],
+        "contains_math": false
+    },
+    {
+        "text": "箭头的左边",
+        "range": [18.56, 19.53],
+        "contains_math": false
+    },
+    {
+        "text": "是我们箱子的一个顶点",
+        "range": [19.62, 21.21],
+        "contains_math": false
+    },
+    {
+        "text": "箭头的右边",
+        "range": [21.54, 22.47],
+        "contains_math": false
+    },
+    {
+        "text": "是这个顶点在摄像机画面中的位置",
+        "range": [22.68, 25.44],
+        "contains_math": false
+    },
+    {
+        "text": "现在我们就很明确",
+        "range": [26.31, 27.54],
+        "contains_math": false
+    },
+    {
+        "text": "我们要“从哪里来，到哪里去”了",
+        "range": [27.54, 29.7],
+        "contains_math": false
+    },
+    {
+        "text": "左边来自箱子所处的三维坐标系",
+        "range": [30.24, 33.03],
+        "contains_math": false
+    },
+    {
+        "text": "我们称之为『世界坐标』",
+        "range": [33.11, 35.1],
+        "contains_math": false
+    },
+    {
+        "text": "右边到达摄像机画面的『标准化设备坐标』",
+        "range": [35.64, 39.0],
+        "contains_math": false
+    },
+    {
+        "text": "也就是从摄像机左下角起的 (-1,-1)",
+        "range": [39.29, 42.24],
+        "contains_math": false
+    },
+    {
+        "text": "再到摄像机右上角的 (1,1)",
+        "range": [42.54, 44.61],
+        "contains_math": false
+    },
+    {
+        "text": "的这个范围内的二维坐标系",
+        "range": [44.61, 46.35],
+        "contains_math": false
+    },
+    {
+        "text": "超出这个范围的顶点将不会显示",
+        "range": [46.77, 49.23],
+        "contains_math": false
+    },
+    {
+        "text": "出于这个特点",
+        "range": [49.74, 50.63],
+        "contains_math": false
+    },
+    {
+        "text": "我们之后就称其为『裁剪坐标』",
+        "range": [50.63, 52.74],
+        "contains_math": false
+    },
+    {
+        "text": "中间的这个转换过程",
+        "range": [53.76, 55.08],
+        "contains_math": false
+    },
+    {
+        "text": "我们将要在『顶点着色器』中完成",
+        "range": [55.08, 57.66],
+        "contains_math": false
+    },
+    {
+        "text": "在中间这块“顶点着色器”中",
+        "range": [58.71, 60.63],
+        "contains_math": false
+    },
+    {
+        "text": "我们将会通过一些巧妙的变换",
+        "range": [60.66, 62.79],
+        "contains_math": false
+    },
+    {
+        "text": "逐步完成从『世界坐标』到『裁剪坐标』的转换过程",
+        "range": [63.24, 66.96],
+        "contains_math": false
+    },
+    {
+        "text": "在这个过程中",
+        "range": [67.73, 69.0],
+        "contains_math": false
+    },
+    {
+        "text": "为了根据箱子的『世界坐标』算出其在画面中的位置",
+        "range": [69.39, 73.27],
+        "contains_math": false
+    },
+    {
+        "text": "我们在中间还需要一个过渡的坐标系",
+        "range": [73.38, 76.32],
+        "contains_math": false
+    },
+    {
+        "text": "它被称为『观察坐标』",
+        "range": [76.65, 78.24],
+        "contains_math": false
+    },
+    {
+        "text": "在这几个坐标空间之间",
+        "range": [78.75, 80.64],
+        "contains_math": false
+    },
+    {
+        "text": "我们需要通过一些方式进行转换",
+        "range": [80.73, 83.1],
+        "contains_math": false
+    },
+    {
+        "text": "刚好，这些转换可以通过矩阵进行表示",
+        "range": [83.52, 86.43],
+        "contains_math": false
+    },
+    {
+        "text": "这就是为什么在上一节我们了解了",
+        "range": [86.46, 88.8],
+        "contains_math": false
+    },
+    {
+        "text": "能够通过矩阵来变换顶点",
+        "range": [88.98, 91.23],
+        "contains_math": false
+    },
+    {
+        "text": "矩阵就将会在我们的变换过程中扮演重要的角色",
+        "range": [91.47, 95.1],
+        "contains_math": false
+    },
+    {
+        "text": "我们先省略具体的数学矩阵",
+        "range": [96.0, 97.95],
+        "contains_math": false
+    },
+    {
+        "text": "来直观理解一下这一套变换过程",
+        "range": [98.16, 100.77],
+        "contains_math": false
+    },
+    {
+        "text": "首先我们先进入『世界坐标』",
+        "range": [102.3, 104.22],
+        "contains_math": false
+    },
+    {
+        "text": "可以看到",
+        "range": [104.34, 105.21],
+        "contains_math": false
+    },
+    {
+        "text": "我们的摄像机现在摆放在空间中的某个位置",
+        "range": [105.27, 108.33],
+        "contains_math": false
+    },
+    {
+        "text": "并且朝向某个方向",
+        "range": [108.6, 109.98],
+        "contains_math": false
+    },
+    {
+        "text": "但是这样的坐标实在是太不方便计算了",
+        "range": [110.52, 113.58],
+        "contains_math": false
+    },
+    {
+        "text": "所以我们的第一步",
+        "range": [113.85, 115.14],
+        "contains_math": false
+    },
+    {
+        "text": "是把整个场景“摆正”",
+        "range": [115.26, 117.7],
+        "contains_math": false
+    },
+    {
+        "text": "也就是在保持画面中各个元素相对位置不变的前提下",
+        "range": [117.7, 121.56],
+        "contains_math": false
+    },
+    {
+        "text": "让摄像机被放置到坐标原点",
+        "range": [121.71, 124.08],
+        "contains_math": false
+    },
+    {
+        "text": "并且使其朝向 z 轴的负方向",
+        "range": [124.44, 127.2],
+        "contains_math": false
+    },
+    {
+        "text": "这样一来",
+        "range": [127.92, 128.59],
+        "contains_math": false
+    },
+    {
+        "text": "我们之后的所有计算",
+        "range": [128.61, 130.06],
+        "contains_math": false
+    },
+    {
+        "text": "都可以建立在一个统一的观察方向之上",
+        "range": [130.26, 132.93],
+        "contains_math": false
+    },
+    {
+        "text": "由于观察者位于坐标中心",
+        "range": [134.46, 136.35],
+        "contains_math": false
+    },
+    {
+        "text": "所以这个坐标空间",
+        "range": [136.53, 137.94],
+        "contains_math": false
+    },
+    {
+        "text": "就被称为『观察坐标』",
+        "range": [138.06, 139.74],
+        "contains_math": false
+    },
+    {
+        "text": "接下来，我们就要决定",
+        "range": [140.49, 141.9],
+        "contains_math": false
+    },
+    {
+        "text": "摄像机到底应该看到空间中的哪一部分",
+        "range": [141.96, 144.78],
+        "contains_math": false
+    },
+    {
+        "text": "为了方便观察",
+        "range": [145.19, 146.31],
+        "contains_math": false
+    },
+    {
+        "text": "我们先从一个最简单的情况开始",
+        "range": [146.34, 148.68],
+        "contains_math": false
+    },
+    {
+        "text": "假设摄像机能够看到的范围",
+        "range": [149.25, 151.17],
+        "contains_math": false
+    },
+    {
+        "text": "是一个规则的长方体",
+        "range": [151.35, 153.09],
+        "contains_math": false
+    },
+    {
+        "text": "也就是说",
+        "range": [153.3, 153.96],
+        "contains_math": false
+    },
+    {
+        "text": "无论我们将这个脸放得多远",
+        "range": [153.96, 155.97],
+        "contains_math": false
+    },
+    {
+        "text": "在摄像机中看到他的大小都始终相同",
+        "range": [156.27, 159.15],
+        "contains_math": false
+    },
+    {
+        "text": "在这种情况下的事情还挺简单的",
+        "range": [159.99, 162.0],
+        "contains_math": false
+    },
+    {
+        "text": "我们几乎只需要直接利用顶点的 x 和 y 坐标",
+        "range": [162.21, 166.27],
+        "contains_math": false
+    },
+    {
+        "text": "就能够得到它在画面中的位置",
+        "range": [166.27, 168.21],
+        "contains_math": false
+    },
+    {
+        "text": "这种投影方式",
+        "range": [168.87, 169.98],
+        "contains_math": false
+    },
+    {
+        "text": "被称为“正射投影”",
+        "range": [169.98, 171.66],
+        "contains_math": false
+    },
+    {
+        "text": "不过很快你就会发现",
+        "range": [172.17, 173.58],
+        "contains_math": false
+    },
+    {
+        "text": "这种方式和我们真实世界中的观察方式并不一样",
+        "range": [173.94, 177.45],
+        "contains_math": false
+    },
+    {
+        "text": "因为在现实世界中",
+        "range": [177.9, 179.49],
+        "contains_math": false
+    },
+    {
+        "text": "你会感觉",
+        "range": [179.49, 179.94],
+        "contains_math": false
+    },
+    {
+        "text": "越远的物体应该要越小才对",
+        "range": [180.18, 182.49],
+        "contains_math": false
+    },
+    {
+        "text": "这种现象在我们看一条无限长的高速公路和铁路时尤其明显",
+        "range": [182.94, 187.08],
+        "contains_math": false
+    },
+    {
+        "text": "正如这张图片显示的那样",
+        "range": [187.89, 189.9],
+        "contains_math": false
+    },
+    {
+        "text": "于是，我们需要另一种观察空间的方式",
+        "range": [190.8, 193.5],
+        "contains_math": false
+    },
+    {
+        "text": "相比于刚才“宽度始终相同”的长方体",
+        "range": [194.01, 197.01],
+        "contains_math": false
+    },
+    {
+        "text": "我们现在这个“锥体”",
+        "range": [197.13, 198.66],
+        "contains_math": false
+    },
+    {
+        "text": "在越远的位置",
+        "range": [198.81, 200.19],
+        "contains_math": false
+    },
+    {
+        "text": "会拥有更大的范围",
+        "range": [200.46, 201.84],
+        "contains_math": false
+    },
+    {
+        "text": "而对应的投影方式",
+        "range": [202.14, 203.46],
+        "contains_math": false
+    },
+    {
+        "text": "就是我们更加熟悉的“透视投影”",
+        "range": [203.64, 206.19],
+        "contains_math": false
+    },
+    {
+        "text": "在这种锥体的视野范围中",
+        "range": [206.88, 208.62],
+        "contains_math": false
+    },
+    {
+        "text": "越远的物体确实会越小",
+        "range": [208.8, 210.93],
+        "contains_math": false
+    },
+    {
+        "text": "透视投影的坐标变换就没有正射投影那么简单了",
+        "range": [211.92, 215.43],
+        "contains_math": false
+    },
+    {
+        "text": "因为一个距离摄像机越远的物体",
+        "range": [215.67, 217.83],
+        "contains_math": false
+    },
+    {
+        "text": "它的坐标必须被“压缩”得更多",
+        "range": [218.01, 220.14],
+        "contains_math": false
+    },
+    {
+        "text": "才能正确地映射到画面中",
+        "range": [220.17, 221.64],
+        "contains_math": false
+    },
+    {
+        "text": "现在我们就简单说明完了",
+        "range": [223.41, 225.03],
+        "contains_math": false
+    },
+    {
+        "text": "最为常见两种的投影方式",
+        "range": [225.03, 227.07],
+        "contains_math": false
+    },
+    {
+        "text": "正射投影和透视投影",
+        "range": [227.16, 228.87],
+        "contains_math": false
+    },
+    {
+        "text": "让我们继续介绍透视投影",
+        "range": [229.05, 230.78],
+        "contains_math": false
+    },
+    {
+        "text": "对于这种投影方式",
+        "range": [230.78, 232.71],
+        "contains_math": false
+    },
+    {
+        "text": "我们首先需要确定一个“近平面”",
+        "range": [233.28, 235.41],
+        "contains_math": false
+    },
+    {
+        "text": "以及一个“远平面”",
+        "range": [235.44, 236.85],
+        "contains_math": false
+    },
+    {
+        "text": "我们将锥体位于这之间的部分",
+        "range": [237.6, 239.1],
+        "contains_math": false
+    },
+    {
+        "text": "称为“平截头体”",
+        "range": [239.13, 240.63],
+        "contains_math": false
+    },
+    {
+        "text": "我们最终的目标",
+        "range": [241.5, 242.61],
+        "contains_math": false
+    },
+    {
+        "text": "就是将这个平截头体中的坐标",
+        "range": [242.61, 245.01],
+        "contains_math": false
+    },
+    {
+        "text": "变换到一个这样的立方体中",
+        "range": [245.01, 246.84],
+        "contains_math": false
+    },
+    {
+        "text": "由于对于更远处的坐标",
+        "range": [246.96, 248.58],
+        "contains_math": false
+    },
+    {
+        "text": "我们需要将其压缩得更多",
+        "range": [248.7, 250.44],
+        "contains_math": false
+    },
+    {
+        "text": "才能放进这样的立方体中",
+        "range": [250.59, 252.06],
+        "contains_math": false
+    },
+    {
+        "text": "所以确实和“近大远小”的效果相符",
+        "range": [252.66, 255.69],
+        "contains_math": false
+    },
+    {
+        "text": "那么看完了效果",
+        "range": [256.77, 257.88],
+        "contains_math": false
+    },
+    {
+        "text": "我们具体要怎么做呢",
+        "range": [257.88, 259.17],
+        "contains_math": false
+    },
+    {
+        "text": "由于这个变换过程并不能完全由矩阵表示",
+        "range": [259.98, 263.11],
+        "contains_math": false
+    },
+    {
+        "text": "因此我们会分为两个部分",
+        "range": [263.33, 265.3],
+        "contains_math": false
+    },
+    {
+        "text": "投影矩阵以及透视除法",
+        "range": [265.64, 267.67],
+        "contains_math": false
+    },
+    {
+        "text": "首先",
+        "range": [268.29, 268.83],
+        "contains_math": false
+    },
+    {
+        "text": "我们会使用一个被称为“投影矩阵”的矩阵",
+        "range": [268.83, 272.18],
+        "contains_math": false
+    },
+    {
+        "text": "来合适地变换坐标",
+        "range": [272.18, 273.71],
+        "contains_math": false
+    },
+    {
+        "text": "并且和我们之前接触过的矩阵不同",
+        "range": [273.74, 275.9],
+        "contains_math": false
+    },
+    {
+        "text": "这个矩阵还会修改每个顶点的 w 值",
+        "range": [276.5, 280],
+        "contains_math": false
+    },
+    {
+        "text": "这个在之前存在感很低的分量",
+        "range": [280, 282],
+        "contains_math": false
+    },
+    {
+        "text": "经过变换后",
+        "range": [282.6, 283.9],
+        "contains_math": false
+    },
+    {
+        "text": "距离观察者越远的顶点坐标 w 分量会越大",
+        "range": [283.9, 286.68],
+        "contains_math": false
+    },
+    {
+        "text": "一旦我们将“投影矩阵”作用在顶点后",
+        "range": [287.25, 290],
+        "contains_math": false
+    },
+    {
+        "text": "对于得到的顶点坐标",
+        "range": [290.31, 291.45],
+        "contains_math": false
+    },
+    {
+        "text": "我们会将它的所有分量都除以 w",
+        "range": [291.8, 294.15],
+        "contains_math": false
+    },
+    {
+        "text": "这个过程被称为“透视除法”",
+        "range": [295.08, 297.15],
+        "contains_math": false
+    },
+    {
+        "text": "由于距离观察者越远的顶点 w 越大",
+        "range": [297.6, 300.27],
+        "contains_math": false
+    },
+    {
+        "text": "所以我们在让 w 分量的值回到 1 的同时",
+        "range": [300.45, 303.42],
+        "contains_math": false
+    },
+    {
+        "text": "让更远处的坐标得到了更大幅度的压缩",
+        "range": [303.66, 306.84],
+        "contains_math": false
+    },
+    {
+        "text": "从而最后让平截头体中的坐标",
+        "range": [307.08, 309.2],
+        "contains_math": false
+    },
+    {
+        "text": "都被变换到了这个立方体中",
+        "range": [309.5, 311.31],
+        "contains_math": false
+    },
+    {
+        "text": "也就是得到了落在 −1.0 ~ 1.0 之间的『裁剪坐标』",
+        "range": [311.91, 315.0],
+        "contains_math": false
+    }
+]
