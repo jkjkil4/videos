@@ -6,6 +6,8 @@ dependencies = [
     "janim[gui]",
     "janim-url-assets",
     "vosk",
+    "pyglm",
+    "glfw"
 ]
 
 [tool.uv.sources]
