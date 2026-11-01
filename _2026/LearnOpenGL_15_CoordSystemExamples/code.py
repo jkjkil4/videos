@@ -21,93 +21,93 @@ class TLTitle(TitleTemplate):
 
 
 code1_src = R"""
-# 模型矩阵 
-model = glm.mat4(1)
-model = glm.rotate(model, glm.radians(-55.0), glm.vec3(1.0, 0.0, 0.0))
+<fc #6a9955># 模型矩阵</fc>
+<fc #9cdcfe>model</fc> <fc #d4d4d4>=</fc> <fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #9cdcfe>mat4</fc><fc #cccccc>(</fc><fc #b5cea8>1</fc><fc #cccccc>)</fc>
+<fc #9cdcfe>model</fc> <fc #d4d4d4>=</fc> <fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #dcdcaa>rotate</fc><fc #cccccc>(</fc><fc #9cdcfe>model</fc><fc #cccccc>, </fc><fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #dcdcaa>radians</fc><fc #cccccc>(</fc><fc #d4d4d4>-</fc><fc #b5cea8>55.0</fc><fc #cccccc>), </fc><fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #4ec9b0>vec3</fc><fc #cccccc>(</fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>))</fc>
 
-# 观察矩阵 
-view = glm.mat4(1)
-# 注意，这里朝着我们期望移动的相反方向移动场景
-view = glm.translate(view, glm.vec3(0.0, 0.0, -3.0))
+<fc #6a9955># 观察矩阵</fc>
+<fc #9cdcfe>view</fc> <fc #d4d4d4>=</fc> <fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #9cdcfe>mat4</fc><fc #cccccc>(</fc><fc #b5cea8>1</fc><fc #cccccc>)</fc>
+<fc #6a9955># 注意，这里朝着我们期望移动的相反方向移动场景</fc>
+<fc #9cdcfe>view</fc> <fc #d4d4d4>=</fc> <fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #dcdcaa>translate</fc><fc #cccccc>(</fc><fc #9cdcfe>view</fc><fc #cccccc>, </fc><fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #4ec9b0>vec3</fc><fc #cccccc>(</fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>3.0</fc><fc #cccccc>))</fc>
 
-# 透视矩阵
-projection = glm.mat4(1)
-projection = glm.perspective(glm.radians(45.0), screenWidth / screenHeight, 0.1, 100.0)
+<fc #6a9955># 透视矩阵</fc>
+<fc #9cdcfe>projection</fc> <fc #d4d4d4>=</fc> <fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #9cdcfe>mat4</fc><fc #cccccc>(</fc><fc #b5cea8>1</fc><fc #cccccc>)</fc>
+<fc #9cdcfe>projection</fc> <fc #d4d4d4>=</fc> <fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #dcdcaa>perspective</fc><fc #cccccc>(</fc><fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #dcdcaa>radians</fc><fc #cccccc>(</fc><fc #b5cea8>45.0</fc><fc #cccccc>), </fc><fc #9cdcfe>screenWidth</fc> <fc #d4d4d4>/</fc> <fc #9cdcfe>screenHeight</fc><fc #cccccc>, </fc><fc #b5cea8>0.1</fc><fc #cccccc>, </fc><fc #b5cea8>100.0</fc><fc #cccccc>)</fc>
 """
 
 code2_src = R"""
-#version 330 core
+<fc #569cd6>#version</fc> <fc #b5cea8>330</fc><fc #cccccc> core</fc>
 
-in vec3 in_vert;
-...
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+<fc #569cd6>in</fc> <fc #569cd6>vec3</fc><fc #cccccc> in_vert;</fc>
+<fc #cccccc>...</fc>
+<fc #569cd6>uniform</fc> <fc #569cd6>mat4</fc><fc #cccccc> model;</fc>
+<fc #569cd6>uniform</fc> <fc #569cd6>mat4</fc><fc #cccccc> view;</fc>
+<fc #569cd6>uniform</fc> <fc #569cd6>mat4</fc><fc #cccccc> projection;</fc>
 
-void main()
-{
-    // 注意乘法要从右向左读
-    gl_Position = projection * view * model * vec4(in_vert, 1.0);
-}
+<fc #569cd6>void</fc><fc #cccccc> main()</fc>
+<fc #cccccc>{</fc>
+    <fc #6a9955>// 注意乘法要从右向左读</fc>
+    <fc #9cdcfe>gl_Position</fc> <fc #d4d4d4>=</fc><fc #cccccc> projection </fc><fc #d4d4d4>*</fc><fc #cccccc> view </fc><fc #d4d4d4>*</fc><fc #cccccc> model </fc><fc #d4d4d4>*</fc> <fc #569cd6>vec4</fc><fc #cccccc>(in_vert, </fc><fc #b5cea8>1.0</fc><fc #cccccc>);</fc>
+<fc #cccccc>}</fc>
 """
 
 code3_src = R"""
-prog['model'].write(model.to_bytes())
-prog['view'].write(view.to_bytes())
-prog['projection'].write(projection.to_bytes())
+<fc #9cdcfe>prog</fc><fc #cccccc>[</fc><fc #ce9178>'model'</fc><fc #cccccc>].</fc><fc #dcdcaa>write</fc><fc #cccccc>(</fc><fc #9cdcfe>model</fc><fc #cccccc>.</fc><fc #dcdcaa>to_bytes</fc><fc #cccccc>())</fc>
+<fc #9cdcfe>prog</fc><fc #cccccc>[</fc><fc #ce9178>'view'</fc><fc #cccccc>].</fc><fc #dcdcaa>write</fc><fc #cccccc>(</fc><fc #9cdcfe>view</fc><fc #cccccc>.</fc><fc #dcdcaa>to_bytes</fc><fc #cccccc>())</fc>
+<fc #9cdcfe>prog</fc><fc #cccccc>[</fc><fc #ce9178>'projection'</fc><fc #cccccc>].</fc><fc #dcdcaa>write</fc><fc #cccccc>(</fc><fc #9cdcfe>projection</fc><fc #cccccc>.</fc><fc #dcdcaa>to_bytes</fc><fc #cccccc>())</fc>
 """
 
 code4_src = R"""
-# 顶点数据
-vertices = np.array([
-#   ----- 位置 -----   - 纹理坐标 -
-    -0.5, -0.5, -0.5,  0.0, 0.0,
-     0.5, -0.5, -0.5,  1.0, 0.0,
-     0.5,  0.5, -0.5,  1.0, 1.0,
-     0.5,  0.5, -0.5,  1.0, 1.0,
-    -0.5,  0.5, -0.5,  0.0, 1.0,
-    -0.5, -0.5, -0.5,  0.0, 0.0,
+<fc #6a9955># 顶点数据</fc>
+<fc #9cdcfe>vertices</fc> <fc #d4d4d4>=</fc> <fc #4ec9b0>np</fc><fc #cccccc>.</fc><fc #dcdcaa>array</fc><fc #cccccc>([</fc>
+<fc #6a9955>#   ----- 位置 -----   - 纹理坐标 -</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
 
-    -0.5, -0.5,  0.5,  0.0, 0.0,
-     0.5, -0.5,  0.5,  1.0, 0.0,
-     0.5,  0.5,  0.5,  1.0, 1.0,
-     0.5,  0.5,  0.5,  1.0, 1.0,
-    -0.5,  0.5,  0.5,  0.0, 1.0,
-    -0.5, -0.5,  0.5,  0.0, 0.0,
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
 
-    -0.5,  0.5,  0.5,  1.0, 0.0,
-    -0.5,  0.5, -0.5,  1.0, 1.0,
-    -0.5, -0.5, -0.5,  0.0, 1.0,
-    -0.5, -0.5, -0.5,  0.0, 1.0,
-    -0.5, -0.5,  0.5,  0.0, 0.0,
-    -0.5,  0.5,  0.5,  1.0, 0.0,
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
 
-     0.5,  0.5,  0.5,  1.0, 0.0,
-     0.5,  0.5, -0.5,  1.0, 1.0,
-     0.5, -0.5, -0.5,  0.0, 1.0,
-     0.5, -0.5, -0.5,  0.0, 1.0,
-     0.5, -0.5,  0.5,  0.0, 0.0,
-     0.5,  0.5,  0.5,  1.0, 0.0,
+     <fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
 
-    -0.5, -0.5, -0.5,  0.0, 1.0,
-     0.5, -0.5, -0.5,  1.0, 1.0,
-     0.5, -0.5,  0.5,  1.0, 0.0,
-     0.5, -0.5,  0.5,  1.0, 0.0,
-    -0.5, -0.5,  0.5,  0.0, 0.0,
-    -0.5, -0.5, -0.5,  0.0, 1.0,
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
 
-    -0.5,  0.5, -0.5,  0.0, 1.0,
-     0.5,  0.5, -0.5,  1.0, 1.0,
-     0.5,  0.5,  0.5,  1.0, 0.0,
-     0.5,  0.5,  0.5,  1.0, 0.0,
-    -0.5,  0.5,  0.5,  0.0, 0.0,
-    -0.5,  0.5, -0.5,  0.0, 1.0,
-], dtype='f4')
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+     <fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>,</fc>
+    <fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #d4d4d4>-</fc><fc #b5cea8>0.5</fc><fc #cccccc>,  </fc><fc #b5cea8>0.0</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>,</fc>
+<fc #cccccc>], </fc><fc #9cdcfe>dtype</fc><fc #d4d4d4>=</fc><fc #ce9178>'f4'</fc><fc #cccccc>)</fc>
 """
 
 code5_src = R"""
 ...
-    model = glm.rotate(model, glfw.get_time(), glm.vec3(0.5, 1.0, 0.0))
+    <fc #9cdcfe>model</fc> <fc #d4d4d4>=</fc> <fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #dcdcaa>rotate</fc><fc #cccccc>(</fc><fc #9cdcfe>model</fc><fc #cccccc>, </fc><fc #4ec9b0>glfw</fc><fc #cccccc>.</fc><fc #dcdcaa>get_time</fc><fc #cccccc>(), </fc><fc #4ec9b0>glm</fc><fc #cccccc>.</fc><fc #4ec9b0>vec3</fc><fc #cccccc>(</fc><fc #b5cea8>0.5</fc><fc #cccccc>, </fc><fc #b5cea8>1.0</fc><fc #cccccc>, </fc><fc #b5cea8>0.0</fc><fc #cccccc>))</fc>
 ...
 """
 
@@ -152,7 +152,7 @@ class Example1(Template):
 
         Group(axes, face, camitem).apply_depth_test()
 
-        code1 = Text(code1_src, font_size=14, render='pixel').fix_in_frame()
+        code1 = Text(code1_src, font_size=14, render='pixel', format='rich').fix_in_frame()
         code1.points.to_border(UL)
 
         parts = [code1[1:4], code1[5:9], code1[10:13]]
@@ -204,8 +204,8 @@ class Example1(Template):
         ##############################################
 
         _Udl = lambda item: Underline(item, color=YELLOW).fix_in_frame()
-        ul1 = _Udl(code1[12][75:78])
-        ul2 = _Udl(code1[12][80:85])
+        ul1 = _Udl(code1[12][76:79])
+        ul2 = _Udl(code1[12][81:86])
         ul3 = _Udl(code1[12][29:46])
 
         ##############################################
@@ -249,7 +249,7 @@ class Example1(Template):
 
         fr = FrameRect(**Rect.preset_shadow)
 
-        code2 = Text(code2_src, depth=-5, font_size=18).fix_in_frame()
+        code2 = Text(code2_src, depth=-5, font_size=18, format='rich').fix_in_frame()
 
         ##############################################
 
@@ -286,7 +286,7 @@ class Example1(Template):
         _Sur = partial(SurroundingRect, color=BLUE, fill_alpha=0.25)
         sur2 = _Sur(code2.target, depth=-4).fix_in_frame()
 
-        code3 = Text(code3_src, depth=-5, font_size=18).fix_in_frame()
+        code3 = Text(code3_src, depth=-5, font_size=18, format='rich').fix_in_frame()
         code3.points.scale(0.7).next_to(code2.target, DOWN, aligned_edge=LEFT, buff=MED_LARGE_BUFF + 0.4)
 
         sur3 = _Sur(code3, depth=-4).fix_in_frame()
@@ -323,7 +323,7 @@ class Example2(Template):
     def construct(self) -> None:
         ##############################################
 
-        code4 = Text(code4_src, render='pixel', font_size=18)
+        code4 = Text(code4_src, render='pixel', format='rich', font_size=18)
         code4.points.next_to(Config.get.bottom, DOWN).to_border(LEFT)
         code4.generate_target().points.next_to(Config.get.bottom, UP, buff=1, coor_mask=(0,1,0))
 
@@ -348,7 +348,7 @@ class Example2(Template):
         ##############################################
 
         code4.generate_target().points.shift(UP * 3)
-        code5 = Text(code5_src, font_size=18)
+        code5 = Text(code5_src, font_size=18, format='rich')
         code5.points.next_to(code4.target, DOWN, aligned_edge=LEFT, buff=1)
 
         ##############################################
@@ -386,7 +386,7 @@ class RenderCovering(Template):
         img1 = Group(ImageItem('container.jpg'), ImageItem('awesomeface_b.png', alpha=0.2))
         img1.points.set_height(2)
         img1.points.shift(OUT)
-        
+
         img2 = img1.copy()
         img2.depth.arrange()
         img2.points.shift(IN * 2)
